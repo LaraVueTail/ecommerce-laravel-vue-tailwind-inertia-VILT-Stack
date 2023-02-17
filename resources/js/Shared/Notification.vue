@@ -1,26 +1,28 @@
+<script setup>
+import { usePage } from '@inertiajs/vue3';
+import { computed, ref, watch } from 'vue';
+
+const page = usePage();
+
+const showFlash = ref(false);
+
+const flash = computed(function () {
+  return page.props.flash;
+});
+
+watch(page.props.flash, function (val) {
+  if (val?.flash) {
+    console.log(flash.message);
+    showFlash.value = true;
+  }
+}, {
+  immediate: true,
+  deep: true,
+});
+</script>
+
 <template>
-    <div class="bg-red-500 py-2 px-4 fixed bottom-6 right-6 rounded" v-if="hide">
-        <p class="text-white text-md">{{ $page.props.flash.message }}</p>
+	<div v-if="showFlash && flash.message" @click="showFlash = false">
+        {{ flash.message }} - {{ flash.type }}
     </div>
 </template>
-<script>
-export default{
-    data(){
-        return {
-            message : this.$page.props.flash.message,
-            hide: true
-        }
-    },
-    watch:{
-       
-        'this.$page.props.flash.message':{
-            handler() {
-                console.log('hi')}
-            // this.hide = true
-            // setTimeout(
-            //     ()=>{this.hide = false},3000
-            // )
-        }
-    }
-}
-</script>

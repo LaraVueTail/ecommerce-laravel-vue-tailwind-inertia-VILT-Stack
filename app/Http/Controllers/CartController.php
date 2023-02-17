@@ -28,9 +28,9 @@ class CartController extends Controller
             'price' => $product['price'],
             'quantity' => request()->quantity
         ]);
-        session()->flash('success', 'Product is Added to Cart Successfully !');
+        // session()->flash('success', 'Product is Added to Cart Successfully !');
 
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Product is Added to Cart Successfully !');
     }
 
     public function update(Request $request)
