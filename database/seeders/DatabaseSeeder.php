@@ -3,7 +3,9 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Cart;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -18,11 +20,17 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
 
-        \App\Models\User::factory()->create([
-            'first_name' => 'Ameer',
-            'last_name' => 'Ali',
-            'email' => 'ameer@email.com'
+        User::factory()->create([
+            'email' => 'test@example.com'
         ]);
+
+        // User::factory(5)->create();
+
+        Cart::factory()->create([
+            'user_id' => 1
+        ]);
+
+        Cart::factory(5)->create();
 
         Product::factory(5)->create();
     }

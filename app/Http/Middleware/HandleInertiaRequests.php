@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 
+use Darryldecode\Cart\CartCollection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
@@ -41,9 +42,15 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        if(Auth::check()){
+            \Cart::session(Auth::user()->id);
+        }
         return array_merge(parent::share($request), [
             'csrf_token' => csrf_token(),
-            'auth' => (Auth::check()) ? ['username'=> Auth::user()->name, 'email' => Auth::user()->email] : false,
+            'auth' => (Auth::check()) ? ['firstName'=> Auth::user()->first_name, 'email' => Auth::user()->email ] : false,
+            'cartCount' => \Cart::getTotalQuantity(),
+            'cartContent' =>  \Cart::getContent(),
+            'cartTotal' =>  \Cart::getTotal(),
             'flash' => [
                 'message' => fn () => $request->session()->get('success')
             ],

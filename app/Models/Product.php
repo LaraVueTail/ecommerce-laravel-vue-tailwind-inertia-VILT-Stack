@@ -15,14 +15,35 @@ class Product extends Model
 
     protected $guarded = [];
 
-    protected function thumbnail(): Attribute   
+    public function scopeFilter($query, array $filters)
+    {
+        // dd($filters['minPrice']??false);
+        $query->when(
+            $filters['categories'] ?? false,
+            fn($query, $category) =>
+            $query->whereHas(
+                'category', fn($query) =>
+                $query->whereIn('slug', json_decode($category))
+            )
+        );
+
+        $query->when($filters['minPrice'] ?? false, fn($query, $minPrice) =>
+            $query->where('price', '>=', $minPrice));
+
+        $query->when($filters['maxPrice'] ?? false, fn($query, $maxPrice) =>
+            $query->where('price', '<=', $maxPrice));
+
+    }
+
+    protected function thumbnail(): Attribute
     {
         return Attribute::make(
-            get:fn($value) => Storage::url($value),
+        get: fn($value) => Storage::url($value),
         );
     }
 
-    public function getId() {
+    public function getId()
+    {
         return $this->username;
     }
 
@@ -34,7 +55,7 @@ class Product extends Model
     protected function link(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => env('APP_URL').'/products/'.$this->id
+        get: fn($value) => env('APP_URL') . '/products/' . $this->id
         );
     }
 

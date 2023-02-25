@@ -1,87 +1,71 @@
 <template>
-            <!-- sidebar -->
-            <div class="col-span-1 bg-white px-4 pb-6 shadow rounded overflow-hidden">
-            <div class="divide-y divide-gray-200 space-y-5">
-                <div>
-                    <h3 class="text-xl text-gray-800 mb-3 uppercase font-medium">Categories</h3>
-                    <div class="space-y-2">
-                        <div class="flex items-center">
-                            <input type="checkbox" name="cat-1" id="cat-1"
-                                class="text-primary focus:ring-0 rounded-sm cursor-pointer">
-                            <label for="cat-1" class="text-gray-600 ml-3 cusror-pointer">Bedroom</label>
-                            <div class="ml-auto text-gray-600 text-sm">(15)</div>
-                        </div>
-                        <div class="flex items-center">
-                            <input type="checkbox" name="cat-2" id="cat-2"
-                                class="text-primary focus:ring-0 rounded-sm cursor-pointer">
-                            <label for="cat-2" class="text-gray-600 ml-3 cusror-pointer">Sofa</label>
-                            <div class="ml-auto text-gray-600 text-sm">(9)</div>
-                        </div>
-                        <div class="flex items-center">
-                            <input type="checkbox" name="cat-3" id="cat-3"
-                                class="text-primary focus:ring-0 rounded-sm cursor-pointer">
-                            <label for="cat-3" class="text-gray-600 ml-3 cusror-pointer">Office</label>
-                            <div class="ml-auto text-gray-600 text-sm">(21)</div>
-                        </div>
-                        <div class="flex items-center">
-                            <input type="checkbox" name="cat-4" id="cat-4"
-                                class="text-primary focus:ring-0 rounded-sm cursor-pointer">
-                            <label for="cat-4" class="text-gray-600 ml-3 cusror-pointer">Outdoor</label>
-                            <div class="ml-auto text-gray-600 text-sm">(10)</div>
-                        </div>
-                    </div>
-                </div>
+    <!-- sidebar -->
+    <div
+        class="col-span-12 md:col-span-1 bg-white px-4 md:pb-6 md:shadow rounded overflow-hidden"
+    >
+        <div class="block md:hidden">
+            <h3
+                class="text-center text-md text-gray-800 font medium py-2 rounded border border-gray-400 hover:bg-primary hover:text-white"
+                @click="dropdown=!dropdown"
+            >
+                Filters
+            </h3>
+        </div>
 
-                <div class="pt-4">
-                    <h3 class="text-xl text-gray-800 mb-3 uppercase font-medium">Brands</h3>
-                    <div class="space-y-2">
-                        <div class="flex items-center">
-                            <input type="checkbox" name="brand-1" id="brand-1"
-                                class="text-primary focus:ring-0 rounded-sm cursor-pointer">
-                            <label for="brand-1" class="text-gray-600 ml-3 cusror-pointer">Cooking Color</label>
-                            <div class="ml-auto text-gray-600 text-sm">(15)</div>
-                        </div>
-                        <div class="flex items-center">
-                            <input type="checkbox" name="brand-2" id="brand-2"
-                                class="text-primary focus:ring-0 rounded-sm cursor-pointer">
-                            <label for="brand-2" class="text-gray-600 ml-3 cusror-pointer">Magniflex</label>
-                            <div class="ml-auto text-gray-600 text-sm">(9)</div>
-                        </div>
-                        <div class="flex items-center">
-                            <input type="checkbox" name="brand-3" id="brand-3"
-                                class="text-primary focus:ring-0 rounded-sm cursor-pointer">
-                            <label for="brand-3" class="text-gray-600 ml-3 cusror-pointer">Ashley</label>
-                            <div class="ml-auto text-gray-600 text-sm">(21)</div>
-                        </div>
-                        <div class="flex items-center">
-                            <input type="checkbox" name="brand-4" id="brand-4"
-                                class="text-primary focus:ring-0 rounded-sm cursor-pointer">
-                            <label for="brand-4" class="text-gray-600 ml-3 cusror-pointer">M&D</label>
-                            <div class="ml-auto text-gray-600 text-sm">(10)</div>
-                        </div>
-                        <div class="flex items-center">
-                            <input type="checkbox" name="brand-5" id="brand-5"
-                                class="text-primary focus:ring-0 rounded-sm cursor-pointer">
-                            <label for="brand-5" class="text-gray-600 ml-3 cusror-pointer">Olympic</label>
-                            <div class="ml-auto text-gray-600 text-sm">(10)</div>
-                        </div>
-                    </div>
+        <div
+            class="divide-y divide-gray-200 space-y-5 transition ease-in-out delay-150 duration-1000"
+            :class="{ '-translate-y-0 opacity-100 block mt-3 md:block': dropdown,'opacity-0 md:opacity-100 md:-translate-y-0 -translate-y-10 hidden md:block':!dropdown }"
+        >
+            <div>
+                <h3 class="text-xl text-gray-800 mb-3 uppercase font-medium">
+                    Categories
+                </h3>
+                <div class="space-y-2">
+                    <CategoryCheckbox
+                        v-for="category in categories"
+                        :key="category"
+                        :category="category"
+                        :oldSelectedCat="oldSelectedCat"
+                        @checked="
+                            (ischecked) => checkedCat(ischecked, category)
+                        "
+                    ></CategoryCheckbox>
                 </div>
+            </div>
 
-                <div class="pt-4">
-                    <h3 class="text-xl text-gray-800 mb-3 uppercase font-medium">Price</h3>
-                    <div class="mt-4 flex items-center">
-                        <input type="text" name="min" id="min"
-                            class="w-full border-gray-300 focus:border-primary rounded focus:ring-0 px-3 py-1 text-gray-600 shadow-sm"
-                            placeholder="min">
-                        <span class="mx-3 text-gray-500">-</span>
-                        <input type="text" name="max" id="max"
-                            class="w-full border-gray-300 focus:border-primary rounded focus:ring-0 px-3 py-1 text-gray-600 shadow-sm"
-                            placeholder="max">
-                    </div>
+            <!-- <BrandCheckbox></BrandCheckbox> -->
+
+            <div class="pt-4">
+                <h3 class="text-xl text-gray-800 mb-3 uppercase font-medium">
+                    Price
+                </h3>
+                <div class="mt-4 flex items-center">
+                    <input
+                        type="number"
+                        min="0"
+                        :max="maxPrice"
+                        name="min"
+                        v-model="minPrice"
+                        id="min"
+                        @change="sendRequest()"
+                        class="w-full border-gray-300 focus:border-primary rounded focus:ring-0 px-3 py-1 text-gray-600 shadow-sm"
+                        placeholder="min"
+                    />
+                    <span class="mx-3 text-gray-500">-</span>
+                    <input
+                        type="number"
+                        name="max"
+                        id="max"
+                        :min="minPrice ?? 0"
+                        v-model="maxPrice"
+                        @change="sendRequest()"
+                        class="w-full border-gray-300 focus:border-primary rounded focus:ring-0 px-3 py-1 text-gray-600 shadow-sm"
+                        placeholder="max"
+                    />
                 </div>
+            </div>
 
-                <!-- <div class="pt-4">
+            <!-- <div class="pt-4">
                     <h3 class="text-xl text-gray-800 mb-3 uppercase font-medium">size</h3>
                     <div class="flex items-center gap-2">
                         <div class="size-selector">
@@ -112,7 +96,7 @@
                     </div>
                 </div> -->
 
-                <!-- <div class="pt-4">
+            <!-- <div class="pt-4">
                     <h3 class="text-xl text-gray-800 mb-3 uppercase font-medium">Color</h3>
                     <div class="flex items-center gap-2">
                         <div class="color-selector">
@@ -136,8 +120,58 @@
 
                     </div>
                 </div> -->
-
-            </div>
         </div>
-        <!-- ./sidebar -->
+    </div>
+    <!-- ./sidebar -->
 </template>
+<script setup>
+import { useForm, router } from "@inertiajs/vue3";
+import CategoryCheckbox from "./CategoryCheckbox.vue";
+import BrandCheckbox from "./BrandCheckbox.vue";
+let props = defineProps({
+    categories: Array,
+});
+</script>
+<script>
+export default {
+    data() {
+        return {
+            selectedCat: new Set(),
+            oldSelectedCat:  typeof this.$page.props.query.categories !== "undefined"
+                ? JSON.parse(this.$page.props.query.categories)
+                : null,
+            minPrice: this.$page.props.query.minPrice ?? null,
+            maxPrice: this.$page.props.query.maxPrice ?? null,
+            searchQuery: {},
+            dropdown: false ||  Object.keys(this.$page.props.query).length>0
+        };
+    },
+    mounted() {
+        this.selectedCat = new Set(Object.values(this.oldSelectedCat ?? {}));
+    },
+    methods: {
+        checkedCat(ischecked, category) {
+            if (ischecked) {
+                this.selectedCat.add(category.slug);
+            } else {
+                this.selectedCat.delete(category.slug);
+            }
+            this.sendRequest();
+        },
+        sendRequest() {
+            this.selectedCat.size > 0
+                ? (this.searchQuery.categories = JSON.stringify([
+                      ...this.selectedCat,
+                  ]))
+                : false;
+            this.minPrice > 0 || this.maxPrice > 0
+                ? Object.assign(this.searchQuery, {
+                      minPrice: this.minPrice,
+                      maxPrice: this.maxPrice,
+                  })
+                : false;
+            router.get("/shop", this.searchQuery);
+        },
+    },
+};
+</script>

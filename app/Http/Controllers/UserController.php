@@ -25,6 +25,10 @@ class UserController extends Controller
             $request->session()->regenerate();
             return redirect()->intended('dashboard');
         }
+
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.'
+        ])->onlyInput('email');
     }
 
     public function logout(Request $request)

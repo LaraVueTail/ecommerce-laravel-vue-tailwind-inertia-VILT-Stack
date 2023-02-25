@@ -10,7 +10,7 @@
             />
         </div>
         <div
-            class="w-1/2 space-y-4 md:w-3/4 md:flex justify-around items-center"
+            class="w-1/2 space-y-4 md:space-y-0 md:w-3/4 md:flex justify-around items-center"
         >
             <div class="">
                 <h2 class="text-gray-800 text-md font-medium uppercase">
@@ -19,7 +19,7 @@
                 <p class="text-gray-500 text-sm">Price: {{ cartItem.price }}</p>
             </div>
 
-            <div>
+            <div class="">
                 <h3 class="text-sm text-gray-600 mb-1">Quantity</h3>
                 <div
                     class="flex border border-gray-300 text-gray-600 divide-x divide-gray-300 w-max"

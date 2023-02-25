@@ -2,54 +2,22 @@
     <!-- header -->
     <header class="py-4 shadow-sm bg-white">
         <div class="container flex items-center justify-between">
-            <a href="index.html">
-                <img
-                    src="assets/images/logo.svg"
-                    alt="Logo"
-                    class="w-24 md:w-32"
-                />
-            </a>
+            <SiteLogo></SiteLogo>
 
             <div class="flex items-center space-x-6 text-gray-700">
-                <div class="hidden md:flex space-x-10 items-center">
-                    <h3 class="font-medium hover:text-primary cursor-pointer">
-                        Home
-                    </h3>
-                    <h3 class="font-medium hover:text-primary cursor-pointer">
-                        Shop
-                    </h3>
-                    <h3 class="font-medium hover:text-primary cursor-pointer">
-                        About
-                    </h3>
-                    <h3 class="font-medium hover:text-primary cursor-pointer">
-                        Contact
-                    </h3>
-                </div>
+                <PageNav class="text-gra-600 font-medium"></PageNav>
 
                 <div
                     class="text-gray-800 p-2 md:hidden"
                     :class="{ 'rounded bg-slate-500': dropdown }"
                     @click="dropdown = !dropdown"
-                @mouseout="dropdown = false"
+                
 
                 >
                     <i class="text-2xl fa-solid fa-bars"></i>
                 </div>
 
-                <a
-                    href="#"
-                    class="text-center text-gray-700 hover:text-primary transition relative"
-                >
-                    <div class="text-lg md:text-2xl">
-                        <i class="fa-solid fa-bag-shopping"></i>
-                    </div>
-                    <div class="text-xs leading-3">Cart</div>
-                    <div
-                        class="absolute -right-3 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-primary text-white text-xs"
-                    >
-                        2
-                    </div>
-                </a>
+                <CartIcon></CartIcon>
             </div>
         </div>
 
@@ -76,6 +44,7 @@
     <!-- ./header -->
 </template>
 <script>
+
 export default {
     data() {
         return {
@@ -83,4 +52,9 @@ export default {
         };
     },
 };
+</script>
+<script setup>
+import SiteLogo from "../SiteLogo.vue";
+import PageNav from "../PageNav.vue";
+import CartIcon from "../CartIcon.vue";
 </script>

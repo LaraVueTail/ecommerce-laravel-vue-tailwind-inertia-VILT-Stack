@@ -14,15 +14,22 @@
 
             <div class="hidden md:flex items-center space-x-10 py-6">
                 <div class="hidden md:flex items-center space-x-10">
-                    <h3 class="hover:text-primary cursor-pointer">
-                        Manage Account
-                    </h3>
-                    <h3 class="hover:text-primary cursor-pointer">
-                        Manage Addresses
-                    </h3>
-                    <h3 class="hover:text-primary cursor-pointer">
-                        Order History
-                    </h3>
+                    <Link href="/dashboard">
+                        <h3 class="hover:text-primary cursor-pointer">
+                            Manage Account
+                        </h3>
+                    </Link>
+
+                    <Link href="/dashboard/manage-address">
+                        <h3 class="hover:text-primary cursor-pointer">
+                            Manage Address
+                        </h3>
+                    </Link>
+                    <Link href="/dashboard">
+                        <h3 class="hover:text-primary cursor-pointer">
+                            Manage Orders
+                        </h3>
+                    </Link>
                 </div>
 
                 <button
@@ -38,8 +45,6 @@
     <div
         class="w-full absolute bg-gray-800 before:border-b-2 shadow-md z-10 divide-y divide-dashed text-md text-white transition opacity-0"
         :class="{ 'opacity-100': dropdown, hidden: !dropdown }"
-        @mouseout="dropdown = false"
-
     >
         <Link href="/"
             ><h3 class="py-3 pl-8 hover:bg-gray-500">Manage Account</h3></Link
@@ -47,7 +52,7 @@
         <Link href="/dashboard/manage-address"
             ><h3 class="py-3 pl-8 hover:bg-gray-500">Manage Address</h3></Link
         >
-        <Link href="/about"
+        <Link href="/dashboard"
             ><h3 class="py-3 pl-8 hover:bg-gray-500">Order Details</h3></Link
         >
         <div class="py-3 pl-8">

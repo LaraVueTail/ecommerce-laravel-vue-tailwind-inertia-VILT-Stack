@@ -31,7 +31,7 @@ import ProductGrid from "../../Shared/Product/ProductGrid.vue";
 
 
 defineProps({
-    products: Array,
+    products: Array
 });
 </script>
 <!-- <script>

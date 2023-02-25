@@ -7,7 +7,7 @@
         <h3 class="text-2xl font-medium text-gray-600">Shipping Address</h3>
         <form action="" method="post" @submit.prevent="submit">
             <!-- info -->
-            <div class="rounded pb-7 w-96">
+            <div class="rounded pb-7 max-w-sm">
                 <div class="space-y-4">
                     <div class="grid gap-4">
                         <div>

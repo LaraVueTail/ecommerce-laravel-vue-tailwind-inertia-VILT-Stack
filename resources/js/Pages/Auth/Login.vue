@@ -13,20 +13,34 @@
                 <p class="text-gray-600 mb-6 text-sm text-center">
                     welcome back customer
                 </p>
-                <form action="#" method="post" autocomplete="off" @submit.prevent="submit">
+                <form
+                    action="#"
+                    method="post"
+                    autocomplete="off"
+                    @submit.prevent="submit"
+                >
                     <div class="space-y-2">
                         <div>
                             <label for="email" class="text-gray-600 mb-2 block"
                                 >Email address</label
                             >
                             <input
-                            v-model="form.email"
+                                v-model="form.email"
                                 type="email"
                                 name="email"
                                 id="email"
+                                :class="{
+                                    'border-2 border-rose-500':
+                                        form.errors.email,
+                                }"
                                 class="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
                                 placeholder="youremail.@domain.com"
                             />
+                            <div
+                                v-if="form.errors.email"
+                                v-text="form.errors.email"
+                                class="text-red-500 text-xs mt-1"
+                            ></div>
                         </div>
                         <div>
                             <label
@@ -35,13 +49,22 @@
                                 >Password</label
                             >
                             <input
-                            v-model="form.password"
+                                v-model="form.password"
                                 type="password"
                                 name="password"
                                 id="password"
+                                :class="{
+                                    'border-2 border-rose-500':
+                                        form.errors.email,
+                                }"
                                 class="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
                                 placeholder="*******"
                             />
+                            <div
+                                v-if="form.errors.password"
+                                v-text="form.errors.password"
+                                class="text-red-500 text-xs mt-1"
+                            ></div>
                         </div>
                     </div>
                     <div class="flex items-center justify-between mt-6">
@@ -85,21 +108,21 @@
 </template>
 
 <script setup>
-import { useForm } from '@inertiajs/vue3';
+import { useForm } from "@inertiajs/vue3";
 
 let props = defineProps({
-    csrf_token:String
+    csrf_token: String,
 });
 
 console.log(props);
 
 let form = useForm({
-    email:'',
-    password:'',
-    _token:props.csrf_token,
+    email: "",
+    password: "",
+    _token: props.csrf_token,
 });
 
-let submit = ()=>{
-    form.post('/login')
-}
+let submit = () => {
+    form.post("/login");
+};
 </script>
