@@ -12,7 +12,8 @@ createInertiaApp({
         if (
             name.startsWith("Public/") ||
             name.startsWith("Auth/") ||
-            name.startsWith("Cart/")
+            name.startsWith("Cart/") ||
+            name.startsWith("Checkout/")
         ) {
             page.default.layout = PublicLayout;
         }

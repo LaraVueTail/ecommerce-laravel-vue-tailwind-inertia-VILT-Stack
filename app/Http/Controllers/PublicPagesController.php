@@ -15,14 +15,6 @@ class PublicPagesController extends Controller
     //
     public function homePage()
     {
-        if (Auth::check()) {
-            $cart = Cart::where('user_id', '=', Auth::user()->id)->first();
-            if ($cart) {
-                $cartCount = $cart->cart_count;
-            }
-        } else {
-            $cartCount = \Cart::getTotalQuantity();
-        }
         // dd($cart->cart_data);
         return Inertia::render('Public/Home', [
             'products' => Product::all()

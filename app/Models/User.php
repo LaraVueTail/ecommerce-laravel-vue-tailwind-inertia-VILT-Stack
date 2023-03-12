@@ -8,6 +8,13 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Auth;
+
+use Darryldecode\Cart\CartCollection;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+
+
+
 
 class User extends Authenticatable
 {
@@ -24,7 +31,6 @@ class User extends Authenticatable
     //     'password',
     // ];
 
-    protected $with = ['cart'];
     protected $guarded = [];
 
 
@@ -47,7 +53,5 @@ class User extends Authenticatable
     //     'email_verified_at' => 'datetime',
     // ];
 
-    public function cart(): HasOne{
-        return $this->hasOne(Cart::class);
-    }
+
 }

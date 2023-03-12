@@ -26,11 +26,11 @@ class DatabaseSeeder extends Seeder
 
         // User::factory(5)->create();
 
-        Cart::factory()->create([
-            'user_id' => 1
-        ]);
+        // Cart::factory()->create([
+        //     'user_id' => 1
+        // ]);
 
-        Cart::factory(5)->create();
+        // Cart::factory(5)->create();
 
         Product::factory(5)->create();
     }
