@@ -70,7 +70,7 @@ class CheckoutController extends Controller
                 throw new NotFoundHttpException;
             }
 
-            $order = Order::where('session_id', $session->id)->first();
+            $order = Order::where('session_id', $session->id)->where('status','unpaid')->first();
             $customer = User::find($order->user_id)->first_name;
             if (!$order) {
                 throw new NotFoundHttpException();
