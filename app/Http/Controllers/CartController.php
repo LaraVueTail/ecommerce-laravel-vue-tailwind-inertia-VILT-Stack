@@ -15,7 +15,7 @@ class CartController extends Controller
 
     public function __construct()
     {
-        if (Auth::check()) {
+        if(Auth::check()) {
             \Cart::session(Auth::user()->id);
         }
     }

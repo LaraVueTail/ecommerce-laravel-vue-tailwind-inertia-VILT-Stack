@@ -7,15 +7,9 @@
     <NavBar></NavBar>
     <!-- ./navbar -->
 
-    <Notification  v-if="show"></Notification>
-
-
-
 
     <slot></slot>
-
-
-
+    <Notification v-if="show"></Notification>
     <!-- footer -->
     <!-- <Footer></Footer> -->
     <!-- ./footer -->
@@ -33,28 +27,29 @@ import Notification from "./Notification.vue";
 </script>
 <script>
 export default {
-  data() {
-    return {
-      show: false,
-    }
-  },
-  watch: {
-    flash: {
-      deep: true,
-      handler(val, oldVal) {
+    data() {
+        return {
+            show: false,
+        };
+    },
+    mounted() {
         this.show = true
-        setTimeout(
-            ()=>this.show=false,
-            2000
-        )
-      },
+        setTimeout(() => (this.show = false), 3000);
     },
-  },
-  computed: {
-    flash() {
-      return this.$page.props.flash
-    },
-  },
-}
-</script>
+    watch: {
+        flash: {
+            deep: true,
+            handler(val, oldVal) {
+                this.show = true;
 
+                setTimeout(() => (this.show = false), 3000);
+            },
+        },
+    },
+    computed: {
+        flash() {
+            return this.$page.props.flash;
+        },
+    },
+};
+</script>

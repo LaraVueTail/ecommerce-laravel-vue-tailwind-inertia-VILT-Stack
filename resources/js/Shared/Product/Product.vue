@@ -56,7 +56,7 @@
             href="#"
             class="block w-full py-1 text-sm md:text-lg text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition"
             @click.prevent="addToCart"
-            >{{ flash ? 'Added' : 'Add to cart' }}</a
+            >{{ added ? 'Added' : 'Add to cart' }}</a
         >
     </div>
 </template>
@@ -69,15 +69,17 @@ let props = defineProps({
     csrf_token:String
 });
 
-let flash =  usePage().props.flash.message
+// let flash =  usePage().props.flash.success
 
 let itemToCart = useForm({
     product:props.product,
     quantity:1,
     _token:props.csrf_token,
 });
-
+let added = false
 let addToCart = () => {
+    added = true
+    setTimeout(()=>added=false,500)
     itemToCart.post('/cart/add',{preserveScroll: true})
 }
 </script>
