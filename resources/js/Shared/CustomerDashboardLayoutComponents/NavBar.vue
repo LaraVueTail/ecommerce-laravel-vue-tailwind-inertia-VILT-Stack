@@ -25,7 +25,7 @@
                             Manage Address
                         </h3>
                     </Link>
-                    <Link href="/dashboard">
+                    <Link href="/dashboard/orders">
                         <h3 class="hover:text-primary cursor-pointer">
                             Manage Orders
                         </h3>

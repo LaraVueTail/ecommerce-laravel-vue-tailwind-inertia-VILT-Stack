@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Darryldecode\Cart\CartCollection;
 
 use App\Models\User;
 use Inertia\Inertia;
@@ -24,8 +25,28 @@ class UserController extends Controller
 
         if(Auth::attempt($attributes)){
             $request->session()->regenerate();
+
+            $cartItems = \Cart::getContent();
+            // dd($cartItems);
+            if(Auth::check()) {
+                \Cart::session(Auth::user()->id);
+                foreach($cartItems as $row) {
+                    // dd($row);
+                    \Cart::add(
+                        array(
+                            'id' => $row['id'],
+                            'name' => $row['name'],
+                            'price' => $row['price'],
+                            'quantity' => $row['quantity'],
+                            'associatedModel' => $row['associatedModel']
+                        )
+                    );
+                }
+            }
             return redirect()->intended('dashboard')->with('success','You are logged-in');
         }
+
+        
 
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.'

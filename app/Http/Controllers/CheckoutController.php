@@ -48,14 +48,28 @@ class CheckoutController extends Controller
             'cancel_url' => route('checkout.cancel', [], true),
         ]);
 
+        $attributes = $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'phone_number' => 'required',
+            'email' => 'required',
+            'address_line_1' => 'required',
+            'address_line_2' => 'required',
+            'city' => 'required',
+            'pin_code' => 'required',
+            'country' => 'required',
+        ]);
+
         $order = new Order();
         $order->status = 'unpaid';
         $order->user_id = Auth::user()->id;
-        $order->shipping_address = json_encode($request->except(['birthday','gender']));
+        $order->shipping_address = json_encode($attributes);
         $order->cart_content = $cartContent;
         $order->total_price = $cartTotal;
         $order->session_id = $session->id;
         $order->save();
+
+        \Cart::session(Auth::user()->id)->clear();
 
         return Inertia::location($session->url);
     }
@@ -79,7 +93,6 @@ class CheckoutController extends Controller
                 $order->status = 'paid';
                 $order->save();
             }
-
             return Inertia::render('Checkout/Success',['customer' => $customer]);
         } catch (\Exception $e) {
             throw new NotFoundHttpException();

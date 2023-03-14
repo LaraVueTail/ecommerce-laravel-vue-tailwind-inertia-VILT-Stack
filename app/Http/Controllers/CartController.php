@@ -15,8 +15,13 @@ class CartController extends Controller
 
     public function __construct()
     {
+        $cartItems = \Cart::getContent();
         if(Auth::check()) {
             \Cart::session(Auth::user()->id);
+            foreach($cartItems as $row) {
+                dd($row);
+                \Cart::add($row);
+            }
         }
     }
 

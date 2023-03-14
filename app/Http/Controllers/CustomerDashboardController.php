@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,6 +24,14 @@ class CustomerDashboardController extends Controller
         return Inertia::render('CustomerDashboard/AddressInfo',[
             'userInfo' => auth()->user()
         ]);
+    }
+
+    public function orders()
+    { 
+        return Inertia::render('CustomerDashboard/OrdersInfo',[
+            'orders' => Order::all()
+        ]);
+        
     }
 
     public function update(Request $request, User $user)

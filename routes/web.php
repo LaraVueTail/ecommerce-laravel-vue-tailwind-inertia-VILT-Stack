@@ -30,6 +30,7 @@ Route::post('cart/remove', [CartController::class, 'remove']);
 Route::middleware('auth')->group(function () {
     Route::get('dashboard', [CustomerDashboardController::class, 'index'])->name('customer_dashboard');
     Route::get('dashboard/manage-address', [CustomerDashboardController::class, 'address']);
+    Route::get('dashboard/orders', [CustomerDashboardController::class, 'orders']);
     Route::post('dashboard/{user}', [CustomerDashboardController::class, 'update']);
 
     Route::get('checkout', [CheckoutController::class, 'index']);
