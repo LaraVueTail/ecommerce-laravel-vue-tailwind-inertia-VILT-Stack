@@ -52,7 +52,7 @@ class HandleInertiaRequests extends Middleware
             'cartContent' =>  \Cart::getContent(),
             'cartTotal' =>  \Cart::getTotal(),
             'flash' => [
-                'message' => fn () => $request->session()->get('success')
+                'success' => fn () => $request->session()->get('success')
             ],
         ]);
     }

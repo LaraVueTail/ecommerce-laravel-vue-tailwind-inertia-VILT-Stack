@@ -7,9 +7,15 @@
     <NavBar></NavBar>
     <!-- ./navbar -->
 
+    <Notification  v-if="show"></Notification>
+
+
+
+
     <slot></slot>
-    
-    <Notification></Notification>
+
+
+
     <!-- footer -->
     <!-- <Footer></Footer> -->
     <!-- ./footer -->
@@ -25,3 +31,30 @@ import Footer from "./PublicLayoutComponents/Footer.vue";
 import CopyRight from "./PublicLayoutComponents/CopyRight.vue";
 import Notification from "./Notification.vue";
 </script>
+<script>
+export default {
+  data() {
+    return {
+      show: false,
+    }
+  },
+  watch: {
+    flash: {
+      deep: true,
+      handler(val, oldVal) {
+        this.show = true
+        setTimeout(
+            ()=>this.show=false,
+            2000
+        )
+      },
+    },
+  },
+  computed: {
+    flash() {
+      return this.$page.props.flash
+    },
+  },
+}
+</script>
+

@@ -42,3 +42,7 @@ Route::middleware('auth')->group(function () {
 Route::get('login', [UserController::class, 'login'])->middleware('guest')->name('login');
 Route::post('login', [UserController::class, 'auth'])->middleware('guest');
 Route::post('logout', [UserController::class, 'logout'])->middleware('auth');
+
+Route::get('register', [UserController::class, 'create'])->middleware('guest')->name('register');
+Route::post('register', [UserController::class, 'store'])->middleware('guest');
+

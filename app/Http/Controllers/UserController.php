@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Inertia\Inertia;
 
 class UserController extends Controller
 {
@@ -23,7 +24,7 @@ class UserController extends Controller
 
         if(Auth::attempt($attributes)){
             $request->session()->regenerate();
-            return redirect()->intended('dashboard');
+            return redirect()->intended('dashboard')->with('success','You are logged-in');
         }
 
         return back()->withErrors([
@@ -40,5 +41,26 @@ class UserController extends Controller
         $request->session()->regenerateToken();
      
         return redirect('/');
+    }
+
+    public function create()
+    {
+        return Inertia::render('Auth/Register');
+    }
+
+    public function store(Request $request)
+    {
+        $credentials = $request->validate(
+            [
+                'first_name' => 'required|max:255',
+                'last_name' => 'required|max:255',
+                'phone_number' => 'required',
+                'email' => 'required|email|max:255|unique:users,email',
+                'password' => 'required|min:7|max:255',
+            ]
+            );
+
+            Auth::login(User::create($credentials));
+            return redirect('/')->with('success', 'Your account has been created.');
     }
 }
