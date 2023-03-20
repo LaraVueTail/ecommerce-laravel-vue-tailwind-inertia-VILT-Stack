@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\CheckoutController;
-use App\Http\Controllers\CustomerDashboardController;
-use App\Http\Controllers\PublicPagesController;
-use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\PublicPagesController;
+use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\CustomerDashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +40,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/cancel', [CheckoutController::class, 'cancel'])->name('checkout.cancel');
 }
 );
+
+Route::middleware('can:admin')->group(function () {
+    Route::get('admin-dashboard', [AdminDashboardController::class, 'index'])->name('admin_dashboard');
+    
+});
 
 Route::get('login', [UserController::class, 'login'])->middleware('guest')->name('login');
 Route::post('login', [UserController::class, 'auth'])->middleware('guest');

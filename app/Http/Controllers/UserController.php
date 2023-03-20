@@ -43,6 +43,10 @@ class UserController extends Controller
                     );
                 }
             }
+            if(Auth::user()->can('admin')){
+                return redirect()->intended('admin-dashboard')->with('success','You are logged-in');
+
+            }
             return redirect()->intended('dashboard')->with('success','You are logged-in');
         }
 
