@@ -3,6 +3,7 @@ import { createInertiaApp, Link, Head } from "@inertiajs/vue3";
 
 import PublicLayout from "./Shared/PublicLayout.vue";
 import CustomerDashboardLayout from "./Shared/CustomerDashboardLayout.vue";
+import AdminDashboardLayout from "./Shared/AdminDashboardLayout.vue";
 
 
 createInertiaApp({
@@ -19,6 +20,9 @@ createInertiaApp({
         }
         if (name.startsWith("CustomerDashboard/")) {
             page.default.layout = CustomerDashboardLayout;
+        }
+        if (name.startsWith("AdminDashboard/")) {
+            page.default.layout = AdminDashboardLayout;
         }
         return page;
     },
