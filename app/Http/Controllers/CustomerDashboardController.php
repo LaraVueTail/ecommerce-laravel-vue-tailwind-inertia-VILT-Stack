@@ -29,7 +29,7 @@ class CustomerDashboardController extends Controller
     public function orders()
     { 
         return Inertia::render('CustomerDashboard/OrdersInfo',[
-            'orders' => Order::all()
+            'orders' => Order::where('user_id','=',Auth::user()->id)->get()->makeHidden(['id','updated_at','user_id'])
         ]);
         
     }
