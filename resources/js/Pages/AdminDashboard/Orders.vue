@@ -1,6 +1,7 @@
 <template>
-    <section class="dark:bg-gray-900 p-3 sm:p-5">
-        <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
+    <h1 class="text-2xl text-gray-500 mb-6 font-poppins p-3 sm:p-5">Orders</h1>
+    <section class="dark:bg-gray-900" v-if="orders.data.length">
+        <div class="mx-auto max-w-screen-xl px-2 lg:px-12">
             <!-- Start coding here -->
             <div
                 class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg"
@@ -525,6 +526,9 @@
             </div>
         </div>
     </section>
+
+    <div v-else class="text-lg">No orders yet!..</div>
+
 </template>
 <script>
 export default {
