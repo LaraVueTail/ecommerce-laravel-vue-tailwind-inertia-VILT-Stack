@@ -6,7 +6,7 @@
 
     <div class="p-4 sm:ml-64">
 
-        <div class="p-4 mt-14">
+        <div class="mt-14">
         <slot></slot>
 
           <!-- <div class="grid grid-cols-3 gap-4 mb-4">

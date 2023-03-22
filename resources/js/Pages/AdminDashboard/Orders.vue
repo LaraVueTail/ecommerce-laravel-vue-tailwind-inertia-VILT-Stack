@@ -1,10 +1,14 @@
 <template>
-    <h1 class="text-2xl text-gray-500 mb-6 font-poppins p-3 sm:p-5">Orders</h1>
-    <section class="dark:bg-gray-900" v-if="orders.data.length">
-        <div class="mx-auto max-w-screen-xl px-2 lg:px-12">
+    <section class="dark:bg-gray-900 w-full overflow-x-hidden p-1">
+        <div class="mx-auto max-w-screen-xl px-1 lg:px-12">
             <!-- Start coding here -->
+            <h1 class="text-2xl text-gray-800 mb-6 font-poppins p-3 sm:p-5">
+                Orders
+            </h1>
+
             <div
-                class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg"
+                class="bg-white dark:bg-gray-800 relative shadow-md rounded-lg border-2 border-gray-200"
+                v-if="orders.data.length"
             >
                 <div
                     class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4"
@@ -237,7 +241,8 @@
                             class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
                         >
                             <tr>
-                                <th scope="col" class="px-4 py-3">Order ID</th>
+                                <th scope="col" class="px-4 py-3">ID</th>
+                                <th scope="col" class="px-4 py-3">Date</th>
                                 <th scope="col" class="px-4 py-3">User</th>
                                 <th scope="col" class="px-4 py-3">
                                     Shipping Address
@@ -265,6 +270,12 @@
                                     class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                 >
                                     {{ order.id }}
+                                </th>
+                                <th
+                                    scope="row"
+                                    class="px-4 py-3 font-medium"
+                                >
+                                    {{ toDate(order.created_at) }}
                                 </th>
                                 <td class="px-4 py-3">
                                     <b>User ID : </b>{{ order.user_id }}<br />
@@ -427,17 +438,30 @@
                     </span>
 
                     <div class="inline-flex items-stretch -space-x-px">
-                        <Component :is="link.url ? 'Link' : 'span'"
+                        <Component
+                            :is="link.url ? 'Link' : 'span'"
                             v-for="link in orders.links"
                             :href="link.url"
                             v-html="link.label"
-                            class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-
+                            class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white hidden md:block"
                             :class="{
                                 'text-gray-500': !link.url,
                                 'font-bold': link.active,
-                                'rounded-l-lg' : link.label.includes('Previous'),
-                                'rounded-r-lg' : link.label.includes('Next')
+                                'rounded-l-lg': link.label.includes('Previous'),
+                                'rounded-r-lg': link.label.includes('Next'),
+                            }"
+                        />
+                        <Component
+                            :is="link.url ? 'Link' : 'span'"
+                            v-for="link in orderPageLinksMobile"
+                            :href="link.url"
+                            v-html="link.label"
+                            class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:hidden"
+                            :class="{
+                                'text-gray-500': !link.url,
+                                'font-bold': link.active,
+                                'rounded-l-lg': link.label.includes('Previous'),
+                                'rounded-r-lg': link.label.includes('Next'),
                             }"
                         />
                     </div>
@@ -524,17 +548,21 @@
                     </ul> -->
                 </nav>
             </div>
+            <div v-else class="text-lg">No orders yet!..</div>
         </div>
     </section>
-
-    <div v-else class="text-lg">No orders yet!..</div>
-
 </template>
+
 <script>
 export default {
     props: ["orders"],
     mounted() {
-        console.log(this.orders);
+        console.log(this.orders.links.length >5);
+    },
+    data(){
+        return {
+            orderPageLinksMobile : this.orders.links.length >7 ? [this.orders.links[0],this.orders.links[this.orders.links.length-1]]:this.orders.links
+        }
     },
     // computed:{
     //     toDate(date){

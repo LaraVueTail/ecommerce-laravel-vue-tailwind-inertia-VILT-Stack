@@ -16,7 +16,7 @@ class AdminDashboardController extends Controller
     public function orders()
     {
         return Inertia::render('AdminDashboard/Orders',[
-            'orders' => Order::paginate(2)
+            'orders' => Order::paginate(3)
         ]);
         
     }
