@@ -8,7 +8,7 @@
 
             <div
                 class="bg-white dark:bg-gray-800 relative shadow-md rounded-lg border-2 border-gray-200"
-                v-if="orders.data.length"
+               
             >
                 <div
                     class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4"
@@ -38,9 +38,10 @@
                                 </div>
                                 <input
                                     type="text"
+                                    v-model="search"
                                     id="simple-search"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                    placeholder="Search"
+                                    placeholder="Search by Order ID, User Email"
                                     required=""
                                 />
                             </div>
@@ -233,7 +234,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="overflow-x-auto">
+                <div class="overflow-x-auto"  v-if="orders.data.length">
                     <table
                         class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
                     >
@@ -418,6 +419,10 @@
                         </tbody>
                     </table>
                 </div>
+
+            <div v-else class="text-lg px-4 text-gray-500">No orders!</div>
+
+
                 <nav
                     class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4"
                     aria-label="Table navigation"
@@ -548,20 +553,22 @@
                     </ul> -->
                 </nav>
             </div>
-            <div v-else class="text-lg">No orders yet!..</div>
         </div>
     </section>
 </template>
 
 <script>
+import debounce from "lodash/debounce";
+import { router } from '@inertiajs/core';
 export default {
-    props: ["orders"],
+    props: ["orders", "filters"],
     mounted() {
-        console.log(this.orders.links.length >5);
+        console.log(this.orders);
     },
-    data(){
+    data() {
         return {
-            orderPageLinksMobile : this.orders.links.length >7 ? [this.orders.links[0],this.orders.links[this.orders.links.length-1]]:this.orders.links
+            search: this.filters.search,
+            orderPageLinksMobile: this.orders.links.length > 7 ? [this.orders.links[0], this.orders.links[this.orders.links.length - 1]] : this.orders.links
         }
     },
     // computed:{
@@ -570,6 +577,14 @@ export default {
     //         return d.toDateString
     //     }
     // },
+    watch: {
+        search:
+            debounce(function (newValue) {
+            console.log(newValue);
+                router.get('/admin-dashboard/orders', { search: newValue }, { preserveState: true, replace: true });
+            }, 300)
+        
+    },
     methods: {
         toDate(date) {
             console.log(date);
@@ -579,4 +594,12 @@ export default {
         },
     },
 };
+</script>
+<script setup>
+import { onMounted } from 'vue'
+
+import { initFlowbite } from 'flowbite'
+onMounted(() => {
+    initFlowbite();
+})
 </script>

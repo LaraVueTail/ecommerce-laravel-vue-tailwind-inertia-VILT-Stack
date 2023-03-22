@@ -9,7 +9,7 @@
         >
             <div class="text-lg text-gray-700">
                 <h3 class="text-primary font-semibold">Order Date</h3>
-                <h3 class="text-lg text-gray-700">{{ toDate(order.updated_at) }}</h3>
+                <h3 class="text-lg text-gray-700">{{ toDate(order.created_at) }}</h3>
             </div>
             <div>
                 <h3 class="text-lg text-primary font-semibold">

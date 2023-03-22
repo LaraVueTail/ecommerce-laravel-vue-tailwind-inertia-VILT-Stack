@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Order;
 use Inertia\Inertia;
-use Illuminate\Http\Request;
+use App\Models\Order;
+use Illuminate\Support\Facades\Request;
 
 class AdminDashboardController extends Controller
 {
@@ -15,9 +15,21 @@ class AdminDashboardController extends Controller
     }
     public function orders()
     {
-        return Inertia::render('AdminDashboard/Orders',[
-            'orders' => Order::paginate(3)
-        ]);
-        
+        return Inertia::render('AdminDashboard/Orders', [
+            'orders' => Order::query()
+                ->when(Request::input('search') ?? false, fn($query, $search) => 
+                    $query->where(fn($query) =>
+                    $query
+                    ->whereHas('user',fn($query) =>
+                        $query->where('email', 'like', "%{$search}%")
+                    )
+                    ->orWhere('id', '=', $search))
+                )
+                ->paginate(10)
+                ->withQueryString(),
+            'filters' => Request::only(['search'])
+        ]
+        );
+
     }
 }

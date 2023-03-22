@@ -60,6 +60,9 @@ class UserController extends Controller
     public function logout(Request $request)
     {
         Auth::logout();
+
+        \Cart::session('4yTlTDKu3oJOfzD')->clear();
+
  
         $request->session()->invalidate();
      
