@@ -27,9 +27,13 @@ class AdminDashboardController extends Controller
                     )
                     ->orWhere('id', '=', $search))
                 )
+                ->when(Request::input('orderStatus') ?? false, fn($query,$filter) => 
+                // dd(json_decode($filter))
+                $query->whereIn('status', json_decode($filter))
+                )
                 ->paginate(10)
                 ->withQueryString(),
-            'filters' => Request::only(['search'])
+            'filters' => Request::only(['search','orderStatus'])
         ]
         );
 
