@@ -21,7 +21,9 @@ class AdminDashboardController extends Controller
                     $query->where(fn($query) =>
                     $query
                     ->whereHas('user',fn($query) =>
-                        $query->where('email', 'like', "%{$search}%")
+                        $query
+                        ->where('email', 'like', "%{$search}%")
+                        ->orWhere('phone_number', '=', $search)
                     )
                     ->orWhere('id', '=', $search))
                 )
