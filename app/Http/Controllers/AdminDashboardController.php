@@ -79,4 +79,10 @@ class AdminDashboardController extends Controller
         );
 
     }
+
+    public function singleOrder(Order $order)
+    {
+        # code...
+        dd($order);
+    }
 }

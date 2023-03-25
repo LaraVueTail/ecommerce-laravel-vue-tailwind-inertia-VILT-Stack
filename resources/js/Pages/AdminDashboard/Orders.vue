@@ -1,5 +1,5 @@
 <template>
-    <section class="dark:bg-gray-900 w-full overflow-x-hidden p-1">
+    <section class="dark:bg-gray-900 w-full h-screen overflow-x-hidden md:overflow-x-visible p-1">
         <div class="mx-auto max-w-screen-xl px-1 lg:px-12">
             <!-- Start coding here -->
             <h1 class="text-2xl text-gray-800 mb-6 font-poppins p-3 sm:p-5">
