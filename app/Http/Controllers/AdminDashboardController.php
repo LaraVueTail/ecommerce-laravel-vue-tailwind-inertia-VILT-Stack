@@ -83,6 +83,19 @@ class AdminDashboardController extends Controller
     public function singleOrder(Order $order)
     {
         # code...
-        dd($order);
+        return Inertia::render('AdminDashboard/Orders/ShowOrder',[
+            'order' => $order
+        ]);
+
+    }
+
+    public function editOrder(Order $order)
+    {
+        # code...
+        // dd($order);
+        return Inertia::render('AdminDashboard/Orders/EditOrder',[
+            'order' => $order
+        ]);
+
     }
 }

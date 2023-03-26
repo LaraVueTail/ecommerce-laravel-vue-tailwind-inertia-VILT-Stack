@@ -45,6 +45,7 @@ Route::middleware('can:admin')->group(function () {
     Route::get('admin-dashboard', [AdminDashboardController::class, 'index'])->name('admin_dashboard');
     Route::get('admin-dashboard/orders', [AdminDashboardController::class, 'orders']);
     Route::get('admin-dashboard/orders/{order}', [AdminDashboardController::class, 'singleOrder']);
+    Route::get('admin-dashboard/orders/{order}/edit', [AdminDashboardController::class, 'editOrder']);
     
 });
 

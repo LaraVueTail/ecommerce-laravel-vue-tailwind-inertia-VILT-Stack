@@ -133,17 +133,17 @@
                                 :aria-labelledby="`${order.id}-dropdown-button`"
                             >
                                 <li>
-                                    <a
-                                        href="#"
+                                    <Link
+                                        :href="`/admin-dashboard/orders/${order.id}`"
                                         class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                        >Show</a
+                                        >Show</Link
                                     >
                                 </li>
                                 <li>
-                                    <a
-                                        href="#"
+                                    <Link
+                                        :href="`/admin-dashboard/orders/${order.id}/edit`"
                                         class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                        >Edit</a
+                                        >Edit</Link
                                     >
                                 </li>
                             </ul>
