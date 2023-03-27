@@ -1,15 +1,13 @@
 <template>
-    <NavBar></NavBar>
-    <SideBar></SideBar>
+  <NavBar></NavBar>
+  <SideBar></SideBar>
+  <Notification v-if="show"></Notification>
 
+  <div class="p-4 sm:ml-64">
+    <div class="mt-14">
+      <slot></slot>
 
-
-    <div class="p-4 sm:ml-64">
-
-        <div class="mt-14">
-        <slot></slot>
-
-          <!-- <div class="grid grid-cols-3 gap-4 mb-4">
+      <!-- <div class="grid grid-cols-3 gap-4 mb-4">
              <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
                 <p class="text-2xl text-gray-400 dark:text-gray-500">+</p>
              </div>
@@ -54,50 +52,45 @@
                 <p class="text-2xl text-gray-400 dark:text-gray-500">+</p>
              </div>
           </div> -->
-       </div>
     </div>
+  </div>
 </template>
 <script setup>
-import { onMounted } from 'vue'
-import { initFlowbite } from 'flowbite'
-import NavBar from './AdminDashboardLayoutComponents/NavBar.vue';
-import SideBar from './AdminDashboardLayoutComponents/SideBar.vue';
+import { onMounted } from "vue";
+import { initFlowbite } from "flowbite";
+import NavBar from "./AdminDashboardLayoutComponents/NavBar.vue";
+import SideBar from "./AdminDashboardLayoutComponents/SideBar.vue";
+import Notification from "./Notification.vue";
 
 // initialize components based on data attribute selectors
 onMounted(() => {
-    initFlowbite();
-})
+  initFlowbite();
+});
 </script>
 <script>
 export default {
-    data() {
-        return {
-            show: false,
-        }
+  data() {
+    return {
+      show: false,
+    };
+  },
+  mounted() {
+    this.show = true;
+    setTimeout(() => (this.show = false), 2000);
+  },
+  watch: {
+    flash: {
+      deep: true,
+      handler(val, oldVal) {
+        this.show = true;
+        setTimeout(() => (this.show = false), 2000);
+      },
     },
-    mounted() {
-        this.show = true
-        setTimeout(
-            () => this.show = false,
-            2000
-        )
+  },
+  computed: {
+    flash() {
+      return this.$page.props.flash;
     },
-    watch: {
-        flash: {
-            deep: true,
-            handler(val, oldVal) {
-                this.show = true
-                setTimeout(
-                    () => this.show = false,
-                    2000
-                )
-            },
-        },
-    },
-    computed: {
-        flash() {
-            return this.$page.props.flash
-        },
-    },
-}
+  },
+};
 </script>

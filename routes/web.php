@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\PublicPagesController;
 use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CustomerDashboardController;
 
 /*
@@ -43,10 +44,8 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('can:admin')->group(function () {
     Route::get('admin-dashboard', [AdminDashboardController::class, 'index'])->name('admin_dashboard');
-    Route::get('admin-dashboard/orders', [AdminDashboardController::class, 'orders']);
-    Route::get('admin-dashboard/orders/{order}', [AdminDashboardController::class, 'singleOrder']);
-    Route::get('admin-dashboard/orders/{order}/edit', [AdminDashboardController::class, 'editOrder']);
-    
+    Route::resource('admin-dashboard/orders', OrderController::class);
+    Route::put('admin-dashboard/orders/{order}/edit-status', [OrderController::class, 'updateOrderStatus']); 
 });
 
 Route::get('login', [UserController::class, 'login'])->middleware('guest')->name('login');

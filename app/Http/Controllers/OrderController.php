@@ -8,41 +8,31 @@ use Inertia\Inertia;
 use App\Models\Order;
 use Illuminate\Support\Facades\Request;
 
-class AdminDashboardController extends Controller
+class OrderController extends Controller
 {
     //
     public function index()
-    {
-        return Inertia::render('AdminDashboard/Index');
-    }
-    public function orders()
     {
         return Inertia::render(
             'AdminDashboard/Orders/Index',
             [
                 'orders' => Order::query()
-                    ->when(Request::input('search') ?? false,
+                    ->when(
+                        Request::input('search') ?? false,
                         fn($query, $search) =>
                         $query->where(fn($query) =>
                             $query
-                    ->whereHas(
-                        'user', fn($query) =>
-                        $query
-                    ->where('email', 'like', "%{$search}%")
-                    ->orWhere('phone_number', '=', $search)
-                    )
-                    ->orWhere('id', '=', $search)
-                    )
-                    )
-                                
-                    ->when(Request::input('orderStatus') ?? false, fn($query, $filter) => // dd(json_decode($filter))
-                        $query->whereIn('status', json_decode($filter)))
-                        
-                    ->when(Request::input('dateStart') ?? false, function ($query, $dateStart) {
-                        // dd($dateStart);
-                        $dateStart = Carbon::createFromFormat('m/d/Y', $dateStart)->format('Y-m-d');
-                        $query->whereDate('created_at', '>=', $dateStart);
-                    }
+                                ->whereHas(
+                                    'user', fn($query) =>
+                                    $query
+                                        ->where('email', 'like', "%{$search}%")
+                                        ->orWhere('phone_number', '=', $search)
+                                )->orWhere('id', '=', $search)))->when(Request::input('orderStatus') ?? false, fn($query, $filter) => // dd(json_decode($filter))
+                        $query->whereIn('status', json_decode($filter)))->when(Request::input('dateStart') ?? false, function ($query, $dateStart) {
+                            // dd($dateStart);
+                            $dateStart = Carbon::createFromFormat('m/d/Y', $dateStart)->format('Y-m-d');
+                            $query->whereDate('created_at', '>=', $dateStart);
+                        }
                     )
                     ->when(
                         Request::input('dateEnd') ?? false,
@@ -50,7 +40,7 @@ class AdminDashboardController extends Controller
                             // dd($dateEnd);
                             $dateEnd = Carbon::createFromFormat('m/d/Y', $dateEnd)->format('Y-m-d');
                             $query->whereDate('created_at', '<=', $dateEnd);
-                    }
+                        }
                     )
                     ->when(
                         Request::input('sortBy') ?? 'default',
@@ -81,28 +71,44 @@ class AdminDashboardController extends Controller
 
     }
 
-    public function singleOrder(Order $order)
+    public function show(Order $order)
     {
-        # code...
-        return Inertia::render('AdminDashboard/Orders/Show',[
+
+        return Inertia::render('AdminDashboard/Orders/Show', [
             'order' => $order
         ]);
 
     }
 
-    public function editOrder(Order $order)
+    public function create(Order $order)
     {
-        # code...
-        // dd($order);
-        return Inertia::render('AdminDashboard/Orders/Edit',[
+
+        return Inertia::render('AdminDashboard/Orders/Create');
+
+    }
+
+    public function store()
+    {
+
+        $attributes = $this->validateOrder();
+
+        Order::create($attributes);
+
+        return redirect('/admin-dashboard/orders')->with('success', 'Order Created!');
+    }
+
+    public function edit(Order $order)
+    {
+
+        return Inertia::render('AdminDashboard/Orders/Edit', [
             'order' => $order
         ]);
 
     }
 
-    public function updateOrder(Order $order)
+    public function update(Order $order)
     {
-        // dd(request()->all());
+
         $attributes = $this->validateOrder($order);
 
         $order->update($attributes);
@@ -112,7 +118,7 @@ class AdminDashboardController extends Controller
 
     public function updateOrderStatus(Order $order)
     {
-        // dd(request()->all());
+
         $attributes = request()->validate([
             'status' => 'required',
         ]);
@@ -122,11 +128,11 @@ class AdminDashboardController extends Controller
         return back()->with('success', 'Order Updated!');
     }
 
-    public function destroyOrder(Order $order)
+    public function destroy(Order $order)
     {
         $order->delete();
 
-        return redirect()->route('orders')->with('success', 'Order Deleted!');
+        return redirect('/admin-dashboard/orders')->with('success', 'Order Deleted!');
     }
 
     protected function validateOrder(?Order $post = null): array
@@ -137,28 +143,12 @@ class AdminDashboardController extends Controller
             'shipping_address' => 'required',
             'user_id' => ['required', Rule::exists('users', 'id')],
             'cart_content' => 'required',
-            'session_id' => 'required',
+            'session_id' => 'nullable',
             'status' => 'required',
             'total_price' => 'required'
         ]);
     }
 
-    public function createOrder(Order $order)
-    {
-        # code...
-        // dd($order);
-        return Inertia::render('AdminDashboard/Orders/Create');
 
-    }
-
-    public function storeOrder()
-    {
-        // dd(request()->all());
-        $attributes = $this->validateOrder();
-
-        Order::create($attributes);
-
-        return redirect()->route('orders')->with('success', 'Order Created!');
-    }
 
 }

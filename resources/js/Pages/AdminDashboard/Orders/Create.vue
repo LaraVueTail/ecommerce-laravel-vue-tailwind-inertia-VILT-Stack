@@ -3,72 +3,7 @@
     <div class="mx-auto max-w-screen-xl px-1 lg:px-12 my-11 pb-11">
       <!-- Modal content -->
 
-      <nav class="flex my-4" aria-label="Breadcrumb">
-        <ol class="inline-flex items-center space-x-1 md:space-x-3">
-          <li class="inline-flex items-center">
-            <Link
-              href="/admin-dashboard"
-              class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white"
-            >
-              <svg
-                aria-hidden="true"
-                class="w-4 h-4 mr-2"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"
-                ></path>
-              </svg>
-              Dashboard
-            </Link>
-          </li>
-          <li>
-            <div class="flex items-center">
-              <svg
-                aria-hidden="true"
-                class="w-6 h-6 text-gray-400"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
-              <Link
-                href="/admin-dashboard/orders"
-                class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white"
-                >Orders</Link
-              >
-            </div>
-          </li>
-          <li aria-current="page">
-            <div class="flex items-center">
-              <svg
-                aria-hidden="true"
-                class="w-6 h-6 text-gray-400"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
-              <span
-                class="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400"
-                >Edit Order - #{{ order.id }}</span
-              >
-            </div>
-          </li>
-        </ol>
-      </nav>
+      <Breadcrump :links="{ orders: 'orders', 'Create Order': '' }"></Breadcrump>
 
       <div
         class="relative p-4 bg-white border border-gray-200 rounded-lg shadow dark:border-gray-700 dark:bg-gray-800 sm:p-5"
@@ -80,7 +15,7 @@
           <h5
             class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
           >
-            Edit - Order #{{ order.id }}
+            Create Order
           </h5>
           <button
             type="button"
@@ -126,7 +61,6 @@
                       id="first_name"
                       v-model="orderInfoShippingAddress.first_name"
                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                      placeholder="Ex. Apple iMac 27&ldquo;"
                     />
                   </div>
                   <div>
@@ -141,7 +75,6 @@
                       id="last_name"
                       v-model="orderInfoShippingAddress.last_name"
                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                      placeholder="Ex. Apple iMac 27&ldquo;"
                     />
                   </div>
                   <div>
@@ -156,7 +89,6 @@
                       id="email"
                       v-model="orderInfoShippingAddress.email"
                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                      placeholder="Ex. Apple iMac 27&ldquo;"
                     />
                   </div>
                   <div>
@@ -171,7 +103,6 @@
                       id="phone_number"
                       v-model="orderInfoShippingAddress.phone_number"
                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                      placeholder="Ex. Apple iMac 27&ldquo;"
                     />
                   </div>
                   <div>
@@ -186,7 +117,6 @@
                       id="address_line_1"
                       v-model="orderInfoShippingAddress.address_line_1"
                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                      placeholder="Ex. Apple iMac 27&ldquo;"
                     />
                   </div>
                   <div>
@@ -201,7 +131,6 @@
                       id="address_line_2"
                       v-model="orderInfoShippingAddress.address_line_2"
                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                      placeholder="Ex. Apple iMac 27&ldquo;"
                     />
                   </div>
                   <div>
@@ -216,7 +145,6 @@
                       id="city"
                       v-model="orderInfoShippingAddress.city"
                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                      placeholder="Ex. Apple iMac 27&ldquo;"
                     />
                   </div>
                   <div>
@@ -231,7 +159,6 @@
                       id="pin_code"
                       v-model="orderInfoShippingAddress.pin_code"
                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                      placeholder="Ex. Apple iMac 27&ldquo;"
                     />
                   </div>
                   <div>
@@ -246,7 +173,6 @@
                       id="country"
                       v-model="orderInfoShippingAddress.country"
                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                      placeholder="Ex. Apple iMac 27&ldquo;"
                     />
                   </div>
                 </div>
@@ -265,9 +191,11 @@
                     type="text"
                     name="user_is"
                     id="user_id"
-                    v-model="order.user_id"
+                    v-model="orderInfo.user_id"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder="Ex. Apple iMac 27&ldquo;"
+                    :class="{
+                      'border-red-500': errors.user_id,
+                    }"
                   />
                 </div>
                 <p class="font-medium text-blue-600 dark:text-gray-400 my-4">
@@ -280,11 +208,11 @@
                 >
                 <select
                   id="status"
-                  :value="order.status"
+                  v-model="orderInfo.status"
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 mb-4"
                 >
                   <option
-                    :selected="order.status === status"
+                    :selected="orderInfo.status === status"
                     v-for="status in [
                       'unpaid',
                       'paid',
@@ -298,40 +226,32 @@
                     {{ status }}
                   </option>
                   <!-- <option value="TV">TV/Monitors</option>
-                                <option value="PC">PC</option>
-                                <option value="GA">Gaming/Console</option>
-                                <option value="PH">Phones</option> -->
+                                  <option value="PC">PC</option>
+                                  <option value="GA">Gaming/Console</option>
+                                  <option value="PH">Phones</option> -->
                 </select>
               </div>
             </div>
           </div>
 
-          <div class="flex items-center space-x-4">
-            <button
-              type="submit"
-              @click.prevent="updateOrder()"
-              class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            >
-              Update product
-            </button>
-            <button
-              type="button"
-              class="text-red-600 inline-flex items-center hover:text-white border border-red-600 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
-            >
-              <svg
-                class="mr-1 -ml-1 w-5 h-5"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
+          <div>
+            <div v-if="errors ?? false">
+              <div
+                v-for="(value, key, index) in errors"
+                :key="index"
+                v-text="value"
+                class="text-red-600 text-sm mt-1 bg-red-200 p-2 rounded my-2"
+              ></div>
+            </div>
+            <div class="flex items-center space-x-4">
+              <button
+                type="submit"
+                @click.prevent="createOrder()"
+                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
-                <path
-                  fill-rule="evenodd"
-                  d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
-              Delete
-            </button>
+                Create Order
+              </button>
+            </div>
           </div>
         </form>
       </div>
@@ -347,8 +267,14 @@
               class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >Order Items</label
             >
+            <div
+              class="text-sm font-medium my-3 text-gray-500"
+              v-if="orderContent.length < 1"
+            >
+              No Order Items
+            </div>
 
-            <div class="relative overflow-x-auto border rounded-lg my-2">
+            <div class="relative overflow-x-auto border rounded-lg my-2" v-else>
               <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead
                   class="text-xs text-gray-700 uppercase bg-blue-50 dark:bg-gray-700 dark:text-gray-400"
@@ -501,31 +427,24 @@
                 ><br />
               </div>
 
-              <div class="flex items-center space-x-4">
-                <button
-                  type="submit"
-                  class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                >
-                  Update product
-                </button>
-                <button
-                  type="button"
-                  class="text-red-600 inline-flex items-center hover:text-white border border-red-600 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
-                >
-                  <svg
-                    class="mr-1 -ml-1 w-5 h-5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
+              <div>
+                <div v-if="errors ?? false">
+                  <div
+                    v-for="(value, key, index) in errors"
+                    :key="index"
+                    v-text="value"
+                    class="text-red-600 text-sm mt-1 bg-red-200 p-2 rounded my-2"
+                  ></div>
+                </div>
+                <div class="flex items-center space-x-4">
+                  <button
+                    type="submit"
+                    @click.prevent="createOrder()"
+                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                   >
-                    <path
-                      fill-rule="evenodd"
-                      d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
-                  Delete
-                </button>
+                    Create Order
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -538,21 +457,24 @@
 import { router } from "@inertiajs/vue3";
 import { useForm } from "@inertiajs/vue3";
 export default {
-  props: ["order"],
+  props: ["errors"],
   data() {
     return {
-      orderInfo: this.order,
-      orderInfoShippingAddress: JSON.parse(this.order.shipping_address),
-      orderContent: JSON.parse(this.order.cart_content),
+      orderInfo: {},
+      orderInfoShippingAddress: {},
+      orderContent: [],
       newOrderItem: {},
+      form: {},
     };
   },
   computed: {
     totalAmount() {
       var total = 0;
-      this.orderContent.forEach((element) => {
-        total += element.price * element.quantity;
-      });
+      if (this.orderContent.length > 0) {
+        this.orderContent.forEach((element) => {
+          total += element.price * element.quantity;
+        });
+      }
       return total;
     },
   },
@@ -575,11 +497,16 @@ export default {
     reloadPage() {
       router.visit(`/admin-dashboard/orders/${this.order.id}/edit`);
     },
-    updateOrder() {
+    createOrder() {
       this.orderInfo.shipping_address = JSON.stringify(this.orderInfoShippingAddress);
       this.orderInfo.cart_content = JSON.stringify(this.orderContent);
-      let form = useForm(this.orderInfo);
+      this.orderInfo.total_price = this.totalAmount;
+      this.orderInfo.session_id = "Manually created order";
+      this.form = useForm(this.orderInfo);
       console.log(this.orderInfo);
+      this.form.post(`/admin-dashboard/orders`, {
+        preserveScroll: true,
+      });
     },
   },
 };
@@ -587,6 +514,7 @@ export default {
 <script setup>
 import { onMounted, onUpdated } from "vue";
 import { initFlowbite } from "flowbite";
+import Breadcrump from "../../../Shared/AdminDashboardLayoutComponents/Breadcrump.vue";
 onMounted(() => {
   initFlowbite();
 });
