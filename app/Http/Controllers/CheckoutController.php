@@ -60,11 +60,21 @@ class CheckoutController extends Controller
             'country' => 'required',
         ]);
 
+        $order_items = [];
+        foreach ($cartContent as $cartItem) {
+            $order_items[] = [
+                'id' => $cartItem->id,
+                'name' => $cartItem->name,
+                'price' => $cartItem->price,
+                'quantity' => $cartItem->quantity,
+            ];
+        }
+        // dd($order_items);   
         $order = new Order();
         $order->status = 'unpaid';
         $order->user_id = Auth::user()->id;
         $order->shipping_address = json_encode($attributes);
-        $order->cart_content = $cartContent;
+        $order->cart_content = json_encode($order_items);
         $order->total_price = $cartTotal;
         $order->session_id = $session->id;
         $order->save();
