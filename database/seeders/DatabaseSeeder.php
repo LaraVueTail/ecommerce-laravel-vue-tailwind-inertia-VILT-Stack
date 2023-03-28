@@ -36,6 +36,6 @@ class DatabaseSeeder extends Seeder
 
         // Cart::factory(5)->create();
 
-        Product::factory(5)->create();
+        Product::factory(30)->create();
     }
 }

@@ -19,7 +19,7 @@
 
     <FilterDropdown
       :filters="filters"
-      @filterByFilterChangeEmit="(n) => (this.filterByFilter = n)"
+      @filterByFilterChangeEmit="filterByFilterChange"
       v-if="enableFilters.filterBy"
       :enableFilterByFilters="enableFilters.filterBy"
     ></FilterDropdown>
@@ -30,7 +30,7 @@
 import debounce from "lodash/debounce";
 import { router } from "@inertiajs/core";
 export default {
-  props: ["dataName", "filters", "enableFilters", "searchPlaceHolder"],
+  props: ["dataName", "filters", "enableFilters", "searchPlaceHolder", "currentPage"],
   data() {
     return {
       search: this.filters.search !== undefined ? this.filters.search : "",
@@ -44,6 +44,7 @@ export default {
           : "",
       sortBy: this.filters.sortBy !== undefined ? this.filters.sortBy : "",
       filterByFilter: {},
+      filterQueries: {},
     };
   },
 
@@ -60,31 +61,36 @@ export default {
     sortBy() {
       this.filterResults();
     },
-    filterByFilter() {
-      this.filterResults();
-    },
   },
   methods: {
     dateRangePick(dateRange) {
       this.dateStart = dateRange.getDates("mm/dd/yyyy")[0];
       this.dateEnd = dateRange.getDates("mm/dd/yyyy")[1];
     },
+    filterByFilterChange(n) {
+      this.filterByFilter = n;
+      this.filterResults();
+    },
     filterResults() {
-      let filterQueries = {};
+      this.filterQueries = {};
       if (this.search !== "") {
-        filterQueries.search = this.search;
+        this.filterQueries.search = this.search;
       }
       if (this.dateStart !== "" || this.dateEnd !== "") {
-        filterQueries.dateStart = this.dateStart;
-        filterQueries.dateEnd = this.dateEnd;
+        this.filterQueries.dateStart = this.dateStart;
+        this.filterQueries.dateEnd = this.dateEnd;
       }
       if (this.sortBy !== "") {
-        filterQueries.sortBy = this.sortBy;
+        console.log(this.filterQueries);
+
+        this.filterQueries.sortBy = this.sortBy;
       }
-      if (Object.keys(this.filterByFilter).length > 0) {
-        Object.assign(filterQueries, this.filterByFilter);
+      if (this.currentPage > 1) {
+        this.filterQueries.page = this.currentPage;
       }
-      router.get(`/admin-dashboard/${this.dataName}`, filterQueries, {
+      Object.assign(this.filterQueries, this.filterByFilter);
+
+      router.get(`/admin-dashboard/${this.dataName}`, this.filterQueries, {
         preserveState: true,
         replace: true,
       });

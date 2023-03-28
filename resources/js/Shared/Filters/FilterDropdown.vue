@@ -39,7 +39,7 @@
       class="z-10 hidden w-48 p-3 bg-white rounded-lg shadow dark:bg-gray-700"
     >
       <div v-if="enableFilterByFilters.orderStatus">
-        <h6 class="mb-3 text-sm font-medium text-gray-900 dark:text-white">
+        <h6 class="my-3 text-sm font-medium text-gray-900 dark:text-white">
           Order Status
         </h6>
         <ul class="space-y-2 text-sm" aria-labelledby="filterDropdownButton">
@@ -53,7 +53,7 @@
                 type="checkbox"
                 :id="status"
                 :value="status"
-                @change="filterByFilterChange"
+                @change="filterByFilterOrderStatusChange"
                 v-model="filterByOrderStatus"
                 class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
               />
@@ -68,13 +68,13 @@
       </div>
 
       <div v-if="enableFilterByFilters.availability">
-        <h6 class="mb-3 text-sm font-medium text-gray-900 dark:text-white">
+        <h6 class="my-3 text-sm font-medium text-gray-900 dark:text-white">
           Availability
         </h6>
         <ul class="space-y-2 text-sm" aria-labelledby="filterDropdownButton">
           <div
             class="space-y-2 text-sm"
-            v-for="status in ['available', 'coming_soon!', 'no_stock']"
+            v-for="status in ['available', 'out_of_stock', 'coming_soon']"
             :key="status"
           >
             <li class="flex items-center">
@@ -82,8 +82,35 @@
                 type="checkbox"
                 :id="status"
                 :value="status"
-                @change="filterByFilterChange"
+                @change="filterByFilterAvailabilityChange"
                 v-model="filterByAvailability"
+                class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+              />
+              <label
+                for="unpaid"
+                class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100"
+                >{{ convertString(status) }}</label
+              >
+            </li>
+          </div>
+        </ul>
+      </div>
+
+      <div v-if="enableFilterByFilters.tag">
+        <h6 class="my-3 text-sm font-medium text-gray-900 dark:text-white">Tag</h6>
+        <ul class="space-y-2 text-sm" aria-labelledby="filterDropdownButton">
+          <div
+            class="space-y-2 text-sm"
+            v-for="status in ['best_seller', 'new_arrival', 'end_of_season']"
+            :key="status"
+          >
+            <li class="flex items-center">
+              <input
+                type="checkbox"
+                :id="status"
+                :value="status"
+                @change="filterByFilterTagChange"
+                v-model="filterByTag"
                 class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
               />
               <label
@@ -112,21 +139,43 @@ export default {
         this.filters.availability !== undefined
           ? JSON.parse(this.filters.availability)
           : [],
+      filterByTag: this.filters.tag !== undefined ? JSON.parse(this.filters.tag) : [],
+      filterByFilterQueries: {},
     };
   },
   methods: {
-    filterByFilterChange() {
-      let filterByFilterQueries = {};
+    filterByFilterOrderStatusChange() {
       if (this.enableFilterByFilters.orderStatus && this.filterByOrderStatus.length > 0) {
-        filterByFilterQueries.orderStatus = JSON.stringify(this.filterByOrderStatus);
+        this.filterByFilterQueries.orderStatus = JSON.stringify(this.filterByOrderStatus);
+      } else {
+        delete this.filterByFilterQueries.orderStatus;
       }
+      this.$emit("filterByFilterChangeEmit", this.filterByFilterQueries);
+    },
+    filterByFilterAvailabilityChange() {
       if (
         this.enableFilterByFilters.availability &&
         this.filterByAvailability.length > 0
       ) {
-        filterByFilterQueries.availability = JSON.stringify(this.filterByAvailability);
+        this.filterByFilterQueries.availability = JSON.stringify(
+          this.filterByAvailability
+        );
       }
-      this.$emit("filterByFilterChangeEmit", filterByFilterQueries);
+      if (this.filterByAvailability.length === 0) {
+        delete this.filterByFilterQueries.availability;
+      }
+      console.log(this.filterByFilterQueries);
+      this.$emit("filterByFilterChangeEmit", this.filterByFilterQueries);
+    },
+    filterByFilterTagChange() {
+      if (this.enableFilterByFilters.tag && this.filterByTag.length > 0) {
+        // console.log(this.filterByFilterQueries);
+        this.filterByFilterQueries.tag = JSON.stringify(this.filterByTag);
+      }
+      if (this.filterByTag.length === 0) {
+        delete this.filterByFilterQueries.tag;
+      }
+      this.$emit("filterByFilterChangeEmit", this.filterByFilterQueries);
     },
   },
 };

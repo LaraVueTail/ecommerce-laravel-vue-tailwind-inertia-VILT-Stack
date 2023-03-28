@@ -25,13 +25,15 @@
         class="bg-white dark:bg-gray-800 relative shadow-md rounded-lg border-2 border-gray-200"
       >
         <Filters
+          :searchPlaceHolder="'Search by Product ID, Name, Description..'"
           :filters="filters"
+          :currentPage="products.current_page"
           :dataName="'products'"
           :enableFilters="{
             search: true,
             dateRange: true,
             sortBy: true,
-            filterBy: { availability: true },
+            filterBy: { availability: true, tag: true },
           }"
         ></Filters>
 

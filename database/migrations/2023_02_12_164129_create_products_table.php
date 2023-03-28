@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('availability')->nullable();
             $table->string('brand')->nullable();
+            $table->string('tag')->nullable();
+            $table->integer('inventory')->nullable();
             $table->foreignId('category_id');
             $table->string('slug')->unique();
             $table->string('link')->nullable();

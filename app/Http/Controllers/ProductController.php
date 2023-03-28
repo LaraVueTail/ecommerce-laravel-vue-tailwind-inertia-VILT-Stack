@@ -31,7 +31,7 @@ class ProductController extends Controller
                         )
                                 
                                           
-                    ->when(Request::input('categories') ?? false, fn($query, $categories) =>
+                    ->when(Request::input('category') ?? false, fn($query, $categories) =>
                                 $query
                                     ->whereHas(
                                         'category', fn($query) =>
@@ -40,7 +40,7 @@ class ProductController extends Controller
                                 )
                                 )
 
-                    ->when(Request::input('tags') ?? false, fn($query, $tags) =>
+                    ->when(Request::input('tag') ?? false, fn($query, $tags) =>
                         $query
                             ->whereIn('tag', json_decode($tags))
                     
@@ -52,7 +52,7 @@ class ProductController extends Controller
                 
                     )
 
-                    ->when(Request::input('brands') ?? false, fn($query, $brands) =>
+                    ->when(Request::input('brand') ?? false, fn($query, $brands) =>
                         $query
                             ->whereIn('brand', json_decode($brands))
                 
@@ -87,10 +87,10 @@ class ProductController extends Controller
                                 $query->oldest();
                             }
                             if ($sortBy === 'price-dsc') {
-                                $query->orderBy('total_price', 'desc');
+                                $query->orderBy('price', 'desc');
                             }
                             if ($sortBy === 'price-asc') {
-                                $query->orderBy('total_price', 'asc');
+                                $query->orderBy('price', 'asc');
                             }
                             if ($sortBy === 'inventory-asc') {
                                 $query->orderBy('inventory', 'asc');
@@ -114,7 +114,7 @@ class ProductController extends Controller
     public function show(Product $product)
     {
 
-        return Inertia::render('AdminDashboard/products/Show', [
+        return Inertia::render('AdminDashboard/Products/Show', [
             'product' => $product
         ]);
 

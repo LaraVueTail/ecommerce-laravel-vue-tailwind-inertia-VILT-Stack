@@ -26,10 +26,14 @@ module.exports = {
       colors: {
         primary: "#fd3d57",
       },
+      gridTemplateRows: {
+        '[auto,auto,1fr]': 'auto auto 1fr',
+      },
     },
   },
   plugins: [
     require("@tailwindcss/forms"),
-    require('flowbite/plugin')
+    require('flowbite/plugin'),
+    require('@tailwindcss/aspect-ratio'),
   ]
 }
