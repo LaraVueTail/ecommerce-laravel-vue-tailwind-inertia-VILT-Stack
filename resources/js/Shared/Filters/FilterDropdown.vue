@@ -38,95 +38,102 @@
       id="filterDropdown"
       class="z-10 hidden w-48 p-3 bg-white rounded-lg shadow dark:bg-gray-700"
     >
-      <h6 class="mb-3 text-sm font-medium text-gray-900 dark:text-white">Order Status</h6>
-      <ul class="space-y-2 text-sm" aria-labelledby="filterDropdownButton">
-        <li class="flex items-center">
-          <input
-            type="checkbox"
-            id="unpaid"
-            value="unpaid"
-            @change="$emit('update:modelValue', selected)"
-            v-model="selected"
-            class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-          />
-          <label
-            for="unpaid"
-            class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100"
-            >Unpaid</label
+      <div v-if="enableFilterByFilters.orderStatus">
+        <h6 class="mb-3 text-sm font-medium text-gray-900 dark:text-white">
+          Order Status
+        </h6>
+        <ul class="space-y-2 text-sm" aria-labelledby="filterDropdownButton">
+          <div
+            class="space-y-2 text-sm"
+            v-for="status in ['unpaid', 'paid', 'shipped', 'delivered', 'cancelled']"
+            :key="status"
           >
-        </li>
-        <li class="flex items-center">
-          <input
-            id="paid"
-            type="checkbox"
-            value="paid"
-            @change="$emit('update:modelValue', selected)"
-            v-model="selected"
-            class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-          />
-          <label
-            for="paid"
-            class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100"
-            >Paid</label
+            <li class="flex items-center">
+              <input
+                type="checkbox"
+                :id="status"
+                :value="status"
+                @change="filterByFilterChange"
+                v-model="filterByOrderStatus"
+                class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+              />
+              <label
+                for="unpaid"
+                class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100"
+                >{{ convertString(status) }}</label
+              >
+            </li>
+          </div>
+        </ul>
+      </div>
+
+      <div v-if="enableFilterByFilters.availability">
+        <h6 class="mb-3 text-sm font-medium text-gray-900 dark:text-white">
+          Availability
+        </h6>
+        <ul class="space-y-2 text-sm" aria-labelledby="filterDropdownButton">
+          <div
+            class="space-y-2 text-sm"
+            v-for="status in ['available', 'coming_soon!', 'no_stock']"
+            :key="status"
           >
-        </li>
-        <li class="flex items-center">
-          <input
-            id="shipped"
-            type="checkbox"
-            value="shipped"
-            @change="$emit('update:modelValue', selected)"
-            v-model="selected"
-            class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-          />
-          <label
-            for="paid"
-            class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100"
-            >Shipped</label
-          >
-        </li>
-        <li class="flex items-center">
-          <input
-            id="delivered"
-            type="checkbox"
-            value="delivered"
-            @change="$emit('update:modelValue', selected)"
-            v-model="selected"
-            class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-          />
-          <label
-            for="paid"
-            class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100"
-            >Delivered</label
-          >
-        </li>
-        <li class="flex items-center">
-          <input
-            id="cancelled"
-            type="checkbox"
-            value="cancelled"
-            @change="$emit('update:modelValue', selected)"
-            v-model="selected"
-            class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-          />
-          <label
-            for="paid"
-            class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100"
-            >Cancelled</label
-          >
-        </li>
-      </ul>
+            <li class="flex items-center">
+              <input
+                type="checkbox"
+                :id="status"
+                :value="status"
+                @change="filterByFilterChange"
+                v-model="filterByAvailability"
+                class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+              />
+              <label
+                for="unpaid"
+                class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100"
+                >{{ convertString(status) }}</label
+              >
+            </li>
+          </div>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
 <script>
 export default {
-  props: ["modelValue"],
-  emits: ["update:modelValue"],
+  props: ["filters", "enableFilterByFilters"],
+  emits: ["filterByFilterChangeEmit"],
   data() {
     return {
-      selected: this.modelValue,
+      filterByOrderStatus:
+        this.filters.orderStatus !== undefined
+          ? JSON.parse(this.filters.orderStatus)
+          : [],
+      filterByAvailability:
+        this.filters.availability !== undefined
+          ? JSON.parse(this.filters.availability)
+          : [],
     };
   },
+  methods: {
+    filterByFilterChange() {
+      let filterByFilterQueries = {};
+      if (this.enableFilterByFilters.orderStatus && this.filterByOrderStatus.length > 0) {
+        filterByFilterQueries.orderStatus = JSON.stringify(this.filterByOrderStatus);
+      }
+      if (
+        this.enableFilterByFilters.availability &&
+        this.filterByAvailability.length > 0
+      ) {
+        filterByFilterQueries.availability = JSON.stringify(this.filterByAvailability);
+      }
+      this.$emit("filterByFilterChangeEmit", filterByFilterQueries);
+    },
+  },
 };
+</script>
+<script setup>
+function convertString(string) {
+  var newString = string.split("_").join(" ");
+  return newString.charAt(0).toUpperCase() + newString.slice(1);
+}
 </script>

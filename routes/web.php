@@ -7,6 +7,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\PublicPagesController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CustomerDashboardController;
 
 /*
@@ -45,6 +46,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware('can:admin')->group(function () {
     Route::get('admin-dashboard', [AdminDashboardController::class, 'index'])->name('admin_dashboard');
     Route::resource('admin-dashboard/orders', OrderController::class);
+    Route::resource('admin-dashboard/products', ProductController::class);
     Route::put('admin-dashboard/orders/{order}/edit-status', [OrderController::class, 'updateOrderStatus']); 
 });
 
