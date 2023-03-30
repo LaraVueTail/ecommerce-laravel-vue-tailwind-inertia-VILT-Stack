@@ -115,6 +115,8 @@ class ProductController extends Controller
     public function show(Product $product)
     {
 
+
+
         return Inertia::render('AdminDashboard/Products/Show', [
             'product' => $product
         ]);
@@ -124,6 +126,9 @@ class ProductController extends Controller
     public function create(Product $product)
     {
 
+
+        // dd(asset('more_images/hI2mnb86debVcCC63uJuHQvzWufsQ0KJ10j3mqnC.jpg'));
+
         return Inertia::render('AdminDashboard/Products/Create',[
             'categories' => Category::all()
         ]);
@@ -131,11 +136,31 @@ class ProductController extends Controller
     }
 
     public function store()
-    {
+    {   
+        // dd(request()->file('more_images'));
+        $this->validateProduct();
 
-        $attributes = $this->validateProduct();
+        $thumbnailFile = request()->file('thumbnail')[0];
+        $moreImagesFiles = request()->file('more_images');
 
-        Product::create($attributes);
+        $moreImageUrls = array();
+
+        foreach ($moreImagesFiles as $imageFile) {
+            array_push($moreImageUrls,$imageFile->store('more_product_images'));
+        }
+
+        // array_merge($this->validatePost(), [
+        //     'thumbnail' => $thumbnailFile->store('thumbnails'),
+        //     'more_images'=>$moreImageUrls
+        // ]);
+
+        // dd($moreImageUrls);
+
+        Product::create(array_merge($this->validateProduct(), [
+            'thumbnail' => $thumbnailFile->store('thumbnails'),
+            'more_images'=>json_encode($moreImageUrls)
+        ]));
+
 
         return redirect('/admin-dashboard/products')->with('success', 'Product Created!');
     }
@@ -183,15 +208,29 @@ class ProductController extends Controller
         $post ??= new Product();
 
         return request()->validate([
-            'shipping_address' => 'required',
-            'user_id' => ['required', Rule::exists('users', 'id')],
-            'cart_content' => 'required',
-            'session_id' => 'nullable',
-            'status' => 'required',
-            'total_price' => 'required'
+            'name' => 'required',
+            'category_id' => ['required', Rule::exists('categories', 'id')],
+            'brand' => 'nullable',
+            'tag' => 'nullable',
+            'inventory' => 'nullable',
+            'availability' => 'required',
+            'offer' => 'nullable',
+            'price' => 'nullable',
+            'price_no_offer' => 'required',
+            'slug' => 'nullable',
+            'link' => 'nullable',
+            'thumbnail' => 'required',
+            'thumbnail.*' => 'required|mimes:jpeg,png |max:2096',
+            'more_images.*' => 'mimes:jpeg,png |max:2096',
+            'description' => 'required',
+            'product_details' => 'nullable',
+        ],[
+            'thumbnail.*.mimes' => 'Upload thumbnail as jpg/png format with size less than 2MB',
+            'thumbnail.*.max' => 'Upload thumbnail with size less than 2MB',
+            'more_images.*.mimes' => 'Upload images as jpg/png format with size less than 2MB',
+            'more_images.*.max' => 'Upload images with size less than 2MB',
         ]);
     }
-
 
 
 }
