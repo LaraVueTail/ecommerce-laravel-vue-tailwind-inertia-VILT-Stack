@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Validation\Rule;
@@ -123,7 +124,9 @@ class ProductController extends Controller
     public function create(Product $product)
     {
 
-        return Inertia::render('AdminDashboard/products/Create');
+        return Inertia::render('AdminDashboard/Products/Create',[
+            'categories' => Category::all()
+        ]);
 
     }
 

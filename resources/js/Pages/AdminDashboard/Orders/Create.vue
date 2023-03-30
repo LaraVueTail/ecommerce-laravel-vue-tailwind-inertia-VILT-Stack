@@ -453,6 +453,7 @@
     </div>
   </section>
 </template>
+
 <script>
 import { router } from "@inertiajs/vue3";
 import { useForm } from "@inertiajs/vue3";
