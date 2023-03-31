@@ -78,7 +78,7 @@ return [
 
     'links' => [
         public_path('thumbnails') => storage_path('app/public/thumbnails'),
-        public_path('more_images') => storage_path('app/public/more_product_images'),
+        public_path('more_images') => storage_path('app/public/more_images'),
     ],
 
 ];

@@ -114,11 +114,20 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
+        $more_images = json_decode($product->more_images);
+
+        $product->more_images = json_encode(array_map([$this, 'getUrl'],$more_images));
+        // dd($more_images);
 
         return Inertia::render('Public/Products/Show', [
             'product' => $product
         ]);
 
+    }
+
+    public function getUrl($file)
+    {
+        return asset($file);
     }
 
 }
