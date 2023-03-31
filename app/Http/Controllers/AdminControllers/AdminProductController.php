@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\AdminControllers;
 
+use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use Carbon\Carbon;
@@ -9,7 +10,7 @@ use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Request;
 
-class ProductController extends Controller
+class AdminProductController extends Controller
 {
     //
     public function index()
@@ -115,10 +116,115 @@ class ProductController extends Controller
     public function show(Product $product)
     {
 
-        return Inertia::render('Public/Products/Show', [
+
+
+        return Inertia::render('AdminDashboard/Products/Show', [
             'product' => $product
         ]);
 
     }
+
+    public function create(Product $product)
+    {
+
+
+        return Inertia::render('AdminDashboard/Products/Create',[
+            'categories' => Category::all()
+        ]);
+
+    }
+
+    public function store()
+    {   
+        // dd(request()->file('more_images'));
+        $this->validateProduct();
+
+        $thumbnailFile = request()->file('thumbnail')[0];
+        $moreImagesFiles = request()->file('more_images');
+
+        $moreImageUrls = array();
+
+        foreach ($moreImagesFiles as $imageFile) {
+            array_push($moreImageUrls,$imageFile->store('more_product_images'));
+        }
+
+        Product::create(array_merge($this->validateProduct(), [
+            'thumbnail' => $thumbnailFile->store('thumbnails'),
+            'more_images'=>json_encode($moreImageUrls)
+        ]));
+
+
+        return redirect('/admin-dashboard/products')->with('success', 'Product Created!');
+    }
+
+    public function edit(Product $product)
+    {
+
+        return Inertia::render('AdminDashboard/products/Edit', [
+            'product' => $product
+        ]);
+
+    }
+
+    public function update(Product $product)
+    {
+
+        $attributes = $this->validateProduct($product);
+
+        $product->update($attributes);
+
+        return back()->with('success', 'Product Updated!');
+    }
+
+    public function updateProductStatus(Product $product)
+    {
+
+        $attributes = request()->validate([
+            'status' => 'required',
+        ]);
+
+        $product->update($attributes);
+
+        return back()->with('success', 'Product Updated!');
+    }
+
+    public function destroy(Product $product)
+    {
+        $product->delete();
+
+        return redirect('/admin-dashboard/products')->with('success', 'Product Deleted!');
+    }
+
+    protected function validateProduct(?Product $post = null): array
+    {
+        $post ??= new Product();
+
+        return request()->validate([
+            'name' => 'required',
+            'category_id' => ['required', Rule::exists('categories', 'id')],
+            'brand' => 'nullable',
+            'tag' => 'nullable',
+            'inventory' => 'nullable',
+            'availability' => 'required',
+            'offer' => 'nullable',
+            'price_sale' => 'nullable',
+            'price' => 'required',
+            'slug' => 'nullable',
+            'link' => 'nullable',
+            'thumbnail' => 'required',
+            'more_images' => 'required',
+            'thumbnail.*' => 'required|mimes:jpeg,png |max:2096',
+            'more_images.*' => 'mimes:jpeg,png |max:2096',
+            'description' => 'required',
+            'short_description' => 'required',
+            'product_details' => 'nullable',
+        ],[
+            'thumbnail.*.mimes' => 'Upload thumbnail as jpg/png format with size less than 2MB',
+            'thumbnail.*.max' => 'Upload thumbnail with size less than 2MB',
+            'more_images.*.mimes' => 'Upload images as jpg/png format with size less than 2MB',
+            'more_images.*.max' => 'Upload images with size less than 2MB',
+        ]);
+    }
+
 
 }

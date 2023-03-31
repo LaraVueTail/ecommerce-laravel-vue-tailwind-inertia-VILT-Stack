@@ -28,8 +28,8 @@ return new class extends Migration
             $table->text('description');
             $table->text('short_description')->nullable();
             $table->json('product_details')->nullable();
+            $table->float('price_sale')->nullable();
             $table->float('price');
-            $table->float('price_no_offer')->nullable();
             $table->string('offer')->nullable();
             $table->timestamps();
         });

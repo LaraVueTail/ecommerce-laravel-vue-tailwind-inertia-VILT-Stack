@@ -10,6 +10,9 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CustomerDashboardController;
 
+
+use App\Http\Controllers\AdminControllers\AdminProductController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,7 +26,7 @@ use App\Http\Controllers\CustomerDashboardController;
 
 Route::get('/', [PublicPagesController::class, 'homePage'])->name('home');
 Route::get('shop', [PublicPagesController::class, 'shopPage']);
-Route::get('products/{product}', [PublicPagesController::class, 'singleProductPage']);
+Route::get('products/{product:slug}', [ProductController::class, 'show']);
 
 Route::get('cart/', [CartController::class, 'index']);
 Route::post('cart/add', [CartController::class, 'add']);
@@ -46,7 +49,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware('can:admin')->group(function () {
     Route::get('admin-dashboard', [AdminDashboardController::class, 'index'])->name('admin_dashboard');
     Route::resource('admin-dashboard/orders', OrderController::class);
-    Route::resource('admin-dashboard/products', ProductController::class);
+    Route::resource('admin-dashboard/products', AdminProductController::class)->except('show');
     Route::put('admin-dashboard/orders/{order}/edit-status', [OrderController::class, 'updateOrderStatus']); 
 });
 

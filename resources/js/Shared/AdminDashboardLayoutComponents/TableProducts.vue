@@ -11,7 +11,7 @@
           <th scope="col" class="px-4 py-3">Price</th>
           <th scope="col" class="px-4 py-3">Brand</th>
           <th scope="col" class="px-4 py-3">Tag</th>
-          <th scope="col" class="px-4 py-3">Availability</th>
+          <th scope="col" class="px-8 py-3">Availability</th>
           <th scope="col" class="px-4 py-3">Inventory</th>
           <th scope="col" class="px-4 py-3">Created at</th>
           <th scope="col" class="px-4 py-3">
@@ -47,7 +47,7 @@
           <td class="px-4 py-3">
             {{ product.tag }}
           </td>
-          <td class="px-4 py-3">
+          <td class="px-4 py-3 w-48">
             <span
               class="text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300"
               :class="{

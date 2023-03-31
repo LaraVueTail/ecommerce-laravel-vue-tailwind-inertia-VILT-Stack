@@ -19,6 +19,7 @@
         "@headlessui/vue": "^1.7.9",
         "@heroicons/vue": "^2.0.15",
         "@inertiajs/vue3": "^1.0.0",
+        "@morioh/v-lightbox": "^1.0.3",
         "@tailwindcss/forms": "^0.5.3",
         "@vitejs/plugin-vue": "^4.0.0",
         "flowbite": "^1.6.4",

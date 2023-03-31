@@ -38,7 +38,7 @@ class Product extends Model
     protected function thumbnail(): Attribute
     {
         return Attribute::make(
-        get: fn($value) => Storage::url($value),
+        get: fn($value) => asset($value),
         );
     }
 
@@ -55,7 +55,7 @@ class Product extends Model
     protected function link(): Attribute
     {
         return Attribute::make(
-        get: fn($value) => env('APP_URL') . '/products/' . $this->id
+        get: fn($value) => env('APP_URL') . '/products/' . $this->slug
         );
     }
 
