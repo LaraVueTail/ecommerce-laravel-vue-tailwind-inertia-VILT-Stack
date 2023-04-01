@@ -9,35 +9,212 @@
         :product="product"
       ></Breadcrumb>
 
-      <!-- Image gallery -->
-      <ProductImage
-        :thumbnail="product.thumbnail"
-        @sendToLightbox="(image) => showLightbox(image)"
-        :more_images="product.more_images"
-      ></ProductImage>
-
-      <!-- <div
-        class="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8"
+      <div
+        class="grid grid-cols-1 md:grid-cols-3 mx-auto mt-6 max-w-2xl sm:px-6 lg:max-w-7xl"
       >
-        <div class="aspect-w-3 aspect-h-4 hidden overflow-hidden md:rounded-lg lg:block">
-          <img
-            :src="product.thumbnail"
-            :alt="product.name"
-            class="h-full w-full object-cover object-center"
-            @click="showLightbox(product.thumbnail)"
-          />
+        <div
+          :class="{
+            'col-span-2': JSON.parse(product.more_images).length === 1,
+            'col-span-3': JSON.parse(product.more_images).length > 1,
+          }"
+        >
+          <ProductImage
+            :thumbnail="product.thumbnail"
+            @sendToLightbox="(image) => showLightbox(image)"
+            :more_images="product.more_images"
+          ></ProductImage>
+        </div>
+        <div
+          class="mt-10 sm:px-6 px-4"
+          v-if="JSON.parse(product.more_images).length === 1"
+        >
+          <div>
+            <div class="mb-6">
+              <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                {{ product.name }}
+              </h1>
+            </div>
+
+            <div>
+              <h3 class="sr-only">Description</h3>
+              <div class="space-y-6">
+                <p class="text-base text-gray-900">{{ product.short_description }}</p>
+              </div>
+            </div>
+
+            <div class="my-10">
+              <h3 class="text-sm font-medium text-gray-900">Product Details</h3>
+
+              <div class="mt-4">
+                <ul role="list" class="list-disc space-y-2 pl-4 text-sm">
+                  <li
+                    v-for="(value, key, index) in JSON.parse(product.product_details)"
+                    :key="index"
+                    class="text-gray-400"
+                  >
+                    <span class="text-gray-600">{{ key }} : {{ value }}</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-3 mx-auto mt-6 max-w-2xl sm:px-6 lg:max-w-7xl">
+        <div class="col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
+          <div>
+            <div class="mb-6">
+              <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                {{ product.name }}
+              </h1>
+            </div>
+
+            <div>
+              <h3 class="sr-only">Description</h3>
+              <div class="space-y-6">
+                <p class="text-base text-gray-900">{{ product.short_description }}</p>
+              </div>
+            </div>
+
+            <div class="my-10">
+              <h3 class="text-sm font-medium text-gray-900">Product Details</h3>
+
+              <div class="mt-4">
+                <ul role="list" class="list-disc space-y-2 pl-4 text-sm">
+                  <li
+                    v-for="(value, key, index) in JSON.parse(product.product_details)"
+                    :key="index"
+                    class="text-gray-400"
+                  >
+                    <span class="text-gray-600">{{ key }} : {{ value }}</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lg:mt-16 mt-6 px-4 lg:px-10">
+        <div class="mt-4 lg:row-span-3 lg:mt-0">
+          <h2 class="sr-only">Product information</h2>
+          <p class="text-3xl tracking-tight text-gray-900">${{ product.price }}</p>
+
+          <!-- Reviews -->
+          <div class="mt-6">
+            <h3 class="sr-only">Reviews</h3>
+            <div class="flex items-center">
+              <div class="flex items-center">
+                <StarIcon
+                  v-for="rating in [0, 1, 2, 3, 4]"
+                  :key="rating"
+                  :class="[
+                    4 > rating ? 'text-gray-900' : 'text-gray-200',
+                    'h-5 w-5 flex-shrink-0',
+                  ]"
+                  aria-hidden="true"
+                />
+              </div>
+              <p class="sr-only">4 out of 5 stars</p>
+              <a
+                href="#"
+                class="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500"
+                >100 reviews</a
+              >
+            </div>
+          </div>
+
+          <div class="my-6 space-y-1">
+            <p class="text-md tracking-tight text-gray-900 font-medium">
+              Category : {{ product.category.name }}
+            </p>
+            <p class="text-md tracking-tight text-gray-900 font-medium">
+              Brand : {{ product.brand }}
+            </p>
+            <p class="py-4">
+              <span
+                class="text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300"
+                :class="{
+                  'bg-green-100 text-green-800': product.availability === 'paid',
+                  'bg-yellow-100 text-yellow-800': product.availability === 'unpaid',
+                  'bg-blue-100 text-blue-800': product.availability === 'coming_soon',
+                  'bg-green-600 text-white': product.availability === 'available',
+                  'bg-red-600 text-white': product.availability === 'out_of_stock',
+                }"
+              >
+                {{ convertString(product.availability) }}</span
+              >
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-10 sm:px-6 px-4 lg:border-r lg:border-gray-200 lg:pr-16">
+        <div class="grid grid-cols-3">
+          <div></div>
         </div>
 
         <div>
-          {{ JSON.parse(product.more_images) }}
-          <img
-            :src="JSON.parse(product.more_images)[0]"
-            :alt="product.name"
-            class="h-full w-full object-cover object-center"
-            @click="showLightbox(product.thumbnail)"
-          />
+          <div class="flex items-center space-x-3">
+            <button
+              class="inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+              type="button"
+            >
+              <span class="sr-only">Quantity button</span>
+              <svg
+                class="w-4 h-4"
+                aria-hidden="true"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+            </button>
+            <div>
+              <input
+                type="number"
+                id="third_product"
+                class="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="1"
+                required
+              />
+            </div>
+            <button
+              class="inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+              type="button"
+            >
+              <span class="sr-only">Quantity button</span>
+              <svg
+                class="w-4 h-4"
+                aria-hidden="true"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+            </button>
+          </div>
+
+          <div class="my-10">
+            <h2 class="text-sm font-medium text-gray-900">Details</h2>
+
+            <div class="mt-4 space-y-6">
+              <p class="text-sm text-gray-600">{{ product.description }}</p>
+            </div>
+          </div>
         </div>
-      </div> -->
+      </div>
     </div>
   </div>
 
@@ -83,6 +260,10 @@ export default {
       console.log(image);
       this.lightbox = true;
       this.lightBoxImageSrc = image;
+    },
+    convertString(string) {
+      var newString = string.split("_").join(" ");
+      return newString.charAt(0).toUpperCase() + newString.slice(1);
     },
   },
 };

@@ -1,3 +1,24 @@
+<!--
+  This example requires some changes to your config:
+  
+  ```
+  // tailwind.config.js
+  module.exports = {
+    // ...
+    theme: {
+      extend: {
+        gridTemplateRows: {
+          '[auto,auto,1fr]': 'auto auto 1fr',
+        },
+      },
+    },
+    plugins: [
+      // ...
+      require('@tailwindcss/aspect-ratio'),
+    ],
+  }
+  ```
+-->
 <template>
   <div class="bg-white">
     <div class="pt-6">
@@ -35,11 +56,10 @@
       </nav>
 
       <!-- Image gallery -->
-      <Lightbox :items="images"></Lightbox>
       <div
         class="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8"
       >
-        <div class="aspect-w-3 aspect-h-4 hidden overflow-hidden rounded-lg lg:block">
+        <div class="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg lg:block">
           <img
             :src="product.images[0].src"
             :alt="product.images[0].alt"
@@ -47,14 +67,14 @@
           />
         </div>
         <div class="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
-          <div class="aspect-w-3 aspect-h-2 overflow-hidden rounded-lg">
+          <div class="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
             <img
               :src="product.images[1].src"
               :alt="product.images[1].alt"
               class="h-full w-full object-cover object-center"
             />
           </div>
-          <div class="aspect-w-3 aspect-h-2 overflow-hidden rounded-lg">
+          <div class="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
             <img
               :src="product.images[2].src"
               :alt="product.images[2].alt"
@@ -63,7 +83,7 @@
           </div>
         </div>
         <div
-          class="aspect-w-4 aspect-h-5 sm:overflow-hidden sm:rounded-lg lg:aspect-w-3 lg:aspect-h-4"
+          class="aspect-h-5 aspect-w-4 lg:aspect-h-4 lg:aspect-w-3 sm:overflow-hidden sm:rounded-lg"
         >
           <img
             :src="product.images[3].src"
@@ -75,7 +95,7 @@
 
       <!-- Product info -->
       <div
-        class="mx-auto max-w-2xl px-4 pt-10 pb-16 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pt-16 lg:pb-24"
+        class="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16"
       >
         <div class="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
           <h1 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
@@ -86,7 +106,7 @@
         <!-- Options -->
         <div class="mt-4 lg:row-span-3 lg:mt-0">
           <h2 class="sr-only">Product information</h2>
-          <p class="text-3xl tracking-tight text-gray-900">{{ product.price }}</p>
+          <p class="text-3xl tracking-tight text-gray-900">{{ "$" + product.price }}</p>
 
           <!-- Reviews -->
           <div class="mt-6">
@@ -220,7 +240,7 @@
 
             <button
               type="submit"
-              class="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              class="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
               Add to bag
             </button>
@@ -228,7 +248,7 @@
         </div>
 
         <div
-          class="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pt-6 lg:pb-16 lg:pr-8"
+          class="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6"
         >
           <!-- Description and details -->
           <div>
@@ -272,9 +292,6 @@
 import { ref } from "vue";
 import { StarIcon } from "@heroicons/vue/20/solid";
 import { RadioGroup, RadioGroupLabel, RadioGroupOption } from "@headlessui/vue";
-
-import "@morioh/v-lightbox/dist/lightbox.css";
-import Lightbox from "@morioh/v-lightbox";
 
 const product = {
   name: "Basic Tee 6-Pack",
@@ -336,34 +353,4 @@ const reviews = { href: "#", average: 4, totalCount: 117 };
 
 const selectedColor = ref(product.colors[0]);
 const selectedSize = ref(product.sizes[2]);
-</script>
-<script>
-export default {
-  data() {
-    return {
-      images: [
-        "https://i.wifegeek.com/200426/f9459c52.jpg",
-        "https://i.wifegeek.com/200426/5ce1e1c7.jpg",
-        "https://i.wifegeek.com/200426/5fa51df3.jpg",
-        "https://i.wifegeek.com/200426/663181fe.jpg",
-        "https://i.wifegeek.com/200426/2d110780.jpg",
-        "https://i.wifegeek.com/200426/e73cd3fa.jpg",
-        "https://i.wifegeek.com/200426/15160d6e.jpg",
-        "https://i.wifegeek.com/200426/d0c881ae.jpg",
-        "https://i.wifegeek.com/200426/a154fc3d.jpg",
-        "https://i.wifegeek.com/200426/71d3aa60.jpg",
-        "https://i.wifegeek.com/200426/d17ce9a0.jpg",
-        "https://i.wifegeek.com/200426/7c4deca9.jpg",
-        "https://i.wifegeek.com/200426/64672676.jpg",
-        "https://i.wifegeek.com/200426/de6ab9c6.jpg",
-        "https://i.wifegeek.com/200426/d8bcb6a7.jpg",
-        "https://i.wifegeek.com/200426/4085d03b.jpg",
-        "https://i.wifegeek.com/200426/177ef44c.jpg",
-        "https://i.wifegeek.com/200426/d74d9040.jpg",
-        "https://i.wifegeek.com/200426/81e24a47.jpg",
-        "https://i.wifegeek.com/200426/43e2e8bb.jpg",
-      ],
-    };
-  },
-};
 </script>

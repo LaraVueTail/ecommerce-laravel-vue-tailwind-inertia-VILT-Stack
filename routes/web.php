@@ -49,7 +49,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware('can:admin')->group(function () {
     Route::get('admin-dashboard', [AdminDashboardController::class, 'index'])->name('admin_dashboard');
     Route::resource('admin-dashboard/orders', OrderController::class);
-    Route::resource('admin-dashboard/products', AdminProductController::class)->except('show');
+    Route::resource('admin-dashboard/products', AdminProductController::class);//->except('show');
     Route::put('admin-dashboard/orders/{order}/edit-status', [OrderController::class, 'updateOrderStatus']); 
 });
 

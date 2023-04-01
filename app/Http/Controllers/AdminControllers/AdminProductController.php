@@ -115,9 +115,6 @@ class AdminProductController extends Controller
 
     public function show(Product $product)
     {
-
-
-
         return Inertia::render('AdminDashboard/Products/Show', [
             'product' => $product
         ]);
@@ -136,7 +133,7 @@ class AdminProductController extends Controller
 
     public function store()
     {   
-        // dd(request()->file('more_images'));
+        dd(request()->input('product_details'));
         $this->validateProduct();
 
         $thumbnailFile = request()->file('thumbnail')[0];

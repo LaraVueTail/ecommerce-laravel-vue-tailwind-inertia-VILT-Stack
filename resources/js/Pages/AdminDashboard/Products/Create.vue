@@ -161,7 +161,7 @@
                           <tbody>
                             <tr
                               class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                              v-for="(attribute, index) in productAttributes"
+                              v-for="attribute in productAttributes"
                               :key="attribute"
                             >
                               <td
@@ -368,7 +368,7 @@ export default {
       }
     },
     createProduct() {
-      this.productInfo.product_attributes = JSON.stringify(this.productAttributes);
+      this.productInfo.product_details = JSON.stringify(this.productAttributes);
       console.log(this.productInfo);
       this.form = useForm(this.productInfo);
       this.form.post(`/admin-dashboard/products`, {
