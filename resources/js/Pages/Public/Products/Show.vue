@@ -10,8 +10,13 @@
       ></Breadcrumb>
 
       <!-- Image gallery -->
+      <ProductImage
+        :thumbnail="product.thumbnail"
+        @sendToLightbox="(image) => showLightbox(image)"
+        :more_images="product.more_images"
+      ></ProductImage>
 
-      <div
+      <!-- <div
         class="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8"
       >
         <div class="aspect-w-3 aspect-h-4 hidden overflow-hidden md:rounded-lg lg:block">
@@ -32,7 +37,7 @@
             @click="showLightbox(product.thumbnail)"
           />
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 
@@ -43,7 +48,7 @@
     <div class="z-10 flex flex-col items-center">
       <img
         :src="lightBoxImageSrc"
-        class="h-96 w-full object-cover object-center rounded-xl"
+        class="h-full max-h-[40rem] w-full object-cover object-center rounded-xl"
       />
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -85,6 +90,7 @@ export default {
 
 <script setup>
 import Breadcrumb from "../../../Shared/PublicLayoutComponents/Breadcrumb.vue";
+import ProductImage from "../../../Shared/ProductLayoutComponents/SingleProductLayoutComponents/ProductImage.vue";
 
 import { ref } from "vue";
 import { StarIcon } from "@heroicons/vue/20/solid";

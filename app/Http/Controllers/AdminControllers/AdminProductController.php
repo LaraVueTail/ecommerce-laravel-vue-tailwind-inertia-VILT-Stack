@@ -145,11 +145,11 @@ class AdminProductController extends Controller
         $moreImageUrls = array();
 
         foreach ($moreImagesFiles as $imageFile) {
-            array_push($moreImageUrls,$imageFile->store('more_images'));
+            array_push($moreImageUrls,$imageFile->store('images/products/'.request()->input('slug').'/more_images'));
         }
 
         Product::create(array_merge($this->validateProduct(), [
-            'thumbnail' => $thumbnailFile->store('thumbnails'),
+            'thumbnail' => $thumbnailFile->store('images/products/'.request()->input('slug').'/thumbnail'),
             'more_images'=>json_encode($moreImageUrls)
         ]));
 
