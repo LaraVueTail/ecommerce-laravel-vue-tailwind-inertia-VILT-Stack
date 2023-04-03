@@ -35,6 +35,29 @@
               </h1>
             </div>
 
+            <div class="my-6">
+              <h3 class="sr-only">Reviews</h3>
+              <div class="flex items-center">
+                <div class="flex items-center">
+                  <StarIcon
+                    v-for="rating in [0, 1, 2, 3, 4]"
+                    :key="rating"
+                    :class="[
+                      4 > rating ? 'text-gray-900' : 'text-gray-200',
+                      'h-5 w-5 flex-shrink-0',
+                    ]"
+                    aria-hidden="true"
+                  />
+                </div>
+                <p class="sr-only">4 out of 5 stars</p>
+                <a
+                  href="#"
+                  class="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500"
+                  >100 reviews</a
+                >
+              </div>
+            </div>
+
             <div>
               <h3 class="sr-only">Description</h3>
               <div class="space-y-6">
@@ -61,36 +84,72 @@
         </div>
       </div>
 
-      <div class="grid md:grid-cols-3 mx-auto mt-6 max-w-2xl sm:px-6 lg:max-w-7xl">
-        <div class="col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
-          <div>
-            <div class="mb-6">
-              <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                {{ product.name }}
-              </h1>
-            </div>
-
+      <div class="grid mx-auto mt-6 max-w-2xl px-4 sm:px-6 lg:max-w-7xl">
+        <div class="grid md:grid-cols-3 gap-2">
+          <div class="col-span-2 md:border-r md:border-gray-200 md:pr-8">
             <div>
-              <h3 class="sr-only">Description</h3>
-              <div class="space-y-6">
-                <p class="text-base text-gray-900">{{ product.short_description }}</p>
+              <div v-if="JSON.parse(product.more_images).length > 1">
+                <div class="mb-6">
+                  <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                    {{ product.name }}
+                  </h1>
+                </div>
+
+                <div>
+                  <h3 class="sr-only">Description</h3>
+                  <div class="space-y-6">
+                    <p class="text-base text-gray-900">{{ product.short_description }}</p>
+                  </div>
+                </div>
+
+                <div class="my-10">
+                  <h3 class="text-sm font-medium text-gray-900">Product Details</h3>
+
+                  <div class="mt-4">
+                    <ul role="list" class="list-disc space-y-2 pl-4 text-sm">
+                      <li
+                        v-for="(value, key, index) in JSON.parse(product.product_details)"
+                        :key="index"
+                        class="text-gray-400"
+                      >
+                        <span class="text-gray-600">{{ key }} : {{ value }}</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="my-10">
+                <h2 class="text-sm font-medium text-gray-900">Details</h2>
+
+                <div class="mt-4 space-y-6">
+                  <p class="text-sm text-gray-600">{{ product.description }}</p>
+                </div>
               </div>
             </div>
-
-            <div class="my-10">
-              <h3 class="text-sm font-medium text-gray-900">Product Details</h3>
-
-              <div class="mt-4">
-                <ul role="list" class="list-disc space-y-2 pl-4 text-sm">
-                  <li
-                    v-for="(value, key, index) in JSON.parse(product.product_details)"
-                    :key="index"
-                    class="text-gray-400"
-                  >
-                    <span class="text-gray-600">{{ key }} : {{ value }}</span>
-                  </li>
-                </ul>
-              </div>
+          </div>
+          <div class="md:px-4">
+            <p class="text-3xl tracking-tight text-gray-900">${{ product.price }}</p>
+            <div class="my-6 space-y-1">
+              <p class="text-md tracking-tight text-gray-900 font-medium">
+                Category : {{ product.category.name }}
+              </p>
+              <p class="text-md tracking-tight text-gray-900 font-medium">
+                Brand : {{ product.brand }}
+              </p>
+              <p class="py-4">
+                <span
+                  class="text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300"
+                  :class="{
+                    'bg-green-100 text-green-800': product.availability === 'paid',
+                    'bg-yellow-100 text-yellow-800': product.availability === 'unpaid',
+                    'bg-blue-100 text-blue-800': product.availability === 'coming_soon',
+                    'bg-green-600 text-white': product.availability === 'available',
+                    'bg-red-600 text-white': product.availability === 'out_of_stock',
+                  }"
+                >
+                  {{ convertString(product.availability) }}</span
+                >
+              </p>
             </div>
           </div>
         </div>
@@ -204,14 +263,6 @@
                 ></path>
               </svg>
             </button>
-          </div>
-
-          <div class="my-10">
-            <h2 class="text-sm font-medium text-gray-900">Details</h2>
-
-            <div class="mt-4 space-y-6">
-              <p class="text-sm text-gray-600">{{ product.description }}</p>
-            </div>
           </div>
         </div>
       </div>
