@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Request;
@@ -133,7 +134,7 @@ class AdminProductController extends Controller
 
     public function store()
     {   
-        dd(request()->input('product_details'));
+        // dd(request()->input('product_details'));
         $this->validateProduct();
 
         $thumbnailFile = request()->file('thumbnail')[0];
@@ -156,9 +157,15 @@ class AdminProductController extends Controller
 
     public function edit(Product $product)
     {
+        $more_images = json_decode($product->more_images);
 
-        return Inertia::render('AdminDashboard/products/Edit', [
-            'product' => $product
+        $product->thumbnail = asset($product->thumbnail);
+
+        $product->more_images = json_encode(array_map([$this, 'getUrl'],$more_images));
+
+        return Inertia::render('AdminDashboard/Products/Edit', [
+            'product' => $product,
+            'categories' => Category::all()
         ]);
 
     }
@@ -166,7 +173,15 @@ class AdminProductController extends Controller
     public function update(Product $product)
     {
 
+
         $attributes = $this->validateProduct($product);
+
+
+        if (request()->file('thumbnail')[0] ?? false) {
+            $thumbnailFile = request()->file('thumbnail')[0];
+            Storage::delete($product->thumbnail);
+            $attributes['thumbnail'] = $thumbnailFile->store('images/products/'.$product->slug.'/thumbnail');
+        }
 
         $product->update($attributes);
 
@@ -192,9 +207,9 @@ class AdminProductController extends Controller
         return redirect('/admin-dashboard/products')->with('success', 'Product Deleted!');
     }
 
-    protected function validateProduct(?Product $post = null): array
+    protected function validateProduct(?Product $product = null): array
     {
-        $post ??= new Product();
+        $product ??= new Product();
 
         return request()->validate([
             'name' => 'required',
@@ -206,10 +221,10 @@ class AdminProductController extends Controller
             'offer' => 'nullable',
             'price_sale' => 'nullable',
             'price' => 'required',
-            'slug' => 'nullable',
+            'slug' => ['required', Rule::unique('products', 'slug')->ignore($product)],
             'link' => 'nullable',
-            'thumbnail' => 'required',
-            'more_images' => 'required',
+            'thumbnail' => $product->exists ? 'nullable' : 'required',
+            'more_images' => $product->exists ? 'nullable' : 'required',
             'thumbnail.*' => 'required|mimes:jpeg,png |max:2096',
             'more_images.*' => 'mimes:jpeg,png |max:2096',
             'description' => 'required',
@@ -221,6 +236,11 @@ class AdminProductController extends Controller
             'more_images.*.mimes' => 'Upload images as jpg/png format with size less than 2MB',
             'more_images.*.max' => 'Upload images with size less than 2MB',
         ]);
+    }
+
+    public function getUrl($file)
+    {
+        return asset($file);
     }
 
 

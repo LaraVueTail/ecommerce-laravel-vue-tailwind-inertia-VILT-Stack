@@ -3,13 +3,16 @@
     <div class="mx-auto max-w-screen-xl px-1 lg:px-12 my-11 pb-11">
       <!-- Modal content -->
 
-      <Breadcrump :links="{ products: 'products', 'Create Product': '' }"></Breadcrump>
+      <Breadcrump :links="{ products: 'products', 'Edit Product': '' }"></Breadcrump>
 
       <div
         class="relative p-4 bg-white border border-gray-200 rounded-lg shadow dark:border-gray-700 dark:bg-gray-800 sm:p-5"
       >
         <!-- Modal header -->
-        <ModalHeader :heading="'Create Product'" :url="$page.url"></ModalHeader>
+        <ModalHeader
+          :heading="`Edit Product - #${product.id}`"
+          :url="$page.url"
+        ></ModalHeader>
 
         <!-- Modal body -->
         <form action="#" @submit.prevent="">
@@ -34,6 +37,7 @@
                       <FormSelect
                         :label="'Product Category'"
                         :name="'category_id'"
+                        :selected="productInfo.category_id"
                         v-model="productInfo.category_id"
                         :error="errors.category_id"
                         :optionsArray="categories"
@@ -88,10 +92,10 @@
                     <div class="grid gap-4 sm:grid-cols-2">
                       <FormInput
                         :label="'Offer Text'"
-                        :name="'offer'"
+                        :name="'offer_text'"
                         :type="'text'"
                         :placeholder="'ex: Buy 1 Get One..'"
-                        v-model="productInfo.offer"
+                        v-model="productInfo.offer_text"
                         :error="errors.offer_text"
                       ></FormInput>
                       <div class="grid gap-4 grid-col-2 sm:grid-cols-2">
@@ -117,6 +121,7 @@
                         :name="'slug'"
                         :type="'text'"
                         v-model="productInfo.slug"
+                        :disabled="true"
                         @change="changeToSlug()"
                         :error="errors.slug"
                       ></FormInput>
@@ -140,7 +145,7 @@
                     <div>
                       <div
                         class="text-sm font-medium my-3 text-gray-500"
-                        v-if="Object.keys(productAttributes).length < 1"
+                        v-if="productAttributes.length < 1"
                       >
                         No Attributes
                       </div>
@@ -280,15 +285,17 @@
                     </p>
 
                     <FormFileUploadSingle
-                      @fileChange="(file) => (this.productInfo.thumbnail = file)"
+                      @fileChange="(file) => (thumbnail = file)"
                       :label="'Thumbnail'"
+                      :oldImageLink="oldThumbnail"
                       :name="'thumbnail'"
                       :error="errors.thumbnail ?? errors['thumbnail.0']"
                     ></FormFileUploadSingle>
 
                     <FormFileUploadMultiple
-                      @filesChange="(files) => (this.productInfo.more_images = files)"
+                      @filesChange="(files) => (more_images = files)"
                       :label="'More Images'"
+                      :oldImageUrls="oldMoreImages"
                       :name="'more_images'"
                       :error="errors.more_images"
                     >
@@ -303,9 +310,14 @@
             <Errors :errors="errors ?? false"></Errors>
             <div class="flex items-center space-x-4">
               <Button
-                @click.prevent="createProduct()"
-                :text="'Create Product'"
+                @click.prevent="updateProduct()"
+                :text="'Edit Product'"
                 :color="'blue'"
+              ></Button>
+              <Button
+                @click.prevent="createProduct()"
+                :text="'Delete Product'"
+                :color="'red'"
               ></Button>
             </div>
           </div>
@@ -318,15 +330,19 @@
 <script>
 import { useForm } from "@inertiajs/vue3";
 export default {
-  props: ["errors", "categories"],
+  props: ["errors", "categories", "product"],
   data() {
     return {
-      productInfo: {},
+      productInfo: this.product,
       form: {},
       newAttribute: {},
-      productAttributes: {},
+      productAttributes: JSON.parse(this.product.product_details),
       addedImages: [],
       addedThumbnail: null,
+      oldThumbnail: this.product.thumbnail,
+      oldMoreImages: JSON.parse(this.product.more_images),
+      thumbnail: null,
+      more_images: null,
     };
   },
   methods: {
@@ -338,34 +354,33 @@ export default {
         .replace(/[\s_-]+/g, "-")
         .replace(/^-+|-+$/g, "");
     },
-    changeNameToSlug() {
-      this.productInfo.slug = this.slugify(this.productInfo.name);
-    },
-    changeToSlug() {
-      if (this.productInfo.slug !== "") {
-        this.productInfo.slug = this.slugify(this.productInfo.slug);
-      } else {
-        this.productInfo.slug = this.slugify(this.productInfo.name);
-      }
-    },
     addProductAttribute() {
       if (this.newAttribute.attribute_label && this.newAttribute.attribute_value) {
         this.productAttributes[
           this.newAttribute.attribute_label
         ] = this.newAttribute.attribute_value;
         this.newAttribute = {};
+        // this, (this.newAttribute = {});
       }
       console.log(this.productAttributes);
+      console.log(this.productInfo);
     },
     deleteProductAttribute(key) {
       delete this.productAttributes[key];
     },
-    createProduct() {
+    updateProduct() {
       this.productInfo.product_details = JSON.stringify(this.productAttributes);
+      if (this.thumbnail) {
+        this.productInfo.thumbnail = this.thumbnail;
+      }
+      if (this.more_images) {
+        this.productInfo.more_images = this.more_images;
+      }
       console.log(this.productInfo);
       this.form = useForm(this.productInfo);
-      this.form.post(`/admin-dashboard/products`, {
+      this.form.post(`/admin-dashboard/products/${this.product.id}`, {
         preserveScroll: true,
+        _method: "put",
       });
     },
   },

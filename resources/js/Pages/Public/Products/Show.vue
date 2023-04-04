@@ -1,6 +1,6 @@
 <template>
   <div class="bg-white">
-    <div class="pt-6">
+    <div class="py-6">
       <Breadcrumb
         :breadcrumbs="[
           { id: 1, name: 'Men', link: '#' },
@@ -84,12 +84,12 @@
         </div>
       </div>
 
-      <div class="grid mx-auto mt-6 max-w-2xl px-4 sm:px-6 lg:max-w-7xl">
-        <div class="grid md:grid-cols-3 gap-2">
+      <div class="grid mx-auto mt-10 max-w-2xl px-4 sm:px-6 lg:max-w-7xl mb-60">
+        <div class="md:grid md:grid-cols-3 gap-2 flex flex-col-reverse">
           <div class="col-span-2 md:border-r md:border-gray-200 md:pr-8">
             <div>
               <div v-if="JSON.parse(product.more_images).length > 1">
-                <div class="mb-6">
+                <div class="mb-6 hidden md:block">
                   <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
                     {{ product.name }}
                   </h1>
@@ -118,7 +118,7 @@
                   </div>
                 </div>
               </div>
-              <div class="my-10">
+              <div class="">
                 <h2 class="text-sm font-medium text-gray-900">Details</h2>
 
                 <div class="mt-4 space-y-6">
@@ -128,7 +128,56 @@
             </div>
           </div>
           <div class="md:px-4">
-            <p class="text-3xl tracking-tight text-gray-900">${{ product.price }}</p>
+            <div class="mb-6 md:hidden" v-if="JSON.parse(product.more_images).length > 1">
+              <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                {{ product.name }}
+              </h1>
+            </div>
+            <p class="flex items-center gap-2">
+              <span class="text-sm text-blue-600 font-medium"> {{ product.offer }}</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                class="w-5 h-5 text-blue-600"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5.5 3A2.5 2.5 0 003 5.5v2.879a2.5 2.5 0 00.732 1.767l6.5 6.5a2.5 2.5 0 003.536 0l2.878-2.878a2.5 2.5 0 000-3.536l-6.5-6.5A2.5 2.5 0 008.38 3H5.5zM6 7a1 1 0 100-2 1 1 0 000 2z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </p>
+            <p class="text-3xl tracking-tight text-gray-900">
+              ${{ product.price }}
+              <span class="text-xl tracking-tight text-gray-600 line-through px-2"
+                >${{ product.price_sale }}</span
+              >
+            </p>
+
+            <div class="my-6" v-if="JSON.parse(product.more_images).length > 1">
+              <h3 class="sr-only">Reviews</h3>
+              <div class="flex items-center">
+                <div class="flex items-center">
+                  <StarIcon
+                    v-for="rating in [0, 1, 2, 3, 4]"
+                    :key="rating"
+                    :class="[
+                      4 > rating ? 'text-gray-900' : 'text-gray-200',
+                      'h-5 w-5 flex-shrink-0',
+                    ]"
+                    aria-hidden="true"
+                  />
+                </div>
+                <p class="sr-only">4 out of 5 stars</p>
+                <a
+                  href="#"
+                  class="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500"
+                  >100 reviews</a
+                >
+              </div>
+            </div>
+
             <div class="my-6 space-y-1">
               <p class="text-md tracking-tight text-gray-900 font-medium">
                 Category : {{ product.category.name }}
@@ -150,119 +199,83 @@
                   {{ convertString(product.availability) }}</span
                 >
               </p>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <div class="lg:mt-16 mt-6 px-4 lg:px-10">
-        <div class="mt-4 lg:row-span-3 lg:mt-0">
-          <h2 class="sr-only">Product information</h2>
-          <p class="text-3xl tracking-tight text-gray-900">${{ product.price }}</p>
-
-          <!-- Reviews -->
-          <div class="mt-6">
-            <h3 class="sr-only">Reviews</h3>
-            <div class="flex items-center">
-              <div class="flex items-center">
-                <StarIcon
-                  v-for="rating in [0, 1, 2, 3, 4]"
-                  :key="rating"
-                  :class="[
-                    4 > rating ? 'text-gray-900' : 'text-gray-200',
-                    'h-5 w-5 flex-shrink-0',
-                  ]"
-                  aria-hidden="true"
-                />
+              <div>
+                <div class="flex items-center space-x-3 my-2">
+                  <button
+                    class="inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                    type="button"
+                  >
+                    <span class="sr-only">Quantity button</span>
+                    <svg
+                      class="w-6 h-6"
+                      @click="() => (quantity > 1 ? quantity-- : quantity == 1)"
+                      aria-hidden="true"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                        clip-rule="evenodd"
+                        class=""
+                      ></path>
+                    </svg>
+                  </button>
+                  <div>
+                    <input
+                      type="number"
+                      v-model="quantity"
+                      min="0"
+                      id="third_product"
+                      class="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      placeholder="1"
+                      required
+                    />
+                  </div>
+                  <button
+                    class="inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                    type="button"
+                  >
+                    <span class="sr-only">Quantity button</span>
+                    <svg
+                      class="w-6 h-6"
+                      @click="quantity++"
+                      aria-hidden="true"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
               </div>
-              <p class="sr-only">4 out of 5 stars</p>
-              <a
-                href="#"
-                class="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500"
-                >100 reviews</a
+
+              <button
+                type="button"
+                @click="addToCart()"
+                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
+                <svg
+                  aria-hidden="true"
+                  class="w-5 h-5 mr-2 -ml-1"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"
+                  ></path>
+                </svg>
+                Add to Cart
+              </button>
             </div>
-          </div>
-
-          <div class="my-6 space-y-1">
-            <p class="text-md tracking-tight text-gray-900 font-medium">
-              Category : {{ product.category.name }}
-            </p>
-            <p class="text-md tracking-tight text-gray-900 font-medium">
-              Brand : {{ product.brand }}
-            </p>
-            <p class="py-4">
-              <span
-                class="text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300"
-                :class="{
-                  'bg-green-100 text-green-800': product.availability === 'paid',
-                  'bg-yellow-100 text-yellow-800': product.availability === 'unpaid',
-                  'bg-blue-100 text-blue-800': product.availability === 'coming_soon',
-                  'bg-green-600 text-white': product.availability === 'available',
-                  'bg-red-600 text-white': product.availability === 'out_of_stock',
-                }"
-              >
-                {{ convertString(product.availability) }}</span
-              >
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div class="mt-10 sm:px-6 px-4 lg:border-r lg:border-gray-200 lg:pr-16">
-        <div class="grid grid-cols-3">
-          <div></div>
-        </div>
-
-        <div>
-          <div class="flex items-center space-x-3">
-            <button
-              class="inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-              type="button"
-            >
-              <span class="sr-only">Quantity button</span>
-              <svg
-                class="w-4 h-4"
-                aria-hidden="true"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
-            </button>
-            <div>
-              <input
-                type="number"
-                id="third_product"
-                class="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="1"
-                required
-              />
-            </div>
-            <button
-              class="inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-              type="button"
-            >
-              <span class="sr-only">Quantity button</span>
-              <svg
-                class="w-4 h-4"
-                aria-hidden="true"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
-            </button>
           </div>
         </div>
       </div>
@@ -298,12 +311,16 @@
 </template>
 
 <script>
+import { useForm } from "@inertiajs/vue3";
+
 export default {
   props: ["product"],
   data() {
     return {
       lightbox: false,
       lightBoxImageSrc: "",
+      itemToCart: {},
+      quantity: 1,
     };
   },
   methods: {
@@ -316,6 +333,14 @@ export default {
       var newString = string.split("_").join(" ");
       return newString.charAt(0).toUpperCase() + newString.slice(1);
     },
+    addToCart() {
+      this.added = true;
+      setTimeout(() => (added = false), 500);
+      this.itemToCart.product = this.product;
+      this.itemToCart.quantity = this.quantity;
+      this.form = useForm(this.itemToCart);
+      this.form.post("/cart/add", { preserveScroll: true });
+    },
   },
 };
 </script>
@@ -323,10 +348,7 @@ export default {
 <script setup>
 import Breadcrumb from "../../../Shared/PublicLayoutComponents/Breadcrumb.vue";
 import ProductImage from "../../../Shared/ProductLayoutComponents/SingleProductLayoutComponents/ProductImage.vue";
-
-import { ref } from "vue";
 import { StarIcon } from "@heroicons/vue/20/solid";
-import { RadioGroup, RadioGroupLabel, RadioGroupOption } from "@headlessui/vue";
 
 // const product = {
 //   name: "Basic Tee 6-Pack",

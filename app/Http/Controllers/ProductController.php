@@ -116,6 +116,8 @@ class ProductController extends Controller
     {
         $more_images = json_decode($product->more_images);
 
+        $product->thumbnail = asset($product->thumbnail);
+
         $product->more_images = json_encode(array_map([$this, 'getUrl'],$more_images));
         // dd($more_images);
 

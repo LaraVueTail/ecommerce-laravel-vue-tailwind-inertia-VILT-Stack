@@ -3,13 +3,13 @@
     <img
       :src="thumbnail"
       @click="$emit('sendToLightbox', thumbnail)"
-      class="h-full w-full object-cover object-center md:rounded-lg"
+      class="h-full w-full object-cover object-center md:rounded-lg cursor-pointer"
     />
     <img
       :src="JSON.parse(more_images)[0]"
       @click="$emit('sendToLightbox', JSON.parse(more_images)[0])"
       v-if="JSON.parse(more_images).length === 1"
-      class="hidden max-h-48 md:max-h-80 w-auto rounded-lg md:block"
+      class="hidden max-h-48 md:max-h-80 w-auto rounded-lg md:block cursor-pointer"
     />
     <div class="md:hidden grid grid-cols-3 gap-x-3 mx-3 pb-3">
       <img
@@ -17,7 +17,7 @@
         @click="$emit('sendToLightbox', image)"
         :key="image"
         :src="image"
-        class="w-full object-cover object-center rounded-lg md:hidden"
+        class="w-full object-cover object-center rounded-lg md:hidden cursor-pointer"
         :class="{
           'h-40': JSON.parse(more_images).length <= 3,
           'h-28': JSON.parse(more_images).length > 3,
@@ -38,7 +38,7 @@
       <img
         :src="thumbnail"
         @click="$emit('sendToLightbox', thumbnail)"
-        class="h-full w-full object-cover object-center"
+        class="h-full w-full object-cover object-center cursor-pointer"
       />
     </div>
     <div
@@ -48,7 +48,7 @@
       <img
         :src="JSON.parse(more_images)[0]"
         @click="$emit('sendToLightbox', JSON.parse(more_images)[0])"
-        class="h-full w-full object-cover object-center"
+        class="h-full w-full object-cover object-center cursor-pointer"
       />
     </div>
     <div
@@ -59,14 +59,14 @@
         <img
           :src="JSON.parse(more_images)[1]"
           @click="$emit('sendToLightbox', JSON.parse(more_images)[1])"
-          class="h-full w-full object-cover object-center"
+          class="h-full w-full object-cover object-center cursor-pointer"
         />
       </div>
       <div class="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
         <img
           :src="JSON.parse(more_images)[2]"
           @click="$emit('sendToLightbox', JSON.parse(more_images)[2])"
-          class="h-full w-full object-cover object-center"
+          class="h-full w-full object-cover object-center cursor-pointer"
         />
       </div>
     </div>
@@ -77,7 +77,7 @@
       <img
         :src="JSON.parse(more_images)[1]"
         @click="$emit('sendToLightbox', JSON.parse(more_images)[1])"
-        class="h-full w-full object-cover object-center"
+        class="h-full w-full object-cover object-center cursor-pointer"
       />
     </div>
 
@@ -88,7 +88,7 @@
       <img
         :src="JSON.parse(more_images)[3]"
         @click="$emit('sendToLightbox', JSON.parse(more_images)[3])"
-        class="h-full w-full object-cover object-center"
+        class="h-full w-full object-cover object-center cursor-pointer"
       />
     </div>
     <div
@@ -99,69 +99,18 @@
         <img
           :src="JSON.parse(more_images)[3]"
           @click="$emit('sendToLightbox', JSON.parse(more_images)[3])"
-          class="h-full w-full object-cover object-center"
+          class="h-full w-full object-cover object-center cursor-pointer"
         />
       </div>
       <div class="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
         <img
           :src="JSON.parse(more_images)[4]"
           @click="$emit('sendToLightbox', JSON.parse(more_images)[4])"
-          class="h-full w-full object-cover object-center"
+          class="h-full w-full object-cover object-center cursor-pointer"
         />
       </div>
     </div>
   </div>
-
-  <!-- <div
-    class="hidden md:block mx-auto mt-6 max-w-2xl sm:px-6 lg:max-w-7xl lg:px-8 space-y-6 col-span-2"
-    v-if="JSON.parse(more_images).length > 1"
-  >
-    <div class="grid grid-cols-3 lg:gap-x-8">
-      <div class="">
-        <img
-          :src="thumbnail"
-          @click="$emit('sendToLightbox', thumbnail)"
-          class="h-full w-full object-cover object-center"
-        />
-      </div>
-      <div>
-        <div class="">
-          <img
-            :src="JSON.parse(more_images)[1]"
-            @click="$emit('sendToLightbox', JSON.parse(more_images)[1])"
-            v-if="JSON.parse(more_images).length === 2"
-            class="h-full w-full object-cover object-center"
-          />
-        </div>
-        <div
-          class="grid grid-cols-1 space-y-6 place-content-between h-full"
-          v-if="JSON.parse(more_images).length === 3"
-        >
-          <div class="aspect-w-3 aspect-h-2">
-            <img
-              :src="JSON.parse(more_images)[1]"
-              @click="$emit('sendToLightbox', JSON.parse(more_images)[1])"
-              class="h-full w-full object-cover object-center"
-            />
-          </div>
-          <div class="aspect-w-3 aspect-h-2">
-            <img
-              :src="JSON.parse(more_images)[2]"
-              @click="$emit('sendToLightbox', JSON.parse(more_images)[2])"
-              class="h-full w-full object-cover object-center"
-            />
-          </div>
-        </div>
-      </div>
-      <div class="">
-        <img
-          :src="JSON.parse(more_images)[0]"
-          @click="$emit('sendToLightbox', JSON.parse(more_images)[0])"
-          class="h-full w-full object-cover object-center"
-        />
-      </div>
-    </div>
-  </div> -->
 </template>
 
 <script>
