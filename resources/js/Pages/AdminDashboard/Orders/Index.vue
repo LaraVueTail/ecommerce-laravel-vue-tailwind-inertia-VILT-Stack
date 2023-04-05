@@ -6,7 +6,12 @@
       <!-- Start coding here -->
       <h1 class="text-2xl text-gray-800 mb-6 font-poppins p-3 sm:p-5">Orders</h1>
 
-      <AlertDanger v-if="deleteAlert" :orderId="deleteOrderId"></AlertDanger>
+      <AlertDelete
+        v-if="deleteAlertOrder"
+        @close="deleteAlertOrder = false"
+        @confirm="deleteOrderConfirm()"
+        :text="deleteAlertOrderText"
+      ></AlertDelete>
 
       <Link href="/admin-dashboard/orders/create">
         <button
@@ -40,20 +45,27 @@
 </template>
 
 <script>
+import { router } from "@inertiajs/vue3";
 export default {
   props: ["orders", "filters"],
   data() {
     return {
-      deleteAlert: false,
-      deleteOrderId: null,
+      deleteAlertOrder: false,
+      deleteAlertOrderText: "",
+      orderId: null,
     };
   },
   methods: {
-    deleteOrder(id) {
-      console.log(id);
-      this.deleteAlert = true;
-      setTimeout(() => (this.deleteAlert = false), 2000);
-      this.deleteOrderId = id;
+    deleteOrder(orderId) {
+      window.scrollTo(0, 0);
+      this.deleteAlertOrder = true;
+      this.orderId = orderId;
+      this.deleteAlertOrderText = `Deleting the order will permanently removed from the database. You can't recover the
+      order again. Are you sure about deleting?`;
+      setTimeout(() => (this.deleteAlertOrder = false), 5000);
+    },
+    deleteOrderConfirm() {
+      router.delete(`/admin-dashboard/orders/${this.orderId}`);
     },
   },
 };
@@ -64,7 +76,8 @@ import { initFlowbite } from "flowbite";
 import Filters from "../../../Shared/Filters/Filters.vue";
 import TableOrders from "../../../Shared/AdminDashboardLayoutComponents/TableOrders.vue";
 import PageNavigation from "../../../Shared/AdminDashboardLayoutComponents/PageNavigation.vue";
-import AlertDanger from "../../../Shared/AdminDashboardLayoutComponents/AlertDanger.vue";
+import AlertDelete from "../../../Shared/AdminDashboardLayoutComponents/AlertDelete.vue";
+
 onMounted(() => {
   initFlowbite();
 });

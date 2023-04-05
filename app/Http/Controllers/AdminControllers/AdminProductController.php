@@ -135,19 +135,19 @@ class AdminProductController extends Controller
     public function store()
     {   
         // dd(request()->input('product_details'));
-        $this->validateProduct();
+        $attributes = $this->validateProduct();
 
-        $thumbnailFile = request()->file('thumbnail')[0];
-        $moreImagesFiles = request()->file('more_images');
+        $thumbnailFile = $attributes['thumbnail'][0];
+        $moreImagesFiles = $attributes['more_images'];
 
         $moreImageUrls = array();
 
         foreach ($moreImagesFiles as $imageFile) {
-            array_push($moreImageUrls,$imageFile->store('images/products/'.request()->input('slug').'/more_images'));
+            array_push($moreImageUrls,$imageFile->store('images/products/'.$attributes['slug'].'/more_images'));
         }
 
         Product::create(array_merge($this->validateProduct(), [
-            'thumbnail' => $thumbnailFile->store('images/products/'.request()->input('slug').'/thumbnail'),
+            'thumbnail' => $thumbnailFile->store('images/products/'.$attributes['slug'].'/thumbnail'),
             'more_images'=>json_encode($moreImageUrls)
         ]));
 
@@ -183,9 +183,49 @@ class AdminProductController extends Controller
             $attributes['thumbnail'] = $thumbnailFile->store('images/products/'.$product->slug.'/thumbnail');
         }
 
+
+        if($attributes['more_images'] ?? false){
+            $moreImagesFiles = $attributes['more_images'];
+
+            $oldMoreImages = json_decode($product->more_images);
+    
+            foreach ($moreImagesFiles as $imageFile) {
+                array_push($oldMoreImages,$imageFile->store('images/products/'.$product->slug.'/more_images'));
+            }
+    
+            $attributes['more_images'] = $oldMoreImages;
+        }
+
+   
+
         $product->update($attributes);
 
         return back()->with('success', 'Product Updated!');
+    }
+
+    public function deleteImage(Product $product)
+    {
+        $image = parse_url(request()->input('imageUrl'))['path'];
+        $image = substr($image, 1);
+        // Storage::delete($image);
+        // $image=json_encode($image);
+        $more_images = json_decode($product->more_images);
+        // dd($image, $more_images);
+
+        if (($key = array_search($image, $more_images)) !== false) {
+            unset($more_images[$key]);
+        Storage::delete($image);
+
+        }
+        // dd($more_images);
+        $more_images = array_values($more_images);
+
+        $product->more_images = json_encode($more_images);
+        $product->save();
+
+        return back()->with('success', 'Image Deleted!');
+
+
     }
 
     public function updateProductStatus(Product $product)
@@ -203,6 +243,7 @@ class AdminProductController extends Controller
     public function destroy(Product $product)
     {
         $product->delete();
+        Storage::deleteDirectory('images/products/'.$product->slug);
 
         return redirect('/admin-dashboard/products')->with('success', 'Product Deleted!');
     }
@@ -221,7 +262,7 @@ class AdminProductController extends Controller
             'offer' => 'nullable',
             'price_sale' => 'nullable',
             'price' => 'required',
-            'slug' => ['required', Rule::unique('products', 'slug')->ignore($product)],
+            'slug' => [$product->exists ? 'exclude' : 'required', Rule::unique('products', 'slug')->ignore($product)],
             'link' => 'nullable',
             'thumbnail' => $product->exists ? 'nullable' : 'required',
             'more_images' => $product->exists ? 'nullable' : 'required',

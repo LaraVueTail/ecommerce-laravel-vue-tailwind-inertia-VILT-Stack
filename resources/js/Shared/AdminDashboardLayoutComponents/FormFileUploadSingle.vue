@@ -74,7 +74,7 @@ export default {
       if (!this.errorSize) {
         this.addedFile = files;
 
-        console.log(this.addedFile[0].size);
+        console.log(this.addedFile);
         this.$emit("fileChange", this.addedFile);
       }
     },

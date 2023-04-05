@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
@@ -80,7 +81,7 @@ class OrderController extends Controller
 
     }
 
-    public function create(Order $order)
+    public function create()
     {
 
         return Inertia::render('AdminDashboard/Orders/Create');

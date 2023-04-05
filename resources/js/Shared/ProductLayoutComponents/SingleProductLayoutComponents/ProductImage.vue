@@ -29,21 +29,22 @@
   <div
     class="hidden md:block mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:gap-x-8 lg:px-8"
     :class="{
+      'lg:grid-cols-1': JSON.parse(more_images).length === 0,
       'lg:grid-cols-2': JSON.parse(more_images).length === 1,
       'lg:grid-cols-3 col-span-2': JSON.parse(more_images).length > 1,
       'lg:grid-cols-4 col-span-2': JSON.parse(more_images).length > 3,
     }"
   >
-    <div class="aspect-h-4 aspect-w-3 overflow-hidden rounded-lg block">
+    <div class="aspect-h-4 aspect-w-3 overflow-hidden block">
       <img
         :src="thumbnail"
         @click="$emit('sendToLightbox', thumbnail)"
-        class="h-full w-full object-cover object-center cursor-pointer"
+        class="h-full w-full object-cover object-center rounded-lg cursor-pointer"
       />
     </div>
     <div
       class="aspect-h-4 aspect-w-3 overflow-hidden rounded-lg block"
-      v-if="JSON.parse(more_images).length < 3"
+      v-if="JSON.parse(more_images).length < 3 && JSON.parse(more_images).length !== 0"
     >
       <img
         :src="JSON.parse(more_images)[0]"

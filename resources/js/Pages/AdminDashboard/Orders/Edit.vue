@@ -4,273 +4,139 @@
       <!-- Modal content -->
 
       <Breadcrump :links="{ orders: 'orders', 'Edit Order': '' }"></Breadcrump>
-      <AlertDanger v-if="deleteAlert" :orderId="order.id"></AlertDanger>
+      <AlertDelete
+        v-if="deleteAlertOrder"
+        @close="deleteAlertOrder = false"
+        @confirm="deleteOrderConfirm()"
+        :text="deleteAlertOrderText"
+      ></AlertDelete>
 
       <div
         class="relative p-4 bg-white border border-gray-200 rounded-lg shadow dark:border-gray-700 dark:bg-gray-800 sm:p-5"
       >
         <!-- Modal header -->
-        <div
-          class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600"
-        >
-          <h5
-            class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
-          >
-            Edit - Order #{{ order.id }}
-          </h5>
-          <button
-            type="button"
-            @click="reloadPage()"
-            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="w-6 h-6"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"
-              />
-            </svg>
-
-            <span class="sr-only">Refresh</span>
-          </button>
-        </div>
+        <ModalHeader :heading="'Edit Order'" :url="$page.url"></ModalHeader>
         <!-- Modal body -->
         <form action="#" @submit.prevent="">
           <div>
             <div class="grid gap-4 mb-4 grid-col-1 sm:grid-cols-3">
               <div class="pr-5 border-r col-span-2">
                 <p class="font-medium text-blue-600 dark:text-gray-400 my-4">
-                  Shipping Adrress:
+                  Shipping Address:
                 </p>
-                <div class="grid gap-4 mb-4 sm:grid-cols-2">
-                  <div>
-                    <label
-                      for="first_name"
-                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      >First Name</label
-                    >
-                    <input
-                      type="text"
-                      name="first_name"
-                      id="first_name"
-                      v-model="orderInfoShippingAddress.first_name"
-                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    />
-                  </div>
-                  <div>
-                    <label
-                      for="last_name"
-                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      >Last Name</label
-                    >
-                    <input
-                      type="text"
-                      name="last_name"
-                      id="last_name"
-                      v-model="orderInfoShippingAddress.last_name"
-                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    />
-                  </div>
-                  <div>
-                    <label
-                      for="email"
-                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      >Email</label
-                    >
-                    <input
-                      type="email"
-                      name="email"
-                      id="email"
-                      v-model="orderInfoShippingAddress.email"
-                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    />
-                  </div>
-                  <div>
-                    <label
-                      for="phone_number"
-                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      >Phone Number</label
-                    >
-                    <input
-                      type="text"
-                      name="phone_number"
-                      id="phone_number"
-                      v-model="orderInfoShippingAddress.phone_number"
-                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    />
-                  </div>
-                  <div>
-                    <label
-                      for="address_line_1"
-                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      >Address Line 1</label
-                    >
-                    <input
-                      type="text"
-                      name="address_line_1"
-                      id="address_line_1"
-                      v-model="orderInfoShippingAddress.address_line_1"
-                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    />
-                  </div>
-                  <div>
-                    <label
-                      for="address_line_2"
-                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      >Address Line 2</label
-                    >
-                    <input
-                      type="text"
-                      name="address_line_2"
-                      id="address_line_2"
-                      v-model="orderInfoShippingAddress.address_line_2"
-                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    />
-                  </div>
-                  <div>
-                    <label
-                      for="city"
-                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      >City</label
-                    >
-                    <input
-                      type="text"
-                      name="city"
-                      id="city"
-                      v-model="orderInfoShippingAddress.city"
-                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    />
-                  </div>
-                  <div>
-                    <label
-                      for="pin_code"
-                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      >Pin code</label
-                    >
-                    <input
-                      type="text"
-                      name="pin_code"
-                      id="pin_code"
-                      v-model="orderInfoShippingAddress.pin_code"
-                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    />
-                  </div>
-                  <div>
-                    <label
-                      for="country"
-                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      >Country</label
-                    >
-                    <input
-                      type="text"
-                      name="country"
-                      id="country"
-                      v-model="orderInfoShippingAddress.country"
-                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    />
-                  </div>
+                <div class="grid gap-4 sm:grid-cols-2">
+                  <FormInput
+                    :label="'First Name'"
+                    :name="'first_name'"
+                    :type="'text'"
+                    v-model="orderInfoShippingAddress.first_name"
+                  ></FormInput>
+                  <FormInput
+                    :label="'last Name'"
+                    :name="'last_name'"
+                    :type="'text'"
+                    v-model="orderInfoShippingAddress.last_name"
+                  ></FormInput>
+                </div>
+                <div class="grid gap-4 sm:grid-cols-2">
+                  <FormInput
+                    :label="'Email'"
+                    :name="'email'"
+                    :type="'email'"
+                    v-model="orderInfoShippingAddress.email"
+                  ></FormInput>
+                  <FormInput
+                    :label="'Phone Number'"
+                    :name="'phone_number'"
+                    :type="'text'"
+                    v-model="orderInfoShippingAddress.phone_number"
+                  ></FormInput>
+                </div>
+                <div class="grid gap-4 sm:grid-cols-2">
+                  <FormInput
+                    :label="'Address Line 1'"
+                    :name="'address_line_1'"
+                    :type="'text'"
+                    v-model="orderInfoShippingAddress.address_line_1"
+                  ></FormInput>
+                  <FormInput
+                    :label="'Address Line 2'"
+                    :name="'address_line_2'"
+                    :type="'text'"
+                    v-model="orderInfoShippingAddress.address_line_2"
+                  ></FormInput>
+                </div>
+                <div class="grid gap-4 sm:grid-cols-2">
+                  <FormInput
+                    :label="'City'"
+                    :name="'city'"
+                    :type="'text'"
+                    v-model="orderInfoShippingAddress.city"
+                  ></FormInput>
+                  <FormInput
+                    :label="'Pin code'"
+                    :name="'pin_code'"
+                    :type="'text'"
+                    v-model="orderInfoShippingAddress.pin_code"
+                  ></FormInput>
+                </div>
+                <div class="grid gap-4 sm:grid-cols-2">
+                  <FormInput
+                    :label="'Country'"
+                    :name="'country'"
+                    :type="'text'"
+                    v-model="orderInfoShippingAddress.country"
+                  ></FormInput>
                 </div>
               </div>
               <div class="">
                 <p class="font-medium text-blue-600 dark:text-gray-400 my-4">
                   User Details:
                 </p>
-                <div>
-                  <label
-                    for="user_id"
-                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >User ID</label
-                  >
-                  <input
-                    type="text"
-                    name="user_is"
-                    id="user_id"
-                    v-model="orderInfo.user_id"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    :class="{
-                      'border-red-500': errors.user_id,
-                    }"
-                  />
-                </div>
+                <FormInput
+                  :label="'User ID'"
+                  :name="'user_id'"
+                  :type="'text'"
+                  :error="errors.user_id"
+                  v-model="orderInfo.user_id"
+                ></FormInput>
                 <p class="font-medium text-blue-600 dark:text-gray-400 my-4">
                   Order Status:
                 </p>
-                <label
-                  for="status"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >Change Order Status</label
-                >
-                <select
-                  id="status"
+                <FormSelect
+                  :label="'Change Order Status'"
+                  :name="'status'"
                   v-model="orderInfo.status"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 mb-4"
+                  :error="errors.status"
+                  :optionsArray="[
+                    { value: 'unpaid' },
+                    { value: 'paid' },
+                    { value: 'shipped' },
+                    { value: 'delivered' },
+                    { value: 'cancelled' },
+                  ]"
+                  :optionName="'value'"
+                  :optionValue="'value'"
                 >
-                  <option
-                    :selected="orderInfo.status === status"
-                    v-for="status in [
-                      'unpaid',
-                      'paid',
-                      'shipped',
-                      'delivered',
-                      'cancelled',
-                    ]"
-                    :key="status"
-                    :value="status"
-                  >
-                    {{ status }}
-                  </option>
-                  <!-- <option value="TV">TV/Monitors</option>
-                                <option value="PC">PC</option>
-                                <option value="GA">Gaming/Console</option>
-                                <option value="PH">Phones</option> -->
-                </select>
+                </FormSelect>
               </div>
             </div>
           </div>
 
           <div>
-            <div v-if="errors ?? false">
-              <div
-                v-for="(value, key, index) in errors"
-                :key="index"
-                v-text="value"
-                class="text-red-600 text-sm mt-1 bg-red-200 p-2 rounded my-2"
-              ></div>
-            </div>
+            <Errors :errors="errors ?? false"></Errors>
+
             <div class="flex items-center space-x-4">
-              <button
-                type="submit"
+              <Button
                 @click.prevent="updateOrder()"
-                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-              >
-                Update product
-              </button>
-              <button
-                type="button"
-                @click="deleteAlert = true"
-                class="text-red-600 inline-flex items-center hover:text-white border border-red-600 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
-              >
-                <svg
-                  class="mr-1 -ml-1 w-5 h-5"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                    clip-rule="evenodd"
-                  ></path>
-                </svg>
-                Delete
-              </button>
+                :text="'Update Product'"
+                :color="'blue'"
+              ></Button>
+              <Button
+                @click.prevent="deleteOrder()"
+                :text="'Delete Product'"
+                :color="'red'"
+              ></Button>
             </div>
           </div>
         </form>
@@ -364,78 +230,40 @@
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >Add item</label
               >
-              <div class="grid grid-cols-2 gap-2">
-                <div>
-                  <label
-                    for="product_id"
-                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >Product ID</label
-                  >
-                  <input
-                    type="number"
-                    name="product_id"
-                    id="product_id"
-                    min="1"
-                    v-model="newOrderItem.id"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder="ex: 133"
-                  />
-                </div>
-                <div>
-                  <label
-                    for="product_name"
-                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >Product Name</label
-                  >
-                  <input
-                    type="text"
-                    name="product_name"
-                    id="product_name"
-                    v-model="newOrderItem.name"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder=""
-                  />
-                </div>
-                <div>
-                  <label
-                    for="product_price"
-                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >Product Price</label
-                  >
-                  <input
-                    type="number"
-                    name="product_price"
-                    id="product_price"
-                    min="0"
-                    v-model="newOrderItem.price"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder=""
-                  />
-                </div>
-                <div>
-                  <label
-                    for="product_quantity"
-                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >Quantity</label
-                  >
-                  <input
-                    type="number"
-                    name="product_quantity"
-                    id="product_quantity"
-                    min="1"
-                    v-model="newOrderItem.quantity"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder="ex: 2"
-                  />
-                </div>
-                <div class="justify-self-stretch col-span-2">
-                  <button
-                    @click.prevent="addOrderItem()"
-                    class="text-white w-full bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                  >
-                    Add Item
-                  </button>
-                </div>
+              <div class="grid gap-4 sm:grid-cols-2">
+                <FormInput
+                  :label="'Product ID'"
+                  :name="'product_id'"
+                  :type="'number'"
+                  v-model="newOrderItem.id"
+                ></FormInput>
+                <FormInput
+                  :label="'Product Name'"
+                  :name="'product_name'"
+                  :type="'text'"
+                  v-model="newOrderItem.name"
+                ></FormInput>
+              </div>
+              <div class="grid gap-4 sm:grid-cols-2">
+                <FormInput
+                  :label="'Product Price'"
+                  :name="'product_price'"
+                  :type="'number'"
+                  v-model="newOrderItem.price"
+                ></FormInput>
+                <FormInput
+                  :label="'Quantity'"
+                  :name="'product_quantity'"
+                  :type="'number'"
+                  v-model="newOrderItem.quantity"
+                ></FormInput>
+              </div>
+              <div class="justify-self-stretch col-span-2">
+                <Button
+                  @click.prevent="addOrderItem()"
+                  :text="'Create Product'"
+                  :color="'blue'"
+                ></Button>
               </div>
             </div>
             <div class="p-5 pb-0 flex flex-col justify-between">
@@ -449,41 +277,19 @@
               </div>
 
               <div>
-                <div v-if="errors ?? false">
-                  <div
-                    v-for="(value, key, index) in errors"
-                    :key="index"
-                    v-text="value"
-                    class="text-red-600 text-sm mt-1 bg-red-200 p-2 rounded my-2"
-                  ></div>
-                </div>
+                <Errors :errors="errors ?? false"></Errors>
+
                 <div class="flex items-center space-x-4">
-                  <button
-                    type="submit"
+                  <Button
                     @click.prevent="updateOrder()"
-                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                  >
-                    Update product
-                  </button>
-                  <button
-                    type="button"
-                    @click="deleteAlert = true"
-                    class="text-red-600 inline-flex items-center hover:text-white border border-red-600 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
-                  >
-                    <svg
-                      class="mr-1 -ml-1 w-5 h-5"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                        clip-rule="evenodd"
-                      ></path>
-                    </svg>
-                    Delete
-                  </button>
+                    :text="'Update Product'"
+                    :color="'blue'"
+                  ></Button>
+                  <Button
+                    @click.prevent="deleteOrder()"
+                    :text="'Delete Product'"
+                    :color="'red'"
+                  ></Button>
                 </div>
               </div>
             </div>
@@ -505,7 +311,8 @@ export default {
       orderContent: JSON.parse(this.order.cart_content),
       newOrderItem: {},
       form: {},
-      deleteAlert: false,
+      deleteAlertOrder: false,
+      deleteAlertOrderText: "",
     };
   },
   computed: {
@@ -536,6 +343,17 @@ export default {
     reloadPage() {
       router.visit(`/admin-dashboard/orders/${this.order.id}/edit`);
     },
+    deleteOrder() {
+      window.scrollTo(0, 0);
+      this.deleteAlertOrder = true;
+      this.deleteAlertOrderText = `Deleting the Order will permanently removed from the database. You can't recover the
+        order again. Are you sure about deleting?`;
+      setTimeout(() => (this.deleteAlertOrder = false), 5000);
+    },
+    deleteOrderConfirm() {
+      console.log("dd");
+      router.delete(`/admin-dashboard/orders/${this.order.id}`);
+    },
     updateOrder() {
       this.orderInfo.shipping_address = JSON.stringify(this.orderInfoShippingAddress);
       this.orderInfo.cart_content = JSON.stringify(this.orderContent);
@@ -552,7 +370,12 @@ export default {
 import { onMounted, onUpdated } from "vue";
 import { initFlowbite } from "flowbite";
 import Breadcrump from "../../../Shared/AdminDashboardLayoutComponents/Breadcrump.vue";
-import AlertDanger from "../../../Shared/AdminDashboardLayoutComponents/AlertDanger.vue";
+import ModalHeader from "../../../Shared/AdminDashboardLayoutComponents/ModalHeader.vue";
+import FormInput from "../../../Shared/AdminDashboardLayoutComponents/FormInput.vue";
+import FormSelect from "../../../Shared/AdminDashboardLayoutComponents/FormSelect.vue";
+import Button from "../../../Shared/AdminDashboardLayoutComponents/Button.vue";
+import Errors from "../../../Shared/AdminDashboardLayoutComponents/Errors.vue";
+import AlertDelete from "../../../Shared/AdminDashboardLayoutComponents/AlertDelete.vue";
 
 onMounted(() => {
   initFlowbite();

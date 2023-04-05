@@ -5,6 +5,20 @@
 
       <Breadcrump :links="{ products: 'products', 'Edit Product': '' }"></Breadcrump>
 
+      <AlertDelete
+        v-if="deleteAlertImage"
+        @close="deleteAlertImage = false"
+        @confirm="deleteMoreImageConfirm"
+        :text="deleteAlertImageText"
+      ></AlertDelete>
+
+      <AlertDelete
+        v-if="deleteAlertProduct"
+        @close="deleteAlertProduct = false"
+        @confirm="deleteProductConfirm"
+        :text="deleteAlertProductText"
+      ></AlertDelete>
+
       <div
         class="relative p-4 bg-white border border-gray-200 rounded-lg shadow dark:border-gray-700 dark:bg-gray-800 sm:p-5"
       >
@@ -293,7 +307,8 @@
                     ></FormFileUploadSingle>
 
                     <FormFileUploadMultiple
-                      @filesChange="(files) => (more_images = files)"
+                      @files-change="(files) => (more_images = files)"
+                      @files-delete="deleteMoreImage"
                       :label="'More Images'"
                       :oldImageUrls="oldMoreImages"
                       :name="'more_images'"
@@ -315,7 +330,7 @@
                 :color="'blue'"
               ></Button>
               <Button
-                @click.prevent="createProduct()"
+                @click.prevent="deleteProduct()"
                 :text="'Delete Product'"
                 :color="'red'"
               ></Button>
@@ -328,7 +343,7 @@
 </template>
 
 <script>
-import { useForm } from "@inertiajs/vue3";
+import { router } from "@inertiajs/vue3";
 export default {
   props: ["errors", "categories", "product"],
   data() {
@@ -341,8 +356,13 @@ export default {
       addedThumbnail: null,
       oldThumbnail: this.product.thumbnail,
       oldMoreImages: JSON.parse(this.product.more_images),
-      thumbnail: null,
-      more_images: null,
+      thumbnail: false,
+      more_images: false,
+      deleteAlertImage: false,
+      deleteAlertImageText: "",
+      deleteAlertProduct: false,
+      deleteAlertProductText: "",
+      imageUrl: null,
     };
   },
   methods: {
@@ -368,19 +388,56 @@ export default {
     deleteProductAttribute(key) {
       delete this.productAttributes[key];
     },
+    deleteMoreImage(imageUrl) {
+      window.scrollTo(0, 0);
+      this.deleteAlertImage = true;
+      this.imageUrl = imageUrl;
+      this.deleteAlertImageText = `Deleting the image will permanently removed from the database. You can't recover the
+      image again. Are you sure about deleting?`;
+      setTimeout(() => (this.deleteAlertImage = false), 5000);
+    },
+    deleteProduct() {
+      window.scrollTo(0, 0);
+      this.deleteAlertProduct = true;
+      this.deleteAlertProductText = `Deleting the Product will permanently removed from the database. You can't recover the
+      product again. Are you sure about deleting?`;
+      setTimeout(() => (this.deleteAlertProduct = false), 5000);
+    },
+    deleteProductConfirm() {
+      router.delete(`/admin-dashboard/products/${this.product.id}`);
+    },
+    deleteMoreImageConfirm() {
+      router.put(
+        `/admin-dashboard/products/${this.product.id}/deleteImage`,
+        {
+          imageUrl: this.imageUrl,
+        },
+        {
+          preserveState: false,
+          preserveScroll: true,
+          only: ["product"],
+        }
+      );
+      this.imageUrl = null;
+    },
     updateProduct() {
       this.productInfo.product_details = JSON.stringify(this.productAttributes);
       if (this.thumbnail) {
+        console.log("thumbanil here");
         this.productInfo.thumbnail = this.thumbnail;
+      } else {
+        delete this.productInfo.thumbnail;
       }
       if (this.more_images) {
         this.productInfo.more_images = this.more_images;
+      } else {
+        delete this.productInfo.more_images;
       }
       console.log(this.productInfo);
-      this.form = useForm(this.productInfo);
-      this.form.post(`/admin-dashboard/products/${this.product.id}`, {
+      this.productInfo._method = "put";
+      router.post(`/admin-dashboard/products/${this.product.id}`, this.productInfo, {
+        preserveState: false,
         preserveScroll: true,
-        _method: "put",
       });
     },
   },
@@ -398,6 +455,7 @@ import FormFileUploadSingle from "../../../Shared/AdminDashboardLayoutComponents
 import FormFileUploadMultiple from "../../../Shared/AdminDashboardLayoutComponents/FormFileUploadMultiple.vue";
 import Button from "../../../Shared/AdminDashboardLayoutComponents/Button.vue";
 import Errors from "../../../Shared/AdminDashboardLayoutComponents/Errors.vue";
+import AlertDelete from "../../../Shared/AdminDashboardLayoutComponents/AlertDelete.vue";
 
 onMounted(() => {
   initFlowbite();

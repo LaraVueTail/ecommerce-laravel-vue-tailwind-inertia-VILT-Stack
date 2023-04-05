@@ -68,7 +68,7 @@
               viewBox="0 0 24 24"
               fill="currentColor"
               class="w-6 h-6"
-              @click="fileRemoved(index)"
+              @click="fileAddedFilesRemove(index)"
             >
               <path
                 fill-rule="evenodd"
@@ -96,7 +96,7 @@
       class="grid grid-cols-2 gap-2 py-2 justify-items-stretch"
       v-if="oldImages.length"
     >
-      <div v-for="imageSrc in oldImages" :key="imageSrc">
+      <div v-for="(imageSrc, index) in oldImages" :key="imageSrc">
         <div class="relative text-white hover:text-red-600 cursor-pointer">
           <div
             class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10"
@@ -106,7 +106,7 @@
               viewBox="0 0 24 24"
               fill="currentColor"
               class="w-6 h-6"
-              @click="fileRemoved(index)"
+              @click="fileOldImagesRemove(imageSrc, index)"
             >
               <path
                 fill-rule="evenodd"
@@ -136,7 +136,7 @@ export default {
       errorSizeText: "",
     };
   },
-  emits: ["filesChange"],
+  emits: ["files-change", "files-delete"],
   methods: {
     fileAdded(files) {
       console.log(files);
@@ -151,14 +151,20 @@ export default {
         this.addedFiles.push.apply(this.addedFiles, files);
         console.log(this.addedFiles);
 
-        this.$emit("filesChange", this.addedFiles);
+        this.$emit("files-change", this.addedFiles);
       }
     },
-    fileRemoved(index) {
-      console.log(this.addedFiles);
+    fileAddedFilesRemove(index) {
       this.errorSize = false;
       if (index !== -1) {
         this.addedFiles.splice(index, 1);
+      }
+    },
+    fileOldImagesRemove(imageUrl, index) {
+      if (index !== -1) {
+        // this.oldImages.splice(index, 1);
+        console.log(imageUrl);
+        this.$emit("files-delete", imageUrl);
       }
     },
     uploadedImage(file) {
