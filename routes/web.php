@@ -11,7 +11,9 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CustomerDashboardController;
 
 
+use App\Http\Controllers\AdminControllers\AdminOrderController;
 use App\Http\Controllers\AdminControllers\AdminProductController;
+use App\Http\Controllers\AdminControllers\AdminCategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,10 +50,11 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('can:admin')->group(function () {
     Route::get('admin-dashboard', [AdminDashboardController::class, 'index'])->name('admin_dashboard');
-    Route::resource('admin-dashboard/orders', OrderController::class);
+    Route::resource('admin-dashboard/orders', AdminOrderController::class);
     Route::resource('admin-dashboard/products', AdminProductController::class)->except('show');
+    Route::resource('admin-dashboard/categories', AdminCategoryController::class)->except('show');
     Route::put('admin-dashboard/products/{product}/deleteImage', [AdminProductController::class, 'deleteImage']);
-    Route::put('admin-dashboard/orders/{order}/edit-status', [OrderController::class, 'updateOrderStatus']); 
+    Route::put('admin-dashboard/orders/{order}/edit-status', [AdminOrderController::class, 'updateOrderStatus']); 
 });
 
 Route::get('login', [UserController::class, 'login'])->middleware('guest')->name('login');

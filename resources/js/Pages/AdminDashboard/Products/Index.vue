@@ -4,13 +4,16 @@
   >
     <div class="mx-auto max-w-screen-xl px-1 lg:px-12">
       <!-- Start coding here -->
-      <h1 class="text-2xl text-gray-800 mb-6 font-poppins p-3 sm:p-5">Orders</h1>
+      <h1 class="text-2xl text-gray-800 mb-2 font-poppins py-3 sm:py-2 font-medium">
+        Products
+      </h1>
 
-      <AlertDanger
-        v-if="deleteAlert"
-        :orderId="deleteOrderId"
-        :productId="deleteProductId"
-      ></AlertDanger>
+      <AlertDelete
+        v-if="deleteAlertProduct"
+        @close="deleteAlertProduct = false"
+        @confirm="deleteProductConfirm()"
+        :text="deleteAlertProductText"
+      ></AlertDelete>
 
       <Link href="/admin-dashboard/products/create">
         <button
@@ -49,20 +52,29 @@
 </template>
 
 <script>
+import { router } from "@inertiajs/vue3";
 export default {
   props: ["products", "filters"],
   data() {
     return {
-      deleteAlert: false,
-      deleteProductId: null,
+      deleteAlertProduct: false,
+      deleteAlertProductText: "",
+      productId: null,
     };
   },
   methods: {
-    deleteProduct(id) {
-      console.log(id);
-      this.deleteAlert = true;
-      setTimeout(() => (this.deleteAlert = false), 2000);
-      this.deleteProductId = id;
+    deleteProduct(productId) {
+      window.scrollTo(0, 0);
+      this.deleteAlertProduct = true;
+      this.productId = productId;
+      this.deleteAlertProductText = `Deleting the product will permanently removed from the database. You can't recover the
+      product again. Are you sure about deleting?`;
+      setTimeout(() => (this.deleteAlertProduct = false), 5000);
+    },
+    deleteProductConfirm() {
+      router.delete(`/admin-dashboard/products/${this.productId}`, {
+        preserveState: false,
+      });
     },
   },
 };
@@ -73,7 +85,7 @@ import { initFlowbite } from "flowbite";
 import Filters from "../../../Shared/Filters/Filters.vue";
 import TableProducts from "../../../Shared/AdminDashboardLayoutComponents/TableProducts.vue";
 import PageNavigation from "../../../Shared/AdminDashboardLayoutComponents/PageNavigation.vue";
-import AlertDanger from "../../../Shared/AdminDashboardLayoutComponents/AlertDanger.vue";
+import AlertDelete from "../../../Shared/AdminDashboardLayoutComponents/AlertDelete.vue";
 onMounted(() => {
   initFlowbite();
 });

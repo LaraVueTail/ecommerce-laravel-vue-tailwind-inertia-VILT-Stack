@@ -5,22 +5,22 @@
     <div class="mx-auto max-w-screen-xl px-1 lg:px-12">
       <!-- Start coding here -->
       <h1 class="text-2xl text-gray-800 mb-2 font-poppins py-3 sm:py-2 font-medium">
-        Orders
+        Categories
       </h1>
 
       <AlertDelete
-        v-if="deleteAlertOrder"
-        @close="deleteAlertOrder = false"
-        @confirm="deleteOrderConfirm()"
-        :text="deleteAlertOrderText"
+        v-if="deleteAlertCategory"
+        @close="deleteAlertCategory = false"
+        @confirm="deleteCategoryConfirm()"
+        :text="deleteAlertCategoryText"
       ></AlertDelete>
 
-      <Link href="/admin-dashboard/orders/create">
+      <Link href="/admin-dashboard/categories/create">
         <button
           type="button"
           class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
         >
-          + Add Order
+          + Add Category
         </button>
       </Link>
 
@@ -28,19 +28,21 @@
         class="bg-white dark:bg-gray-800 relative shadow-md rounded-lg border-2 border-gray-200"
       >
         <Filters
+          :searchPlaceHolder="'Search by Category ID or Name'"
           :filters="filters"
-          :dataName="'orders'"
+          :currentPage="categories.current_page"
+          :dataName="'categories'"
           :enableFilters="{
             search: true,
-            dateRange: true,
-            sortBy: true,
-            filterBy: { orderStatus: true },
           }"
         ></Filters>
 
-        <TableOrders :orders="orders" @deleteOrder="deleteOrder"></TableOrders>
+        <TableCategories
+          :categories="categories"
+          @deleteCategory="deleteCategory"
+        ></TableCategories>
 
-        <PageNavigation :data="orders"></PageNavigation>
+        <PageNavigation :data="categories"></PageNavigation>
       </div>
     </div>
   </section>
@@ -49,25 +51,25 @@
 <script>
 import { router } from "@inertiajs/vue3";
 export default {
-  props: ["orders", "filters"],
+  props: ["categories", "filters"],
   data() {
     return {
-      deleteAlertOrder: false,
-      deleteAlertOrderText: "",
-      orderId: null,
+      deleteAlertCategory: false,
+      deleteAlertCategoryText: "",
+      categoryId: null,
     };
   },
   methods: {
-    deleteOrder(orderId) {
+    deleteCategory(categoryId) {
       window.scrollTo(0, 0);
-      this.deleteAlertOrder = true;
-      this.orderId = orderId;
-      this.deleteAlertOrderText = `Deleting the order will permanently removed from the database. You can't recover the
-      order again. Are you sure about deleting?`;
-      setTimeout(() => (this.deleteAlertOrder = false), 5000);
+      this.deleteAlertCategory = true;
+      this.categoryId = categoryId;
+      this.deleteAlertCategoryText = `Deleting the category will permanently removed from the database. You can't recover the
+        category again. Are you sure about deleting?`;
+      setTimeout(() => (this.deleteAlertCategory = false), 5000);
     },
-    deleteOrderConfirm() {
-      router.delete(`/admin-dashboard/orders/${this.orderId}`, {
+    deleteCategoryConfirm() {
+      router.delete(`/admin-dashboard/categories/${this.categoryId}`, {
         preserveState: false,
       });
     },
@@ -78,10 +80,9 @@ export default {
 import { onMounted, onUpdated } from "vue";
 import { initFlowbite } from "flowbite";
 import Filters from "../../../Shared/Filters/Filters.vue";
-import TableOrders from "../../../Shared/AdminDashboardLayoutComponents/TableOrders.vue";
+import TableCategories from "../../../Shared/AdminDashboardLayoutComponents/TableCategories.vue";
 import PageNavigation from "../../../Shared/AdminDashboardLayoutComponents/PageNavigation.vue";
 import AlertDelete from "../../../Shared/AdminDashboardLayoutComponents/AlertDelete.vue";
-
 onMounted(() => {
   initFlowbite();
 });

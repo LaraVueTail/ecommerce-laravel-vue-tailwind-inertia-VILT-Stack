@@ -15,7 +15,10 @@
         class="relative p-4 bg-white border border-gray-200 rounded-lg shadow dark:border-gray-700 dark:bg-gray-800 sm:p-5"
       >
         <!-- Modal header -->
-        <ModalHeader :heading="'Edit Order'" :url="$page.url"></ModalHeader>
+        <ModalHeader
+          :heading="`Edit Order - #${order.id}`"
+          :url="$page.url"
+        ></ModalHeader>
         <!-- Modal body -->
         <form action="#" @submit.prevent="">
           <div>

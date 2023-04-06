@@ -98,8 +98,8 @@
           </Link>
         </li>
         <li>
-          <a
-            href="#"
+          <Link
+            href="/admin-dashboard/categories"
             class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
           >
             <svg
@@ -124,7 +124,7 @@
                                 clip-rule="evenodd"></path>
                         </svg> -->
             <span class="flex-1 ml-3 whitespace-nowrap">Categories</span>
-          </a>
+          </Link>
         </li>
         <li>
           <a

@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\AdminControllers;
 
-use App\Models\Product;
+use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use App\Models\Order;
 use Illuminate\Support\Facades\Request;
 
-class OrderController extends Controller
+class AdminOrderController extends Controller
 {
     //
     public function index()
