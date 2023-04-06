@@ -14,6 +14,7 @@ use App\Http\Controllers\CustomerDashboardController;
 use App\Http\Controllers\AdminControllers\AdminOrderController;
 use App\Http\Controllers\AdminControllers\AdminProductController;
 use App\Http\Controllers\AdminControllers\AdminCategoryController;
+use App\Http\Controllers\AdminControllers\AdminUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,6 +54,7 @@ Route::middleware('can:admin')->group(function () {
     Route::resource('admin-dashboard/orders', AdminOrderController::class);
     Route::resource('admin-dashboard/products', AdminProductController::class)->except('show');
     Route::resource('admin-dashboard/categories', AdminCategoryController::class)->except('show');
+    Route::resource('admin-dashboard/users', AdminUserController::class);
     Route::put('admin-dashboard/products/{product}/deleteImage', [AdminProductController::class, 'deleteImage']);
     Route::put('admin-dashboard/orders/{order}/edit-status', [AdminOrderController::class, 'updateOrderStatus']); 
 });
