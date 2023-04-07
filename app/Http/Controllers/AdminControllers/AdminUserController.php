@@ -73,6 +73,9 @@ class AdminUserController extends Controller
     {
 
         $attributes = $this->validateUser();
+        User::create(array_merge($this->validateProduct(), [
+            'profile_pic' => request()->file('profile_pic')->store('images/users/'.$attributes['email'].'/profile_pic'),
+        ]));
 
         User::create($attributes);
 
