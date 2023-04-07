@@ -29,7 +29,10 @@
       >
         <Filters
           :filters="filters"
+          :searchPlaceHolder="'Search by Order ID, User Name/Email..'"
+          :currentPage="orders.current_page"
           :dataName="'orders'"
+          :sortByFilters="{ dateSort: true, priceSort: true }"
           :enableFilters="{
             search: true,
             dateRange: true,

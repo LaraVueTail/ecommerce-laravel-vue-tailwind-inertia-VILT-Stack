@@ -5,8 +5,11 @@ namespace App\Http\Controllers\AdminControllers;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Request;
+use Mockery\Undefined;
 
 class AdminUserController extends Controller
 {
@@ -43,8 +46,35 @@ class AdminUserController extends Controller
                             $query->whereDate('created_at', '<=', $dateEnd);
                         }
                     )
-                    ->when(true,fn($query)=>
-                        $query->latest())
+                    ->when(
+                        Request::input('sortBy') ?? 'default',
+                        function ($query, $sortBy) {
+                            // dd($dateStart)
+                            if ($sortBy === 'date-dsc') {
+                                $query->latest();
+                            }
+                            if ($sortBy === 'date-asc') {
+                                $query->oldest();
+                            }
+                            if ($sortBy === 'price-dsc') {
+                                $query->orderBy('price', 'desc');
+                            }
+                            if ($sortBy === 'price-asc') {
+                                $query->orderBy('price', 'asc');
+                            }
+                            if ($sortBy === 'inventory-asc') {
+                                $query->orderBy('inventory', 'asc');
+                            }
+                            if ($sortBy === 'inventory-dsc') {
+                                $query->orderBy('inventory', 'dsc');
+                            }
+                            if ($sortBy === 'default') {
+                                $query->latest();
+                            }
+                        }
+                    )
+                    // ->when(true,fn($query)=>
+                    //     $query->latest())
                     ->paginate(10)
                     ->withQueryString(),
                 'filters' => Request::only(['search', 'dateStart', 'dateEnd'])
@@ -72,18 +102,18 @@ class AdminUserController extends Controller
     public function store()
     {
 
+
         $attributes = $this->validateUser();
-        User::create(array_merge($this->validateProduct(), [
-            'profile_pic' => request()->file('profile_pic')->store('images/users/'.$attributes['email'].'/profile_pic'),
+        $profile_pic = $attributes['profile_pic'][0];
+        User::create(array_merge($this->validateUser(), [
+            'profile_pic' => $profile_pic->storeAs('images/users/'.$attributes['email'].'/profile_pic','profile_pic.'.$profile_pic->extension()),
         ]));
-
-        User::create($attributes);
-
         return redirect('/admin-dashboard/users')->with('success', 'User Created!');
     }
 
     public function edit(User $user)
     {
+        $user->profile_pic = asset($user->profile_pic);
 
         return Inertia::render('AdminDashboard/Users/Edit', [
             'user' => $user
@@ -95,6 +125,16 @@ class AdminUserController extends Controller
     {
 
         $attributes = $this->validateUser($user);
+        if (request()->file('profile_pic')[0] ?? false) {
+            $profile_pic = request()->file('profile_pic')[0];
+            Storage::delete($user->profile_pic);
+            $attributes['profile_pic'] = $profile_pic->storeAs('images/users/'.$user['email'].'/profile_pic','profile_pic.'.$profile_pic->extension());
+        }
+        if($user->email !== $attributes['email']){
+            Storage::move('images/users/'.$user['email'].'/profile_pic', 'images/users/'.$attributes['email'].'/profile_pic');
+            $attributes['profile_pic'] = array_key_exists("profile_pic",$attributes) ? str_replace($user['email'],$attributes['email'],$attributes['profile_pic']): str_replace($user['email'],$attributes['email'],$user['profile_pic']);
+            Storage::deleteDirectory('images/users/'.$user['email']);
+        }
 
         $user->update($attributes);
 
@@ -114,13 +154,19 @@ class AdminUserController extends Controller
         $user ??= new User();
 
         return request()->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required',
+            'first_name' => 'required|min:3|max:50',
+            'last_name' => 'required|max:50',
+            'profile_pic' => $user->exists ? 'nullable' : 'required',
+            'profile_pic.*' => 'required|mimes:jpeg,png |max:2096',
+            'email' => ['required','email', Rule::unique('users', 'email')->ignore($user)],
             'gender' => 'nullable',
             'birthday' => 'required',
             'phone_number' => 'required',
-            'password' => 'required',
+            'password' => (request()->input('password') ?? false || !$user->exists ) ? 'required|confirmed|min:6': 'nullable',
+        ],[
+            'profile_pic.required' => 'Add a profile picture',
+            'profile_pic.*.mimes' => 'Upload Profile image as jpg/png format with size less than 2MB',
+            'profile_pic.*.max' => 'Upload Profile image with size less than 2MB',
         ]);
     }
 

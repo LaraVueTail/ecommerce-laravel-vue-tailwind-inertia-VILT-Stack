@@ -32,6 +32,7 @@
           :filters="filters"
           :currentPage="products.current_page"
           :dataName="'products'"
+          :sortByFilters="{ dateSort: true, priceSort: true }"
           :enableFilters="{
             search: true,
             dateRange: true,

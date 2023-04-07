@@ -35,7 +35,9 @@
           :enableFilters="{
             search: true,
             dateRange: true,
+            sortBy: true,
           }"
+          :sortByFilters="{ dateSort: true }"
         ></Filters>
 
         <TableUsers :users="users" @deleteUser="deleteUser"></TableUsers>

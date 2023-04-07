@@ -15,7 +15,11 @@
       @dateChanged="dateRangePick"
     ></DaterangePicker>
 
-    <SortDropdown v-model="sortBy" v-if="enableFilters.sortBy"></SortDropdown>
+    <SortDropdown
+      v-model="sortBy"
+      v-if="enableFilters.sortBy"
+      :sortByFilters="sortByFilters"
+    ></SortDropdown>
 
     <FilterDropdown
       :filters="filters"
@@ -30,7 +34,14 @@
 import debounce from "lodash/debounce";
 import { router } from "@inertiajs/core";
 export default {
-  props: ["dataName", "filters", "enableFilters", "searchPlaceHolder", "currentPage"],
+  props: [
+    "dataName",
+    "filters",
+    "enableFilters",
+    "searchPlaceHolder",
+    "currentPage",
+    "sortByFilters",
+  ],
   data() {
     return {
       search: this.filters.search !== undefined ? this.filters.search : "",

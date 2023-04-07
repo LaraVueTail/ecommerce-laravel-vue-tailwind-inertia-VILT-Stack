@@ -3,13 +3,20 @@
     <div class="mx-auto max-w-screen-xl px-1 lg:px-12 my-11 pb-11">
       <!-- Modal content -->
 
-      <Breadcrump :links="{ users: 'users', 'Create User': '' }"></Breadcrump>
+      <Breadcrump :links="{ users: 'users', 'Edit User': '' }"></Breadcrump>
+
+      <AlertDelete
+        v-if="deleteAlertUser"
+        @close="deleteAlertUser = false"
+        @confirm="deleteUserConfirm()"
+        :text="deleteAlertUserText"
+      ></AlertDelete>
 
       <div
         class="relative p-4 bg-white border border-gray-200 rounded-lg shadow dark:border-gray-700 dark:bg-gray-800 sm:p-5"
       >
         <!-- Modal header -->
-        <ModalHeader :heading="'Create user'" :url="$page.url"></ModalHeader>
+        <ModalHeader :heading="`Edit user - #${user.id}`" :url="$page.url"></ModalHeader>
 
         <!-- Modal body -->
         <form action="#" @submit.prevent="">
@@ -72,7 +79,7 @@
                     </div>
                     <div class="grid gap-4 sm:grid-cols-2">
                       <FormInput
-                        :label="'Password'"
+                        :label="'Change Password'"
                         :name="'password'"
                         :type="'password'"
                         v-model="userInfo.password"
@@ -96,8 +103,9 @@
                     </p>
 
                     <FormFileUploadSingle
-                      @fileChange="(file) => (this.userInfo.profile_pic = file)"
+                      @fileChange="(file) => (this.profile_pic = file)"
                       :label="'Profile Picture'"
+                      :oldImageLink="this.userInfo.profile_pic"
                       :name="'profile_pic'"
                       :error="errors.profile_pic ?? errors['profile_pic.0']"
                     ></FormFileUploadSingle>
@@ -111,9 +119,14 @@
             <Errors :errors="errors ?? false"></Errors>
             <div class="flex items-center space-x-4">
               <Button
-                @click.prevent="createUser()"
-                :text="'Create User'"
+                @click.prevent="updateUser()"
+                :text="'Update User'"
                 :color="'blue'"
+              ></Button>
+              <Button
+                @click.prevent="deleteUser()"
+                :text="'Delete User'"
+                :color="'red'"
               ></Button>
             </div>
           </div>
@@ -124,20 +137,39 @@
 </template>
 
 <script>
-import { useForm } from "@inertiajs/vue3";
+import { router } from "@inertiajs/vue3";
 export default {
-  props: ["errors"],
+  props: ["errors", "user"],
   data() {
     return {
-      userInfo: {},
+      userInfo: this.user,
       form: {},
+      profile_pic: false,
+      deleteAlertUser: false,
+      deleteAlertUserText: "",
     };
   },
   methods: {
-    createUser() {
+    deleteUser() {
+      window.scrollTo(0, 0);
+      this.deleteAlertUser = true;
+      this.deleteAlertUserText = `Deleting the User will permanently removed from the database. You can't recover the
+        user again. Are you sure about deleting?`;
+      setTimeout(() => (this.deleteAlertUser = false), 5000);
+    },
+    deleteUserConfirm() {
+      router.delete(`/admin-dashboard/users/${this.user.id}`);
+    },
+    updateUser() {
+      if (this.profile_pic) {
+        this.userInfo.profile_pic = this.profile_pic;
+      } else {
+        delete this.userInfo.profile_pic;
+      }
       console.log(this.userInfo);
-      this.form = useForm(this.userInfo);
-      this.form.post(`/admin-dashboard/users`, {
+      this.userInfo._method = "put";
+      router.post(`/admin-dashboard/users/${this.user.id}`, this.userInfo, {
+        preserveState: false,
         preserveScroll: true,
       });
     },
@@ -153,6 +185,7 @@ import FormInput from "../../../Shared/AdminDashboardLayoutComponents/FormInput.
 import FormFileUploadSingle from "../../../Shared/AdminDashboardLayoutComponents/FormFileUploadSingle.vue";
 import Button from "../../../Shared/AdminDashboardLayoutComponents/Button.vue";
 import Errors from "../../../Shared/AdminDashboardLayoutComponents/Errors.vue";
+import AlertDelete from "../../../Shared/AdminDashboardLayoutComponents/AlertDelete.vue";
 
 onMounted(() => {
   initFlowbite();

@@ -40,6 +40,7 @@
             <button
               :id="`${user.id}-dropdown-button`"
               :data-dropdown-toggle="`${user.id}-dropdown`"
+              v-if="user.email !== $page.props.auth.email"
               class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
               type="button"
             >
@@ -55,6 +56,11 @@
                 />
               </svg>
             </button>
+            <span
+              v-else
+              class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300"
+              >Current User</span
+            >
             <div
               :id="`${user.id}-dropdown`"
               class="hidden z-auto w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
