@@ -33,6 +33,13 @@ class User extends Authenticatable
 
     protected $guarded = [];
 
+    protected function avatar(): Attribute
+    {
+        return Attribute::make(
+        get: fn($value) => asset($value),
+        );
+    }
+
 
     /**
      * The attributes that should be hidden for serialization.

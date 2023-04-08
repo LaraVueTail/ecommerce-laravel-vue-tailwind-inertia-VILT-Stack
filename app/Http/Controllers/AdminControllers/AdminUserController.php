@@ -104,16 +104,16 @@ class AdminUserController extends Controller
 
 
         $attributes = $this->validateUser();
-        $profile_pic = $attributes['profile_pic'][0];
+        $avatar = $attributes['avatar'][0];
         User::create(array_merge($this->validateUser(), [
-            'profile_pic' => $profile_pic->storeAs('images/users/'.$attributes['email'].'/profile_pic','profile_pic.'.$profile_pic->extension()),
+            'avatar' => $avatar->storeAs('images/users/'.$attributes['email'].'/avatar','avatar.'.$avatar->extension()),
         ]));
         return redirect('/admin-dashboard/users')->with('success', 'User Created!');
     }
 
     public function edit(User $user)
     {
-        $user->profile_pic = asset($user->profile_pic);
+        // $user->avatar = asset($user->avatar);
 
         return Inertia::render('AdminDashboard/Users/Edit', [
             'user' => $user
@@ -125,14 +125,14 @@ class AdminUserController extends Controller
     {
 
         $attributes = $this->validateUser($user);
-        if (request()->file('profile_pic')[0] ?? false) {
-            $profile_pic = request()->file('profile_pic')[0];
-            Storage::delete($user->profile_pic);
-            $attributes['profile_pic'] = $profile_pic->storeAs('images/users/'.$user['email'].'/profile_pic','profile_pic.'.$profile_pic->extension());
+        if (request()->file('avatar')[0] ?? false) {
+            $avatar = request()->file('avatar')[0];
+            Storage::delete($user->avatar);
+            $attributes['avatar'] = $avatar->storeAs('images/users/'.$user['email'].'/avatar','avatar.'.$avatar->extension());
         }
         if($user->email !== $attributes['email']){
-            Storage::move('images/users/'.$user['email'].'/profile_pic', 'images/users/'.$attributes['email'].'/profile_pic');
-            $attributes['profile_pic'] = array_key_exists("profile_pic",$attributes) ? str_replace($user['email'],$attributes['email'],$attributes['profile_pic']): str_replace($user['email'],$attributes['email'],$user['profile_pic']);
+            Storage::move('images/users/'.$user['email'].'/avatar', 'images/users/'.$attributes['email'].'/avatar');
+            $attributes['avatar'] = array_key_exists("avatar",$attributes) ? str_replace($user['email'],$attributes['email'],$attributes['avatar']): str_replace($user['email'],$attributes['email'],$user['avatar']);
             Storage::deleteDirectory('images/users/'.$user['email']);
         }
 
@@ -156,17 +156,17 @@ class AdminUserController extends Controller
         return request()->validate([
             'first_name' => 'required|min:3|max:50',
             'last_name' => 'required|max:50',
-            'profile_pic' => $user->exists ? 'nullable' : 'required',
-            'profile_pic.*' => 'required|mimes:jpeg,png |max:2096',
+            'avatar' => $user->exists ? 'nullable' : 'required',
+            'avatar.*' => 'required|mimes:jpeg,png |max:2096',
             'email' => ['required','email', Rule::unique('users', 'email')->ignore($user)],
             'gender' => 'nullable',
             'birthday' => 'required',
             'phone_number' => 'required',
             'password' => (request()->input('password') ?? false || !$user->exists ) ? 'required|confirmed|min:6': 'nullable',
         ],[
-            'profile_pic.required' => 'Add a profile picture',
-            'profile_pic.*.mimes' => 'Upload Profile image as jpg/png format with size less than 2MB',
-            'profile_pic.*.max' => 'Upload Profile image with size less than 2MB',
+            'avatar.required' => 'Add a profile picture',
+            'avatar.*.mimes' => 'Upload Profile image as jpg/png format with size less than 2MB',
+            'avatar.*.max' => 'Upload Profile image with size less than 2MB',
         ]);
     }
 

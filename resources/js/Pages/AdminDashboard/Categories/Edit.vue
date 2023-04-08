@@ -22,12 +22,12 @@
         <!-- Modal body -->
         <form action="#" @submit.prevent="">
           <div>
-            <div class="grid gap-4 mb-4 grid-cols-1 md:grid-cols-3">
-              <div class="pr-5 col-span-2">
+            <div class="grid gap-4 mb-4 grid-cols-1 sm:grid-cols-2">
+              <div class="pr-5 border-r">
                 <p class="font-medium text-blue-600 dark:text-gray-400 my-4">
                   Category Details:
                 </p>
-                <div class="grid gap-4 sm:grid-cols-2">
+                <div class="grid gap-4">
                   <FormInput
                     :label="'Category Name'"
                     :name="'category_name'"
@@ -44,6 +44,19 @@
                     @change="changeToSlug()"
                     v-model="categoryInfo.slug"
                   ></FormInput>
+                </div>
+              </div>
+              <div class="grid">
+                <div>
+                  <p class="font-medium text-blue-600 dark:text-gray-400 my-4">Image:</p>
+
+                  <FormFileUploadSingle
+                    @fileChange="(file) => (this.img = file)"
+                    :label="'Image'"
+                    :oldImageLink="this.categoryInfo.img"
+                    :name="'image'"
+                    :error="errors.img ?? errors['img.0']"
+                  ></FormFileUploadSingle>
                 </div>
               </div>
             </div>
@@ -81,6 +94,7 @@ export default {
       form: {},
       deleteAlertCategory: false,
       deleteAlertCategoryText: "",
+      img: false,
     };
   },
   methods: {
@@ -120,6 +134,19 @@ export default {
       this.form.put(`/admin-dashboard/categories/${this.category.id}`, {
         preserveScroll: true,
       });
+
+      if (this.img) {
+        this.categoryInfo.img = this.img;
+      } else {
+        delete this.categoryInfo.img;
+      }
+      console.log(this.categoryInfo);
+      this.categoryInfo._method = "put";
+      router.post(`/admin-dashboard/categories/${this.category.id}`, this.categoryInfo, {
+        preserveState: false,
+        only: ["category"],
+        preserveScroll: true,
+      });
     },
   },
 };
@@ -133,6 +160,7 @@ import FormInput from "../../../Shared/AdminDashboardLayoutComponents/FormInput.
 import Button from "../../../Shared/AdminDashboardLayoutComponents/Button.vue";
 import Errors from "../../../Shared/AdminDashboardLayoutComponents/Errors.vue";
 import AlertDelete from "../../../Shared/AdminDashboardLayoutComponents/AlertDelete.vue";
+import FormFileUploadSingle from "../../../Shared/AdminDashboardLayoutComponents/FormFileUploadSingle.vue";
 
 onMounted(() => {
   initFlowbite();

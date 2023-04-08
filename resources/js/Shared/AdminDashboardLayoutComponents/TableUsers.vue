@@ -6,10 +6,9 @@
       >
         <tr>
           <th scope="col" class="px-4 py-3">ID</th>
-          <th scope="col" class="px-4 py-3">Date</th>
-          <th scope="col" class="px-4 py-3">Name</th>
-          <th scope="col" class="px-4 py-3">Email</th>
+          <th scope="col" class="px-4 py-3">User</th>
           <th scope="col" class="px-4 py-3">Phone Number</th>
+          <th scope="col" class="px-4 py-3">Date</th>
           <th scope="col" class="px-4 py-3">
             <span class="sr-only">Actions</span>
           </th>
@@ -23,18 +22,24 @@
           >
             {{ user.id }}
           </th>
-          <th scope="row" class="px-4 py-3 font-medium">
-            {{ toDate(user.created_at) }}
+          <th
+            scope="row"
+            class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white"
+          >
+            <img class="w-10 h-10 rounded-full" :src="user.avatar" alt="Jese image" />
+            <div class="pl-3">
+              <div class="text-base font-semibold">
+                {{ user.first_name + " " + user.last_name }}
+              </div>
+              <div class="font-normal text-gray-500">{{ user.email }}</div>
+            </div>
           </th>
-          <td class="px-4 py-3">
-            {{ user.first_name + " " + user.last_name }}
-          </td>
-          <td class="px-4 py-3">
-            {{ user.email }}
-          </td>
           <td class="px-4 py-3">
             {{ user.phone_number }}
           </td>
+          <th scope="row" class="px-4 py-3 font-medium">
+            {{ toDate(user.created_at) }}
+          </th>
 
           <td class="px-4 py-3 flex items-center justify-end">
             <button

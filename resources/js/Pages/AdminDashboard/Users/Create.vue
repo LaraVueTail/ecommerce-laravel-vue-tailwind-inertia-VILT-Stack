@@ -96,10 +96,10 @@
                     </p>
 
                     <FormFileUploadSingle
-                      @fileChange="(file) => (this.userInfo.profile_pic = file)"
+                      @fileChange="(file) => (this.userInfo.avatar = file)"
                       :label="'Profile Picture'"
-                      :name="'profile_pic'"
-                      :error="errors.profile_pic ?? errors['profile_pic.0']"
+                      :name="'avatar'"
+                      :error="errors.avatar ?? errors['avatar.0']"
                     ></FormFileUploadSingle>
                   </div>
                 </div>

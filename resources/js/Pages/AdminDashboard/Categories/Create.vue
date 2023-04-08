@@ -15,12 +15,12 @@
         <!-- Modal body -->
         <form action="#" @submit.prevent="">
           <div>
-            <div class="grid gap-4 mb-4 grid-cols-1 md:grid-cols-3">
-              <div class="pr-5 col-span-2">
+            <div class="grid gap-4 mb-4 grid-cols-1 md:grid-cols-2">
+              <div class="pr-5 border-r">
                 <p class="font-medium text-blue-600 dark:text-gray-400 my-4">
                   Category Details:
                 </p>
-                <div class="grid gap-4 sm:grid-cols-2">
+                <div class="grid gap-4">
                   <FormInput
                     :label="'Category Name'"
                     :name="'category_name'"
@@ -37,6 +37,18 @@
                     @change="changeToSlug()"
                     v-model="categoryInfo.slug"
                   ></FormInput>
+                </div>
+              </div>
+              <div class="grid">
+                <div>
+                  <p class="font-medium text-blue-600 dark:text-gray-400 my-4">Image:</p>
+
+                  <FormFileUploadSingle
+                    @fileChange="(file) => (this.categoryInfo.img = file)"
+                    :label="'Image'"
+                    :name="'image'"
+                    :error="errors.img ?? errors['img.0']"
+                  ></FormFileUploadSingle>
                 </div>
               </div>
             </div>
@@ -104,6 +116,8 @@ import { initFlowbite } from "flowbite";
 import Breadcrump from "../../../Shared/AdminDashboardLayoutComponents/Breadcrump.vue";
 import ModalHeader from "../../../Shared/AdminDashboardLayoutComponents/ModalHeader.vue";
 import FormInput from "../../../Shared/AdminDashboardLayoutComponents/FormInput.vue";
+import FormFileUploadSingle from "../../../Shared/AdminDashboardLayoutComponents/FormFileUploadSingle.vue";
+
 import Button from "../../../Shared/AdminDashboardLayoutComponents/Button.vue";
 import Errors from "../../../Shared/AdminDashboardLayoutComponents/Errors.vue";
 

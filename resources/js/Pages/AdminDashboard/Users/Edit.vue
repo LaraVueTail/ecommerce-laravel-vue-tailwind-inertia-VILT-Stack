@@ -103,11 +103,11 @@
                     </p>
 
                     <FormFileUploadSingle
-                      @fileChange="(file) => (this.profile_pic = file)"
+                      @fileChange="(file) => (this.avatar = file)"
                       :label="'Profile Picture'"
-                      :oldImageLink="this.userInfo.profile_pic"
-                      :name="'profile_pic'"
-                      :error="errors.profile_pic ?? errors['profile_pic.0']"
+                      :oldImageLink="this.userInfo.avatar"
+                      :name="'avatar'"
+                      :error="errors.avatar ?? errors['avatar.0']"
                     ></FormFileUploadSingle>
                   </div>
                 </div>
@@ -144,7 +144,7 @@ export default {
     return {
       userInfo: this.user,
       form: {},
-      profile_pic: false,
+      avatar: false,
       deleteAlertUser: false,
       deleteAlertUserText: "",
     };
@@ -161,10 +161,10 @@ export default {
       router.delete(`/admin-dashboard/users/${this.user.id}`);
     },
     updateUser() {
-      if (this.profile_pic) {
-        this.userInfo.profile_pic = this.profile_pic;
+      if (this.avatar) {
+        this.userInfo.avatar = this.avatar;
       } else {
-        delete this.userInfo.profile_pic;
+        delete this.userInfo.avatar;
       }
       console.log(this.userInfo);
       this.userInfo._method = "put";

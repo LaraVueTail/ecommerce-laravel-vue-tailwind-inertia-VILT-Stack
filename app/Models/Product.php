@@ -35,12 +35,12 @@ class Product extends Model
 
     }
 
-    // protected function thumbnail(): Attribute
-    // {
-    //     return Attribute::make(
-    //     get: fn($value) => asset($value),
-    //     );
-    // }
+    protected function thumbnail(): Attribute
+    {
+        return Attribute::make(
+        get: fn($value) => asset($value),
+        );
+    }
 
     public function getId()
     {

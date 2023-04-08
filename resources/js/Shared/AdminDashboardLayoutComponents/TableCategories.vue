@@ -6,9 +6,10 @@
       >
         <tr>
           <th scope="col" class="px-4 py-3">ID</th>
-          <th scope="col" class="px-4 py-3">Created at</th>
+          <th scope="col" class="px-4 py-3"></th>
           <th scope="col" class="px-4 py-3">Name</th>
           <th scope="col" class="px-4 py-3">Slug</th>
+          <th scope="col" class="px-4 py-3">Created at</th>
           <th scope="col" class="px-4 py-3">
             <span class="sr-only">Actions</span>
           </th>
@@ -26,15 +27,22 @@
           >
             {{ category.id }}
           </th>
-          <th scope="row" class="px-4 py-3 font-medium">
-            {{ toDate(category.created_at) }}
-          </th>
+          <td class="p-4">
+            <div
+              class="w-20 h-20 bg-cover bg-center rounded-lg"
+              :style="`background-image: url(${category.img})`"
+            ></div>
+          </td>
+
           <td class="px-4 py-3">
             {{ category.name }}
           </td>
           <td class="px-4 py-3">
             {{ category.slug }}
           </td>
+          <th scope="row" class="px-4 py-3 font-medium">
+            {{ toDate(category.created_at) }}
+          </th>
 
           <td class="px-4 py-3 flex items-center justify-end">
             <button

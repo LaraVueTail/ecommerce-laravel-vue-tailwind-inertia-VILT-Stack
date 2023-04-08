@@ -6,6 +6,7 @@
       >
         <tr>
           <th scope="col" class="px-4 py-3">ID</th>
+          <th scope="col" class="px-4 py-3">Thumbnail</th>
           <th scope="col" class="px-4 py-3">Name</th>
           <th scope="col" class="px-4 py-3">Category</th>
           <th scope="col" class="px-4 py-3">Price</th>
@@ -31,6 +32,12 @@
           >
             {{ product.id }}
           </th>
+          <td class="p-4">
+            <div
+              class="w-20 h-20 bg-cover bg-center rounded-lg"
+              :style="`background-image: url(${product.thumbnail})`"
+            ></div>
+          </td>
           <th scope="row" class="px-4 py-3 font-medium">
             {{ product.name }}
           </th>
@@ -39,7 +46,7 @@
           </td>
           <td class="px-4 py-3">
             {{ product.price }}<br />
-            <p class="font-medium">Offer Price: {{ product.price_no_offer }}</p>
+            <p class="font-medium">Offer Price: {{ product.price_sale }}</p>
           </td>
           <td class="px-4 py-3">
             {{ product.brand }}
