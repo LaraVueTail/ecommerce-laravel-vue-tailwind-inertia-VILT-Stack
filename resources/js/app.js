@@ -1,7 +1,7 @@
 import { createApp, h } from "vue";
 import { createInertiaApp, Link, Head } from "@inertiajs/vue3";
 
-import PublicLayout from "./Shared/PublicLayout.vue";
+import PublicPagesLayout from "./Shared/PublicPagesLayout.vue";
 import CustomerDashboardLayout from "./Shared/CustomerDashboardLayout.vue";
 import AdminDashboardLayout from "./Shared/AdminDashboardLayout.vue";
 
@@ -16,7 +16,7 @@ createInertiaApp({
             name.startsWith("Cart/") ||
             name.startsWith("Checkout/")
         ) {
-            page.default.layout = PublicLayout;
+            page.default.layout = PublicPagesLayout;
         }
         if (name.startsWith("CustomerDashboard/")) {
             page.default.layout = CustomerDashboardLayout;

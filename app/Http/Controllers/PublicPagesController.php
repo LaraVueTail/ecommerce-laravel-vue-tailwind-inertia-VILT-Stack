@@ -16,7 +16,7 @@ class PublicPagesController extends Controller
     public function homePage()
     {
         // dd($cart->cart_data);
-        return Inertia::render('Public/Home', [
+        return Inertia::render('Public/HomeNew', [
             'products' => Product::all()
         ]);
     }
