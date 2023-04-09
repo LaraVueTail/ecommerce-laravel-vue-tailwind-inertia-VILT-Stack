@@ -1,6 +1,6 @@
 <template>
   <div class="bg-white">
-    <NavBar></NavBar>
+    <NavBar class="z-auto"></NavBar>
     <slot></slot>
   </div>
 </template>

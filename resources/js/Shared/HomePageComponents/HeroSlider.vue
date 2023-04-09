@@ -1,7 +1,7 @@
 <template>
   <div id="default-carousel" class="relative w-full" data-carousel="slide">
     <!-- Carousel wrapper -->
-    <div class="relative h-56 overflow-hidden md:h-[56rem]">
+    <div class="relative h-56 overflow-hidden md:h-screen">
       <!-- Item 1 -->
       <div
         class="hidden duration-700 ease-in-out"
@@ -10,7 +10,7 @@
         :key="image"
       >
         <div
-          class="absolute bg-cover bg-top no-repeat h-56 md:h-[56rem] -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-full"
+          class="absolute bg-cover bg-top no-repeat h-56 md:h-screen -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-full"
           :style="`background-image: url(${image})`"
         ></div>
         <!-- <img
@@ -21,7 +21,7 @@
       </div>
     </div>
     <!-- Slider indicators -->
-    <div class="absolute z-30 flex space-x-3 -translate-x-1/2 bottom-5 left-1/2">
+    <!-- <div class="absolute z-30 flex space-x-3 -translate-x-1/2 bottom-5 left-1/2">
       <button
         type="button"
         class="w-3 h-3 rounded-full"
@@ -57,11 +57,11 @@
         aria-label="Slide 5"
         data-carousel-slide-to="4"
       ></button>
-    </div>
+    </div> -->
     <!-- Slider controls -->
     <button
       type="button"
-      class="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+      class="absolute top-0 left-0 z-20 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
       data-carousel-prev
     >
       <span

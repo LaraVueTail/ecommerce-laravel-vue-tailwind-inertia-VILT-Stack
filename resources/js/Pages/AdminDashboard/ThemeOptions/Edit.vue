@@ -20,7 +20,7 @@
         <form action="#" @submit.prevent="">
           <div>
             <div class="grid gap-4 mb-4 grid-cols-1 md:grid-cols-2">
-              <div class="pr-5 border-r">
+              <div class="pr-5 md:border-r">
                 <p class="font-medium text-blue-600 dark:text-gray-400 my-4">
                   Hero Slide Images
                 </p>

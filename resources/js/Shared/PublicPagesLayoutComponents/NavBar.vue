@@ -13,7 +13,7 @@
         <div class="fixed inset-0 bg-black bg-opacity-25" />
       </TransitionChild>
 
-      <div class="fixed inset-0 z-40 flex">
+      <div class="fixed inset-0 z-50 flex">
         <TransitionChild
           as="template"
           enter="transition ease-in-out duration-300 transform"
@@ -64,7 +64,7 @@
                 <TabPanel
                   v-for="category in navigation.categories"
                   :key="category.name"
-                  class="space-y-10 px-4 pb-8 pt-10"
+                  class="space-y-10 px-4 pb-8 pt-10 z-50"
                 >
                   <div class="grid grid-cols-2 gap-x-4">
                     <div
@@ -183,7 +183,7 @@
           </div>
 
           <!-- Flyout menus -->
-          <PopoverGroup class="hidden lg:ml-8 lg:block lg:self-stretch">
+          <PopoverGroup class="hidden lg:ml-8 lg:block lg:self-stretch z-50">
             <div class="flex h-full space-x-8">
               <Popover
                 v-for="category in navigation.categories"
