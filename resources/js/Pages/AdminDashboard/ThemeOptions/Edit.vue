@@ -45,7 +45,25 @@
               </div>
               <div class="grid">
                 <div>
-                  <p class="font-medium text-blue-600 dark:text-gray-400 my-4">Image:</p>
+                  <p class="font-medium text-blue-600 dark:text-gray-400 my-4">
+                    About Page:
+                  </p>
+                  <FormInput
+                    :label="'Heading'"
+                    :name="'heading'"
+                    :type="'text'"
+                    v-model="about.heading"
+                    :error="errors.about ? errors.about.heading : ''"
+                  ></FormInput>
+                  <FormTextArea
+                    :label="'Text'"
+                    :name="'text'"
+                    v-model="about.text"
+                    :row="'5'"
+                    :placeholder="'About page text content'"
+                    :error="errors.about ? errors.about.text : ''"
+                  >
+                  </FormTextArea>
 
                   <!-- <FormFileUploadSingle
                   @fileChange="(file) => (this.categoryInfo.img = file)"
@@ -81,6 +99,7 @@ export default {
     return {
       themeOptionInfo: this.themeOption,
       form: {},
+      about: JSON.parse(this.themeOption.about),
       deleteAlertImage: false,
       deleteAlertImageText: "",
       imageUrl: null,
@@ -131,6 +150,8 @@ import { onMounted, onUpdated } from "vue";
 import { initFlowbite } from "flowbite";
 import Breadcrump from "../../../Shared/AdminDashboardLayoutComponents/Breadcrump.vue";
 import ModalHeader from "../../../Shared/AdminDashboardLayoutComponents/ModalHeader.vue";
+import FormTextArea from "../../../Shared/AdminDashboardLayoutComponents/FormTextArea.vue";
+
 import FormInput from "../../../Shared/AdminDashboardLayoutComponents/FormInput.vue";
 import FormFileUploadSingle from "../../../Shared/AdminDashboardLayoutComponents/FormFileUploadSingle.vue";
 import FormFileUploadMultiple from "../../../Shared/AdminDashboardLayoutComponents/FormFileUploadMultiple.vue";
