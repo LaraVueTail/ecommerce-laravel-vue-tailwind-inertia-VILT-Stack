@@ -1,46 +1,23 @@
 <template>
   <div id="default-carousel" class="relative w-full" data-carousel="slide">
     <!-- Carousel wrapper -->
-    <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
+    <div class="relative h-56 overflow-hidden md:h-[56rem]">
       <!-- Item 1 -->
-      <div class="hidden duration-700 ease-in-out" data-carousel-item>
-        <img
-          src="https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg"
+      <div
+        class="hidden duration-700 ease-in-out"
+        data-carousel-item
+        v-for="image in hero_carousel"
+        :key="image"
+      >
+        <div
+          class="absolute bg-cover bg-top no-repeat h-56 md:h-[56rem] -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-full"
+          :style="`background-image: url(${image})`"
+        ></div>
+        <!-- <img
+          :src="image"
           class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
           alt="..."
-        />
-      </div>
-      <!-- Item 2 -->
-      <div class="hidden duration-700 ease-in-out" data-carousel-item>
-        <img
-          src="https://tailwindui.com/img/ecommerce-images/mega-menu-category-02.jpg"
-          class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-          alt="..."
-        />
-      </div>
-      <!-- Item 3 -->
-      <div class="hidden duration-700 ease-in-out" data-carousel-item>
-        <img
-          src="https://tailwindui.com/img/ecommerce-images/product-page-04-detail-product-shot-01.jpg"
-          class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-          alt="..."
-        />
-      </div>
-      <!-- Item 4 -->
-      <div class="hidden duration-700 ease-in-out" data-carousel-item>
-        <img
-          src="/docs/images/carousel/carousel-4.svg"
-          class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-          alt="..."
-        />
-      </div>
-      <!-- Item 5 -->
-      <div class="hidden duration-700 ease-in-out" data-carousel-item>
-        <img
-          src="/docs/images/carousel/carousel-5.svg"
-          class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-          alt="..."
-        />
+        /> -->
       </div>
     </div>
     <!-- Slider indicators -->
@@ -136,3 +113,8 @@
     </button>
   </div>
 </template>
+<script>
+export default {
+  props: ["hero_carousel"],
+};
+</script>

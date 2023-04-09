@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ThemeOption;
 use Darryldecode\Cart\CartCollection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,6 +18,7 @@ class PublicPagesController extends Controller
     {
         // dd($cart->cart_data);
         return Inertia::render('Public/HomeNew', [
+            'theme_option' => ThemeOption::first(),
             'products' => Product::all()
         ]);
     }

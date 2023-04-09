@@ -13,63 +13,17 @@ use Illuminate\Support\Facades\Request;
 class AdminThemeOptionsController extends Controller
 {
     //
-    public function index()
-    {
-        $categories =  Category::query()
-                
-        ->when(
-            Request::input('search') ?? false,fn($query, $search) =>
-            $query
-                ->where(fn($query) =>
-                $query
-                    ->where('name', 'like', "%{$search}%")
-                        ->orWhere('id', '=', $search)
-            )
-            )
-        ->when(true,fn($query) =>
-                $query->latest()
-            )
-
-        ->paginate(10)
-
-        ->withQueryString();
-
-        return Inertia::render(
-            'AdminDashboard/Categories/Index',
-            [
-                'categories' => $categories,
-
-                'filters' => Request::only(['search'])
-            ]
-        );
-
-    }
-
-
-    public function create()
-    {
-
-
-        return Inertia::render('AdminDashboard/ThemeOptions/Create');
-
-    }
-
-    public function store()
-    {   
-        // dd(request()->input('product_details'));
-        $attributes = $this->validateCategory();
-        $img = $attributes['img'][0];
-        Category::create(array_merge($this->validateCategory(), [
-            'img' => $img->storeAs('images/categories/'.$attributes['slug'].'/img','img.'.$img->extension()),
-        ]));
-
-        return redirect('/admin-dashboard/categories')->with('success', 'Category Created!');
-    }
+    // public function __construct()
+    // {
+    //     $themeOption = ThemeOption::first();
+    //     dd($themeOption);
+    // }
 
     public function edit(ThemeOption $themeOption)
     {
-        // $category->img = asset($category->img);
+        $hero_carousel = json_decode($themeOption->hero_carousel);
 
+        $themeOption->hero_carousel = json_encode(array_map([$this, 'getUrl'],$hero_carousel));
         return Inertia::render('AdminDashboard/ThemeOptions/Edit', [
             'themeOption' => $themeOption
         ]);
@@ -79,7 +33,7 @@ class AdminThemeOptionsController extends Controller
     public function update(ThemeOption $themeOption)
     {
         $attributes = $this->validateThemeOptions($themeOption);
-        dd($attributes);
+        // dd($attributes);
 
         if($attributes['hero_carousel'] ?? false){
             $heroCarouselFiles = $attributes['hero_carousel'];
@@ -96,6 +50,31 @@ class AdminThemeOptionsController extends Controller
         $themeOption->update($attributes);
 
         return back()->with('success', 'Theme Options Updated!');
+    }
+
+    public function deleteImage(ThemeOption $themeOption)
+    {
+
+        parse_url(request()->input('imageUrl'))['host'] === 'images.pexels.com' ? $image = request()->input('imageUrl') :   $image = substr(parse_url(request()->input('imageUrl'))['path'],1);
+        
+        $hero_carousel = json_decode($themeOption->hero_carousel);
+        // dd($image, $hero_carousel);
+
+        if (($key = array_search($image, $hero_carousel)) !== false) {
+            unset($hero_carousel[$key]);
+            if(parse_url(request()->input('imageUrl'))['host'] !== 'images.pexels.com'){
+                Storage::delete($image);
+            }
+        }
+        // dd($hero_carousel);
+        $hero_carousel = array_values($hero_carousel);
+
+        $themeOption->hero_carousel = json_encode($hero_carousel);
+        $themeOption->save();
+
+        return back()->with('success', 'Image Deleted!');
+
+
     }
 
 
@@ -119,6 +98,12 @@ class AdminThemeOptionsController extends Controller
             'hero_carousel.*.max' => 'Upload image with size less than 2MB',
         ]);
     }
+
+    public function getUrl($file)
+    {
+        return asset($file);
+    }
+
 
 
 }

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Cart;
 use App\Models\Product;
+use App\Models\ThemeOption;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -18,6 +19,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
+
+        ThemeOption::factory(1)->create();
 
 
         User::factory()->create([

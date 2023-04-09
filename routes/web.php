@@ -56,6 +56,7 @@ Route::middleware('can:admin')->group(function () {
     Route::resource('admin-dashboard/products', AdminProductController::class)->except('show');
     Route::resource('admin-dashboard/categories', AdminCategoryController::class)->except('show');
     Route::resource('admin-dashboard/users', AdminUserController::class);
+    Route::put('admin-dashboard/theme-options/{themeOption}/deleteImage', [AdminThemeOptionsController::class, 'deleteImage']);
     Route::put('admin-dashboard/products/{product}/deleteImage', [AdminProductController::class, 'deleteImage']);
     Route::put('admin-dashboard/orders/{order}/edit-status', [AdminOrderController::class, 'updateOrderStatus']); 
 });
