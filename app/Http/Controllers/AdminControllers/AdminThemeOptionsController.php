@@ -22,30 +22,50 @@ class AdminThemeOptionsController extends Controller
     public function edit(ThemeOption $themeOption)
     {
         $hero_carousel = json_decode($themeOption->hero_carousel);
+        $aboutImage = $themeOption->aboutImage;
+        $themeOption->aboutImage = $this->getUrl($aboutImage); 
 
         $themeOption->hero_carousel = json_encode(array_map([$this, 'getUrl'],$hero_carousel));
         return Inertia::render('AdminDashboard/ThemeOptions/Edit', [
             'themeOption' => $themeOption
         ]);
 
+
     }
 
     public function update(ThemeOption $themeOption)
     {
-        $attributes = $this->validateThemeOptions($themeOption);
-        // dd($attributes);
-
-        if($attributes['hero_carousel'] ?? false){
-            $heroCarouselFiles = $attributes['hero_carousel'];
-
-            $oldHeroCarousel = json_decode($themeOption->hero_carousel);
-    
-            foreach ($heroCarouselFiles as $imageFile) {
-                array_push($oldHeroCarousel,$imageFile->store('images/theme/hero-carousel'));
-            }
-    
-            $attributes['hero_carousel'] = $oldHeroCarousel;
+        
+        $attributes = $this->validateThemeOptions($themeOption);  
+        if($attributes['aboutImage'][0] ?? false){
+            $attributes['aboutImage'] = $this->uploadImage($attributes['aboutImage'][0] ?? false, $themeOption->aboutImage,'images/theme/about-page','aboutImage');    
         }
+        if($attributes['hero_carousel'] ?? false){
+            $attributes['hero_carousel'] = $this->uploadImage($attributes['hero_carousel'] ?? false, $themeOption->hero_carousel,'images/theme/hero-carousel');  
+        }
+        
+
+        // if (request()->file('aboutImage')[0] ?? false) {
+        //     $aboutImageFile = request()->file('aboutImage')[0];
+        //     if(Storage::disk('public')->exists($themeOption->aboutImage)){
+        //         Storage::delete($themeOption->aboutImage);
+        //     }
+        //     $attributes['aboutImage'] = $aboutImageFile->storeAs('images/theme/about-page','aboutImage.'. $aboutImageFile->extension());
+        // }     
+
+
+
+        // if($attributes['hero_carousel'] ?? false){
+        //     $heroCarouselFiles = $attributes['hero_carousel'];
+
+        //     $oldHeroCarousel = json_decode($themeOption->hero_carousel);
+    
+        //     foreach ($heroCarouselFiles as $imageFile) {
+        //         array_push($oldHeroCarousel,$imageFile->store('images/theme/hero-carousel'));
+        //     }
+    
+        //     $attributes['hero_carousel'] = $oldHeroCarousel;
+        // }
 
         $themeOption->update($attributes);
 
@@ -77,6 +97,28 @@ class AdminThemeOptionsController extends Controller
 
     }
 
+    public function uploadImage($files,$oldFiles,$path,$storeAsName = null)
+    {
+        if(gettype($files ?? false) === "array"){
+            $imageFiles = $files;
+
+            $oldFiles = json_decode($oldFiles);
+    
+            foreach ($imageFiles as $imageFile) {
+                array_push($oldFiles,$imageFile->store($path));
+            }
+    
+            return $oldFiles;
+
+        } else{
+            $imageFile = $files;
+            if(Storage::disk('public')->exists($oldFiles)){
+                Storage::delete($oldFiles);
+            }
+            return $imageFile->storeAs($path,$storeAsName.'.'.$imageFile->extension());
+        }
+    }
+
 
     public function destroy(Category $category)
     {
@@ -91,11 +133,10 @@ class AdminThemeOptionsController extends Controller
 
         return request()->validate([
             'hero_carousel' => 'nullable',
-            'hero_carousel.*' => 'nullable|mimes:jpeg,png |max:2096',
-        ],
-        [
-            'hero_carousel.*.mimes' => 'Upload image as jpg/png format with size less than 2MB',
-            'hero_carousel.*.max' => 'Upload image with size less than 2MB',
+            'aboutHeading' => 'required|max:50',
+            'aboutText' => 'required|max:350',
+            'aboutImage.*' => 'nullable|mimes:jpg,jpeg,png |max:2096',
+            'hero_carousel.*' => 'nullable|mimes:jpg,jpeg,png |max:2096',
         ]);
     }
 

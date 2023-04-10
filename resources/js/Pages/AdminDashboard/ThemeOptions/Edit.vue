@@ -29,7 +29,7 @@
                     @files-change="(files) => (hero_carousel = files)"
                     @files-delete="deleteHeroCarousel"
                     :label="'Upload Images'"
-                    :oldImageUrls="JSON.parse(themeOption.hero_carousel)"
+                    :oldImageUrls="oldHeroCarousel"
                     :name="'hero_carousel'"
                     :error="errors.hero_carousel"
                   >
@@ -52,16 +52,34 @@
                     :label="'Heading'"
                     :name="'heading'"
                     :type="'text'"
-                    v-model="about.heading"
-                    :error="errors.about ? errors.about.heading : ''"
+                    :placeholder="'Page Heading'"
+                    v-model="themeOptionInfo.aboutHeading"
+                    :error="errors.aboutHeading"
                   ></FormInput>
+
+                  <!-- <FormFileUploadSingle
+                      @fileChange="(file) => (thumbnail = file)"
+                      :label="'Thumbnail'"
+                      :oldImageLink="oldThumbnail"
+                      :name="'thumbnail'"
+                      :error="errors.thumbnail ?? errors['thumbnail.0']"
+                    ></FormFileUploadSingle> -->
+
+                  <FormFileUploadSingle
+                    @fileChange="(file) => (aboutImage = file)"
+                    :label="'Image'"
+                    :oldImageLink="oldAboutImage"
+                    :name="'aboutImage'"
+                    :error="errors.aboutImage ?? errors['aboutImage.0']"
+                  ></FormFileUploadSingle>
+
                   <FormTextArea
                     :label="'Text'"
                     :name="'text'"
-                    v-model="about.text"
+                    v-model="themeOptionInfo.aboutText"
                     :row="'5'"
                     :placeholder="'About page text content'"
-                    :error="errors.about ? errors.about.text : ''"
+                    :error="errors.aboutText"
                   >
                   </FormTextArea>
 
@@ -92,18 +110,20 @@
   </section>
 </template>
 <script>
-import { router, useForm } from "@inertiajs/vue3";
+import { router, useRemember } from "@inertiajs/vue3";
 export default {
   props: ["errors", "themeOption"],
   data() {
     return {
       themeOptionInfo: this.themeOption,
       form: {},
-      about: JSON.parse(this.themeOption.about),
       deleteAlertImage: false,
       deleteAlertImageText: "",
       imageUrl: null,
       hero_carousel: false,
+      aboutImage: false,
+      oldHeroCarousel: JSON.parse(this.themeOption.hero_carousel),
+      oldAboutImage: this.themeOption.aboutImage,
     };
   },
   methods: {
@@ -132,15 +152,23 @@ export default {
     updateThemeOptions() {
       if (this.hero_carousel) {
         this.themeOptionInfo.hero_carousel = this.hero_carousel;
+        this.hero_carousel = false;
       } else {
         delete this.themeOptionInfo.hero_carousel;
+      }
+
+      if (this.aboutImage) {
+        this.themeOptionInfo.aboutImage = this.aboutImage;
+      } else {
+        delete this.themeOptionInfo.aboutImage;
       }
       console.log(this.themeOptionInfo);
       this.themeOptionInfo._method = "put";
       router.post(`/admin-dashboard/theme-options/1`, this.themeOptionInfo, {
-        preserveState: false,
+        preserveState: true,
         preserveScroll: true,
       });
+      window.location.reload();
     },
   },
 };

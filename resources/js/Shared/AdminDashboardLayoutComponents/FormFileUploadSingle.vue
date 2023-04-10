@@ -75,6 +75,7 @@ export default {
         this.addedFile = files;
 
         console.log(this.addedFile);
+        this.oldImage = URL.createObjectURL(this.addedFile[0]);
         this.$emit("fileChange", this.addedFile);
       }
     },

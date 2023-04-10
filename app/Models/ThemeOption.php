@@ -10,20 +10,27 @@ class ThemeOption extends Model
 {
     use HasFactory;
 
-    protected function heroCarousel(): Attribute
+    // protected function heroCarousel(): Attribute
+    // {
+    //     return Attribute::make(
+    //     get: function($value) {
+    //             return $value;
+    //     },
+    //     );
+    // }
+
+    protected function aboutImage(): Attribute
     {
+        
         return Attribute::make(
         get: function($value) {
-            if(count(json_decode($value)) === 0){
-                return json_encode([
-                "https://images.pexels.com/photos/8774421/pexels-photo-8774421.jpeg?auto=compress",
-                "https://images.pexels.com/photos/15787281/pexels-photo-15787281.jpeg?auto=compress",
-                "https://images.pexels.com/photos/7324666/pexels-photo-7324666.jpeg?auto=compress"
-            ]);
-            } else {
-                return $value;
-            }
+                if($value !== null){
+                    return $value;
+                } else {
+                    return "https://images.pexels.com/photos/443383/pexels-photo-443383.jpeg";
+                }
         },
         );
     }
+
 }

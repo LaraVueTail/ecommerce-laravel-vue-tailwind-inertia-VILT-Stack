@@ -17,8 +17,12 @@ class PublicPagesController extends Controller
     public function homePage()
     {
         // dd($cart->cart_data);
+        $themeOption = ThemeOption::first();
+        $hero_carousel = json_decode($themeOption->hero_carousel);
+
+        $themeOption->hero_carousel = json_encode(array_map([$this, 'getUrl'],$hero_carousel));
         return Inertia::render('Public/HomeNew', [
-            'theme_option' => ThemeOption::first(),
+            'theme_option' => $themeOption,
             'products' => Product::all()
         ]);
     }
@@ -41,5 +45,9 @@ class PublicPagesController extends Controller
             'selectedCategories' => request('categories'),
             'query'=>request()->all()
         ]);
+    }
+    public function getUrl($file)
+    {
+        return asset($file);
     }
 }

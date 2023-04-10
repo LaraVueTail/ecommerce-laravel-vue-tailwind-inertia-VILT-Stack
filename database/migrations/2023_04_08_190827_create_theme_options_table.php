@@ -16,7 +16,9 @@ return new class extends Migration
         Schema::create('theme_options', function (Blueprint $table) {
             $table->id();
             $table->json('hero_carousel')->nullable();
-            $table->json('about')->default(`["heading"=>"","text"=>"","img"=>""]`);
+            $table->string('aboutHeading')->default('About Us');
+            $table->string('aboutText')->default('Some text ...');
+            $table->string('aboutImage')->nullable();
             $table->timestamps();
         });
     }
