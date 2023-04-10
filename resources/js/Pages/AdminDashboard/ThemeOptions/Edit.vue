@@ -34,13 +34,6 @@
                     :error="errors.hero_carousel"
                   >
                   </FormFileUploadMultiple>
-                  <!-- <FormFileUploadMultiple
-                    @filesChange="(files) => (this.themeOptionInfo.hero_carousel = files)"
-                    :label="'Upload Images'"
-                    :name="'hero_carousal'"
-                    :error="errors.hero_carousel"
-                  >
-                  </FormFileUploadMultiple> -->
                 </div>
               </div>
               <div class="grid">
@@ -159,16 +152,17 @@ export default {
 
       if (this.aboutImage) {
         this.themeOptionInfo.aboutImage = this.aboutImage;
+        this.oldAboutImage = URL.createObjectURL(this.aboutImage[0]);
       } else {
         delete this.themeOptionInfo.aboutImage;
       }
       console.log(this.themeOptionInfo);
       this.themeOptionInfo._method = "put";
       router.post(`/admin-dashboard/theme-options/1`, this.themeOptionInfo, {
-        preserveState: true,
+        preserveState: false,
         preserveScroll: true,
+        only: ["themeOption", "flash"],
       });
-      window.location.reload();
     },
   },
 };

@@ -38,7 +38,7 @@ class AdminThemeOptionsController extends Controller
         
         $attributes = $this->validateThemeOptions($themeOption);  
         if($attributes['aboutImage'][0] ?? false){
-            $attributes['aboutImage'] = $this->uploadImage($attributes['aboutImage'][0] ?? false, $themeOption->aboutImage,'images/theme/about-page','aboutImage');    
+            $attributes['aboutImage'] = $this->uploadImage($attributes['aboutImage'][0] ?? false, $themeOption->aboutImage,'images/theme/about-page');    
         }
         if($attributes['hero_carousel'] ?? false){
             $attributes['hero_carousel'] = $this->uploadImage($attributes['hero_carousel'] ?? false, $themeOption->hero_carousel,'images/theme/hero-carousel');  
@@ -97,7 +97,7 @@ class AdminThemeOptionsController extends Controller
 
     }
 
-    public function uploadImage($files,$oldFiles,$path,$storeAsName = null)
+    public function uploadImage($files,$oldFiles,$path,$storeAsName = false)
     {
         if(gettype($files ?? false) === "array"){
             $imageFiles = $files;
@@ -114,6 +114,9 @@ class AdminThemeOptionsController extends Controller
             $imageFile = $files;
             if(Storage::disk('public')->exists($oldFiles)){
                 Storage::delete($oldFiles);
+            }
+            if(!$storeAsName){
+                $storeAsName = $imageFile->getClientOriginalName();
             }
             return $imageFile->storeAs($path,$storeAsName.'.'.$imageFile->extension());
         }
