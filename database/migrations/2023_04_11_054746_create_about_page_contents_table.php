@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('aboutSubHeading')->default('Some text');
             $table->string('aboutText')->default('Some text ...');
             $table->string('aboutImage')->nullable();
+            $table->json('aboutStatuses')->nullable();
             $table->timestamps();
         });
     }

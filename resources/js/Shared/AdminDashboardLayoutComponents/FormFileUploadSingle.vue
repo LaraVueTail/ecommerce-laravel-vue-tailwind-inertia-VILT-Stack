@@ -6,7 +6,7 @@
     <input
       class="mb-2 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
       :class="{
-        'border-2 border-rose-500': error && (!addedFile || addedFile[0].size > 2500000),
+        'border-2 border-rose-500': error || errorSize,
       }"
       :id="name"
       type="file"
@@ -14,11 +14,10 @@
       accept="image/png, image/jpeg"
       @input="fileAdded($event.target.files)"
     />
-    <div
-      v-if="error && !addedFile"
-      v-text="error"
-      class="text-red-500 text-xs my-1"
-    ></div>
+    <div v-if="error">
+      <div v-text="error" class="text-red-500 text-xs my-1"></div>
+    </div>
+
     <div v-if="errorSize" class="text-red-500 text-xs my-1">
       Upload file less than 2MB
     </div>

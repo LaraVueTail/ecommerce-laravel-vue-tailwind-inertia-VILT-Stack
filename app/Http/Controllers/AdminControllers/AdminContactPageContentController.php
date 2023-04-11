@@ -2,39 +2,41 @@
 
 namespace App\Http\Controllers\AdminControllers;
 use App\Http\Controllers\Controller;
-use App\Models\AboutPageContent;
+use App\Models\ContactPageContent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class AdminAboutPageContentController extends Controller
+class AdminContactPageContentController extends Controller
 {
-    public function update(AboutPageContent $aboutPageContent)
+    public function update(ContactPageContent $contactPageContent)
     {
         // dd(request()->all());
-        $attributes = $this->validateAboutPageContent($aboutPageContent);  
+        $attributes = $this->validateContactPageContent($contactPageContent);  
         // dd($attributes);
 
 
-        if($attributes['aboutImage'][0] ?? false){
-            $attributes['aboutImage'] = $this->uploadImage($attributes['aboutImage'][0] ?? false, $aboutPageContent->aboutImage,'images/about-page');    
+        if($attributes['contactImage'][0] ?? false){
+            $attributes['contactImage'] = $this->uploadImage($attributes['contactImage'][0] ?? false, $contactPageContent->contactImage,'images/contact-page');    
         }
 
-        $aboutPageContent->update($attributes);
+        $contactPageContent->update($attributes);
 
-        return back()->withErrors('aboutPageContentsErrors')->with('success','About Page Updated!');
+        return back()->withErrors('contactPageContentsErrors')->with('success','Contact Page Updated!');
 
     }
 
-    protected function validateAboutPageContent(?AboutPageContent $aboutPageContent = null): array
+    protected function validateContactPageContent(?ContactPageContent $contactPageContent = null): array
     {
-        $aboutPageContent ??= new AboutPageContent();
+        $contactPageContent ??= new ContactPageContent();
 
-        return request()->validateWithBag('aboutPageContentsErrors',[
-            'aboutHeading' => 'required|max:50',
-            'aboutSubHeading' => 'required|max:1000',
-            'aboutText' => 'required|max:1000',
-            'aboutStatuses' => 'nullable|max:300',
-            'aboutImage' => 'nullable|mimes:jpg,jpeg,png |max:2096',
+        return request()->validateWithBag('contactPageContentsErrors',[
+            'contactHeading' => 'required|max:50',
+            'contactSubHeading' => 'required|max:1000',
+            'contactText' => 'required|max:1000',
+            'contactPhoneNumbers' => 'required|max:50',
+            'contactEmail' => 'required|email|max:50',
+            'contactAddress' => 'required|max:100',
+            'contactImage' => 'nullable|mimes:jpg,jpeg,png |max:2096',
             'created_at' => 'nullable',
             'updated_at' => 'nullable',
         ]);

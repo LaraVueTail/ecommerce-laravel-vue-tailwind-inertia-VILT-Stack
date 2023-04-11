@@ -13,6 +13,7 @@ use App\Http\Controllers\CustomerDashboardController;
 // use App\Http\Controllers\AdminControllers\AdminThemeOptionsController;
 use App\Http\Controllers\AdminControllers\AdminWebsiteContentController;
 use App\Http\Controllers\AdminControllers\AdminAboutPageContentController;
+use App\Http\Controllers\AdminControllers\AdminContactPageContentController;
 use App\Http\Controllers\AdminControllers\AdminOrderController;
 use App\Http\Controllers\AdminControllers\AdminProductController;
 use App\Http\Controllers\AdminControllers\AdminCategoryController;
@@ -57,6 +58,7 @@ Route::middleware('can:admin')->group(function () {
     // Route::resource('admin-dashboard/theme-options', AdminThemeOptionsController::class);
     Route::get('admin-dashboard/website-contents', [AdminWebsiteContentController::class, 'edit']);
     Route::put('admin-dashboard/about-page-contents/{aboutPageContent}', [AdminAboutPageContentController::class, 'update']);
+    Route::put('admin-dashboard/contact-page-contents/{contactPageContent}', [AdminContactPageContentController::class, 'update']);
     Route::resource('admin-dashboard/orders', AdminOrderController::class);
     Route::resource('admin-dashboard/products', AdminProductController::class)->except('show');
     Route::resource('admin-dashboard/categories', AdminCategoryController::class)->except('show');

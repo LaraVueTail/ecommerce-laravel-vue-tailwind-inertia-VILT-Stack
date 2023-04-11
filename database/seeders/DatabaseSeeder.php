@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\AboutPageContent;
 use App\Models\Cart;
+use App\Models\ContactPageContent;
 use App\Models\Product;
 use App\Models\ThemeOption;
 use App\Models\User;
@@ -24,7 +25,7 @@ class DatabaseSeeder extends Seeder
 
         // ThemeOption::factory(1)->create();
         AboutPageContent::factory(1)->create();
-
+        ContactPageContent::factory(1)->create();
 
         User::factory()->create([
             'email' => 'test@example.com'

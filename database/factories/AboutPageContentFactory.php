@@ -20,6 +20,7 @@ class AboutPageContentFactory extends Factory
             'aboutHeading' =>'About Us',
             'aboutSubHeading' =>'Sub heading',
             'aboutText'=>$this->faker->paragraph(5),
+            'aboutStatuses'=>json_encode([["name"=>"Years","value"=>"3"],["name"=>"Working Hours","value"=>"3000"],["name"=>"Staffs","value"=>"20"]])
         ];
     }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="relative isolate overflow-hidden bg-gray-900 py-24 sm:py-48">
+  <div class="relative isolate overflow-hidden bg-gray-900 py-24 sm:py-32">
     <img
       :src="aboutPageContent.aboutImage"
       alt=""
@@ -72,10 +72,14 @@
       </div>
       <div class="mx-auto mt-10 max-w-2xl lg:mx-0 lg:max-w-none">
         <dl class="mt-16 grid grid-cols-1 gap-8 sm:mt-20 sm:grid-cols-2 lg:grid-cols-4">
-          <div v-for="stat in stats" :key="stat.name" class="flex flex-col-reverse">
-            <dt class="text-base leading-7 text-gray-300">{{ stat.name }}</dt>
+          <div
+            v-for="status in JSON.parse(aboutPageContent.aboutStatuses)"
+            :key="status.name"
+            class="flex flex-col-reverse"
+          >
+            <dt class="text-base leading-7 text-gray-300">{{ status.name }}</dt>
             <dd class="text-2xl font-bold leading-9 tracking-tight text-white">
-              {{ stat.value }}
+              {{ status.value }}
             </dd>
           </div>
         </dl>

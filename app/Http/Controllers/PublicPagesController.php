@@ -32,6 +32,7 @@ class PublicPagesController extends Controller
     {
         // dd($cart->cart_data);
         $aboutPageContent = AboutPageContent::first();
+        // dd($aboutPageContent);
         $aboutPageContent->aboutImage = $this->getUrl($aboutPageContent->aboutImage);
         // dd($aboutPageContent);
         return Inertia::render('Public/About',[

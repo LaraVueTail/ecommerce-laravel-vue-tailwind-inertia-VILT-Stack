@@ -19,18 +19,6 @@ class ThemeOption extends Model
     //     );
     // }
 
-    protected function aboutImage(): Attribute
-    {
-        
-        return Attribute::make(
-        get: function($value) {
-                if($value !== null){
-                    return $value;
-                } else {
-                    return "https://images.pexels.com/photos/443383/pexels-photo-443383.jpeg";
-                }
-        },
-        );
-    }
+
 
 }
