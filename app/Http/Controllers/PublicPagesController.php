@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AboutPageContent;
 use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Product;
@@ -24,6 +25,17 @@ class PublicPagesController extends Controller
         return Inertia::render('Public/HomeNew', [
             'theme_option' => $themeOption,
             'products' => Product::all()
+        ]);
+    }
+
+    public function aboutPage()
+    {
+        // dd($cart->cart_data);
+        $aboutPageContent = AboutPageContent::first();
+        $aboutPageContent->aboutImage = $this->getUrl($aboutPageContent->aboutImage);
+        // dd($aboutPageContent);
+        return Inertia::render('Public/About',[
+            'aboutPageContent' => $aboutPageContent,
         ]);
     }
 

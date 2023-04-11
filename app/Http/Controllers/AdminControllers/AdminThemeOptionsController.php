@@ -37,6 +37,8 @@ class AdminThemeOptionsController extends Controller
     {
         
         $attributes = $this->validateThemeOptions($themeOption);  
+
+
         if($attributes['aboutImage'][0] ?? false){
             $attributes['aboutImage'] = $this->uploadImage($attributes['aboutImage'][0] ?? false, $themeOption->aboutImage,'images/theme/about-page');    
         }
@@ -137,7 +139,7 @@ class AdminThemeOptionsController extends Controller
         return request()->validate([
             'hero_carousel' => 'nullable',
             'aboutHeading' => 'required|max:50',
-            'aboutText' => 'required|max:350',
+            'aboutText' => 'required|max:1000',
             'aboutImage.*' => 'nullable|mimes:jpg,jpeg,png |max:2096',
             'hero_carousel.*' => 'nullable|mimes:jpg,jpeg,png |max:2096',
         ]);

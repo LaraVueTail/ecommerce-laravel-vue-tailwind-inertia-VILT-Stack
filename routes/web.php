@@ -10,7 +10,9 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CustomerDashboardController;
 
-use App\Http\Controllers\AdminControllers\AdminThemeOptionsController;
+// use App\Http\Controllers\AdminControllers\AdminThemeOptionsController;
+use App\Http\Controllers\AdminControllers\AdminWebsiteContentController;
+use App\Http\Controllers\AdminControllers\AdminAboutPageContentController;
 use App\Http\Controllers\AdminControllers\AdminOrderController;
 use App\Http\Controllers\AdminControllers\AdminProductController;
 use App\Http\Controllers\AdminControllers\AdminCategoryController;
@@ -28,6 +30,7 @@ use App\Http\Controllers\AdminControllers\AdminUserController;
  */
 
 Route::get('/', [PublicPagesController::class, 'homePage'])->name('home');
+Route::get('/about', [PublicPagesController::class, 'aboutPage']);
 Route::get('shop', [PublicPagesController::class, 'shopPage']);
 Route::get('products/{product:slug}', [ProductController::class, 'show']);
 
@@ -51,7 +54,9 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('can:admin')->group(function () {
     Route::get('admin-dashboard', [AdminDashboardController::class, 'index'])->name('admin_dashboard');
-    Route::resource('admin-dashboard/theme-options', AdminThemeOptionsController::class);
+    // Route::resource('admin-dashboard/theme-options', AdminThemeOptionsController::class);
+    Route::get('admin-dashboard/website-contents', [AdminWebsiteContentController::class, 'edit']);
+    Route::put('admin-dashboard/about-page-contents/{aboutPageContent}', [AdminAboutPageContentController::class, 'update']);
     Route::resource('admin-dashboard/orders', AdminOrderController::class);
     Route::resource('admin-dashboard/products', AdminProductController::class)->except('show');
     Route::resource('admin-dashboard/categories', AdminCategoryController::class)->except('show');
