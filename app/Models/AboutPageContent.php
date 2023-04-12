@@ -10,17 +10,27 @@ class AboutPageContent extends Model
 {
     use HasFactory;
 
+    protected $appends = ['about_image_url'];
+
     protected function aboutImage(): Attribute
     {
         
         return Attribute::make(
-        get: function($value) {
-                if($value !== null){
-                    return $value;
-                } else {
+        set: function($value) {
+                if($value === null){
                     return "https://images.pexels.com/photos/443383/pexels-photo-443383.jpeg";
+                } else {
+                    return $value;
                 }
         },
         );
+    }
+
+    protected function aboutImageUrl():Attribute
+    {
+        return Attribute::make(
+            get: function() {
+                    return asset($this->aboutImage);
+        });
     }
 }

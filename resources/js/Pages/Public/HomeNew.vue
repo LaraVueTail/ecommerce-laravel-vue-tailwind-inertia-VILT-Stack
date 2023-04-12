@@ -1,9 +1,11 @@
 <template>
-  <HeroSliderVue :hero_carousel="JSON.parse(theme_option.hero_carousel)"></HeroSliderVue>
+  <HeroSliderVue
+    :hero_carousel="JSON.parse(homePageContent.hero_carousel_url)"
+  ></HeroSliderVue>
 </template>
 <script>
 export default {
-  props: ["theme_option"],
+  props: ["homePageContent"],
 };
 </script>
 <script setup>

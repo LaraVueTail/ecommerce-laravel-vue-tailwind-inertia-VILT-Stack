@@ -21,4 +21,13 @@ class Category extends Model
     {
         return $this->hasMany(Product::class);
     }
+
+    protected function link(): Attribute
+    {
+        return Attribute::make(
+        get: function($value) {
+            $link = asset('').'shop?'.http_build_query(['categories'=>json_encode([$this->slug])]);
+            return $link;
+    });
+    }
 }

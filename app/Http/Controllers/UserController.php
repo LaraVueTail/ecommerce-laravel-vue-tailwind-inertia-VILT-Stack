@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\MainMenu;
 use Darryldecode\Cart\CartCollection;
 
 use App\Models\User;
@@ -13,7 +14,10 @@ class UserController extends Controller
     //
     public function login()
     {
-        return Inertia::render('Auth/Login');
+        $mainMenu = new MainMenu();
+        return Inertia::render('Auth/Login',[
+            'mainMenu'=>$mainMenu->publicMenu()
+        ]);
     }
 
     public function auth(Request $request)

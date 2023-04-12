@@ -1,6 +1,6 @@
 <template>
   <!-- breadcrumb -->
-  <Breadcrumb :routeTree="['Shop']"></Breadcrumb>
+  <!-- <Breadcrumb :routeTree="['Shop']"></Breadcrumb> -->
   <!-- ./breadcrumb -->
 
   <!-- shop wrapper -->

@@ -31,10 +31,10 @@
               <FormTextArea
                 :label="'Main Paragraph'"
                 :name="'text'"
-                v-model="contactPageContentInfo.aboutText"
+                v-model="contactPageContentInfo.contactText"
                 :row="'5'"
                 :placeholder="'Contact page text content'"
-                :error="this.contactPageContentsErrors.aboutText"
+                :error="this.contactPageContentsErrors.contactText"
               >
               </FormTextArea>
             </div>
@@ -102,7 +102,7 @@ export default {
     return {
       contactPageContentInfo: this.contactPageContent,
       contactImage: false,
-      oldContactImage: this.contactPageContent.contactImage,
+      oldContactImage: this.contactPageContent.contact_image_url,
       errors: this.contactPageContentsErrors ?? {},
     };
   },

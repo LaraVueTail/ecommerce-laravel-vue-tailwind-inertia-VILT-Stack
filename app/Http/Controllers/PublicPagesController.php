@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\AboutPageContent;
 use App\Models\Cart;
 use App\Models\Category;
+use App\Models\ContactPageContent;
+use App\Models\HomePageContent;
+use App\Models\MainMenu;
 use App\Models\Product;
 use App\Models\ThemeOption;
 use Darryldecode\Cart\CartCollection;
@@ -17,26 +20,38 @@ class PublicPagesController extends Controller
     //
     public function homePage()
     {
-        // dd($cart->cart_data);
-        $themeOption = ThemeOption::first();
-        $hero_carousel = json_decode($themeOption->hero_carousel);
-
-        $themeOption->hero_carousel = json_encode(array_map([$this, 'getUrl'],$hero_carousel));
+        $homePageContent = HomePageContent::first();
+        $mainMenu = new MainMenu();
         return Inertia::render('Public/HomeNew', [
-            'theme_option' => $themeOption,
+            'mainMenu' => $mainMenu->publicMenu(),
+            'homePageContent' => $homePageContent,
             'products' => Product::all()
         ]);
     }
 
     public function aboutPage()
     {
-        // dd($cart->cart_data);
+
         $aboutPageContent = AboutPageContent::first();
-        // dd($aboutPageContent);
         $aboutPageContent->aboutImage = $this->getUrl($aboutPageContent->aboutImage);
-        // dd($aboutPageContent);
+        $mainMenu = new MainMenu();
         return Inertia::render('Public/About',[
+            'mainMenu' => $mainMenu->publicMenu(),
             'aboutPageContent' => $aboutPageContent,
+        ]);
+    }
+
+    public function contactPage()
+    {
+        // dd($cart->cart_data);
+        $contactPageContent = ContactPageContent::first();
+        // dd($contactPageContent);
+        $contactPageContent->contactImage = $this->getUrl($contactPageContent->contactImage);
+        // dd($contactPageContent);
+        $mainMenu = new MainMenu();
+        return Inertia::render('Public/Contact',[
+            'mainMenu' => $mainMenu->publicMenu(),
+            'contactPageContent' => $contactPageContent,
         ]);
     }
 
@@ -50,7 +65,9 @@ class PublicPagesController extends Controller
     public function shopPage()
     {
         // dd(json_decode(request('categories')));
+        $mainMenu = new MainMenu();
         return Inertia::render('Public/Shop', [
+            'mainMenu' => $mainMenu->publicMenu(),
             'products' => Product::filter(
                 request(['categories','minPrice','maxPrice'])
             )->get(),

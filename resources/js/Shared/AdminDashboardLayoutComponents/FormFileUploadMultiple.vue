@@ -57,6 +57,14 @@
       <div v-if="errorSize" class="text-red-500 text-xs my-2">{{ errorSizeText }}</div>
     </div>
 
+    <AlertDelete
+      class="my-4"
+      v-if="deleteImageAlert"
+      @close="deleteImageAlert = false"
+      @confirm="deleteImageConfirm"
+      :text="deleteImageAlertText"
+    ></AlertDelete>
+
     <div class="grid grid-cols-2 gap-2 py-2 justify-items-stretch">
       <div v-for="(file, index) in addedFiles" :key="file">
         <div class="relative text-white hover:text-red-600 cursor-pointer">
@@ -126,14 +134,26 @@
 </template>
 
 <script>
+import { router } from "@inertiajs/vue3";
+
 export default {
-  props: ["label", "error", "name", "oldImageUrls"],
+  props: [
+    "label",
+    "error",
+    "name",
+    "oldImageUrls",
+    "deleteImageUrl",
+    "preserveStateData",
+  ],
   data() {
     return {
       addedFiles: [],
       oldImages: this.oldImageUrls ?? [],
       errorSize: false,
       errorSizeText: "",
+      deleteImageAlert: false,
+      deleteImageAlertText: "",
+      imageUrl: null,
     };
   },
   emits: ["files-change", "files-delete"],
@@ -164,8 +184,27 @@ export default {
       if (index !== -1) {
         // this.oldImages.splice(index, 1);
         console.log(imageUrl);
+        this.deleteImageAlert = true;
+        this.imageUrl = imageUrl;
+        this.deleteImageAlertText = `Deleting the image will permanently removed from the database. You can't recover the
+      image again. Are you sure about deleting?`;
+        setTimeout(() => (this.deleteImageAlert = false), 5000);
         this.$emit("files-delete", imageUrl);
       }
+    },
+    deleteImageConfirm() {
+      router.put(
+        this.deleteImageUrl,
+        {
+          imageUrl: this.imageUrl,
+        },
+        {
+          preserveState: false,
+          preserveScroll: true,
+          only: [this.preserveStateData],
+        }
+      );
+      this.imageUrl = null;
     },
     uploadedImage(file) {
       if (file) {
@@ -176,4 +215,8 @@ export default {
     },
   },
 };
+</script>
+
+<script setup>
+import AlertDelete from "./AlertDelete.vue";
 </script>

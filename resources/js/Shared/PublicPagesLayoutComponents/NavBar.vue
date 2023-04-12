@@ -43,7 +43,7 @@
                 <TabList class="-mb-px flex space-x-8 px-4">
                   <Tab
                     as="template"
-                    v-for="category in navigation.categories"
+                    v-for="category in navMenu.categories"
                     :key="category.name"
                     v-slot="{ selected }"
                   >
@@ -62,7 +62,7 @@
               </div>
               <TabPanels as="template">
                 <TabPanel
-                  v-for="category in navigation.categories"
+                  v-for="category in navMenu.categories"
                   :key="category.name"
                   class="space-y-10 px-4 pb-8 pt-10 z-50"
                 >
@@ -105,9 +105,9 @@
                         :key="item.name"
                         class="flow-root"
                       >
-                        <a :href="item.href" class="-m-2 block p-2 text-gray-500">{{
+                        <Link :href="item.link" class="-m-2 block p-2 text-gray-500">{{
                           item.name
-                        }}</a>
+                        }}</Link>
                       </li>
                     </ul>
                   </div>
@@ -116,10 +116,12 @@
             </TabGroup>
 
             <div class="space-y-6 border-t border-gray-200 px-4 py-6">
-              <div v-for="page in navigation.pages" :key="page.name" class="flow-root">
-                <a :href="page.href" class="-m-2 block p-2 font-medium text-gray-900">{{
-                  page.name
-                }}</a>
+              <div v-for="page in navMenu.pages" :key="page.name" class="flow-root">
+                <Link
+                  :href="page.href"
+                  class="-m-2 block p-2 font-medium text-gray-900"
+                  >{{ page.name }}</Link
+                >
               </div>
             </div>
 
@@ -186,7 +188,7 @@
           <PopoverGroup class="hidden lg:ml-8 lg:block lg:self-stretch z-50">
             <div class="flex h-full space-x-8">
               <Popover
-                v-for="category in navigation.categories"
+                v-for="category in navMenu.categories"
                 :key="category.name"
                 class="flex"
                 v-slot="{ open }"
@@ -228,7 +230,7 @@
                               class="group relative text-base sm:text-sm"
                             >
                               <div
-                                class="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75"
+                                class="overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75 h-48 w-48"
                               >
                                 <img
                                   :src="item.imageSrc"
@@ -259,16 +261,16 @@
                               <ul
                                 role="list"
                                 :aria-labelledby="`${section.name}-heading`"
-                                class="mt-6 space-y-6 sm:mt-4 sm:space-y-4"
+                                class="mt-6 gap-4 sm:gap-4 grid grid-rows-6 grid-flow-col"
                               >
                                 <li
                                   v-for="item in section.items"
                                   :key="item.name"
                                   class="flex"
                                 >
-                                  <a :href="item.href" class="hover:text-gray-800">{{
+                                  <Link :href="item.link" class="hover:text-gray-800">{{
                                     item.name
-                                  }}</a>
+                                  }}</Link>
                                 </li>
                               </ul>
                             </div>
@@ -280,12 +282,12 @@
                 </transition>
               </Popover>
 
-              <a
-                v-for="page in navigation.pages"
+              <Link
+                v-for="page in navMenu.pages"
                 :key="page.name"
                 :href="page.href"
                 class="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
-                >{{ page.name }}</a
+                >{{ page.name }}</Link
               >
             </div>
           </PopoverGroup>
@@ -381,6 +383,11 @@
     </nav>
   </header>
 </template>
+<script>
+export default {
+  props: ["navMenu"],
+};
+</script>
 <script setup>
 import { ref } from "vue";
 import {

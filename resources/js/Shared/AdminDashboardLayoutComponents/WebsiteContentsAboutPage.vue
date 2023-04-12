@@ -190,7 +190,7 @@ export default {
     return {
       aboutPageContentInfo: this.aboutPageContent,
       aboutImage: false,
-      oldAboutImage: this.aboutPageContent.aboutImage,
+      oldAboutImage: this.aboutPageContent.about_image_url,
       aboutStatuses: JSON.parse(this.aboutPageContent.aboutStatuses),
       statusName: "",
       statusValue: "",

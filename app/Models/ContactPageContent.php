@@ -9,17 +9,27 @@ use Illuminate\Database\Eloquent\Model;
 class ContactPageContent extends Model
 {
     use HasFactory;
+
+    protected $appends = ['contact_image_url'];
     protected function contactImage(): Attribute
     {
-        
+
         return Attribute::make(
-        get: function($value) {
-                if($value !== null){
-                    return $value;
-                } else {
+            set: function($value) {
+                if($value === null){
                     return "https://images.pexels.com/photos/8204325/pexels-photo-8204325.jpeg";
+                } else {
+                    return $value;
                 }
-        },
+        }
         );
+    }
+
+    protected function contactImageUrl():Attribute
+    {
+        return Attribute::make(
+            get: function() {
+                    return asset($this->contactImage);
+        });
     }
 }

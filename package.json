@@ -25,6 +25,7 @@
         "flowbite": "^1.6.4",
         "flowbite-datepicker": "^1.2.2",
         "pexels": "^1.4.0",
+        "swiper": "^9.2.0",
         "vue-router": "^4.1.6"
     }
 }

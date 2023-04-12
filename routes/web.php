@@ -12,6 +12,7 @@ use App\Http\Controllers\CustomerDashboardController;
 
 // use App\Http\Controllers\AdminControllers\AdminThemeOptionsController;
 use App\Http\Controllers\AdminControllers\AdminWebsiteContentController;
+use App\Http\Controllers\AdminControllers\AdminHomePageContentController;
 use App\Http\Controllers\AdminControllers\AdminAboutPageContentController;
 use App\Http\Controllers\AdminControllers\AdminContactPageContentController;
 use App\Http\Controllers\AdminControllers\AdminOrderController;
@@ -32,6 +33,7 @@ use App\Http\Controllers\AdminControllers\AdminUserController;
 
 Route::get('/', [PublicPagesController::class, 'homePage'])->name('home');
 Route::get('/about', [PublicPagesController::class, 'aboutPage']);
+Route::get('/contact', [PublicPagesController::class, 'contactPage']);
 Route::get('shop', [PublicPagesController::class, 'shopPage']);
 Route::get('products/{product:slug}', [ProductController::class, 'show']);
 
@@ -57,6 +59,8 @@ Route::middleware('can:admin')->group(function () {
     Route::get('admin-dashboard', [AdminDashboardController::class, 'index'])->name('admin_dashboard');
     // Route::resource('admin-dashboard/theme-options', AdminThemeOptionsController::class);
     Route::get('admin-dashboard/website-contents', [AdminWebsiteContentController::class, 'edit']);
+    Route::put('admin-dashboard/home-page-contents/{homePageContent}', [AdminHomePageContentController::class, 'update']);
+    Route::put('admin-dashboard/home-page-contents/{homePageContent}/deleteImage', [AdminHomePageContentController::class, 'deleteImage']);
     Route::put('admin-dashboard/about-page-contents/{aboutPageContent}', [AdminAboutPageContentController::class, 'update']);
     Route::put('admin-dashboard/contact-page-contents/{contactPageContent}', [AdminContactPageContentController::class, 'update']);
     Route::resource('admin-dashboard/orders', AdminOrderController::class);

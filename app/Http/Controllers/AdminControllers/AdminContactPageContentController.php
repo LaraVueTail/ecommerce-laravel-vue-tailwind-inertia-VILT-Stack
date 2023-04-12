@@ -10,11 +10,7 @@ class AdminContactPageContentController extends Controller
 {
     public function update(ContactPageContent $contactPageContent)
     {
-        // dd(request()->all());
         $attributes = $this->validateContactPageContent($contactPageContent);  
-        // dd($attributes);
-
-
         if($attributes['contactImage'][0] ?? false){
             $attributes['contactImage'] = $this->uploadImage($attributes['contactImage'][0] ?? false, $contactPageContent->contactImage,'images/contact-page');    
         }
@@ -36,23 +32,22 @@ class AdminContactPageContentController extends Controller
             'contactPhoneNumbers' => 'required|max:50',
             'contactEmail' => 'required|email|max:50',
             'contactAddress' => 'required|max:100',
-            'contactImage' => 'nullable|mimes:jpg,jpeg,png |max:2096',
+            'contactImage' => 'nullable',
+            'contactImage.*' => 'nullable|mimes:jpg,jpeg,png |max:2096',
             'created_at' => 'nullable',
             'updated_at' => 'nullable',
+        ],[
+            'contactImage.*' =>'Please Upload a jpg/png image with size less than 2MB!'
         ]);
     }
 
     public function uploadImage($files,$oldFiles,$path,$storeAsName = false)
     {
         if(gettype($files ?? false) === "array"){
-            $imageFiles = $files;
-
-            $oldFiles = json_decode($oldFiles);
-    
+            $imageFiles = $files;    
             foreach ($imageFiles as $imageFile) {
                 array_push($oldFiles,$imageFile->store($path));
             }
-    
             return $oldFiles;
 
         } else{
@@ -69,8 +64,4 @@ class AdminContactPageContentController extends Controller
         }
     }
 
-    public function getUrl($file)
-    {
-        return asset($file);
-    }
 }

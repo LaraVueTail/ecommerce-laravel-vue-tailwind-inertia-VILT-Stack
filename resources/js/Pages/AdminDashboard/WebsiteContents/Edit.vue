@@ -3,7 +3,7 @@
     <div class="mx-auto max-w-screen-xl px-1 lg:px-12 my-11 pb-11">
       <!-- Modal content -->
 
-      <Breadcrump :links="{ 'theme options': 'categories' }"></Breadcrump>
+      <Breadcrump :links="{ 'Website Contents': null }"></Breadcrump>
       <AlertDelete
         v-if="deleteAlertImage"
         @close="deleteAlertImage = false"
@@ -15,6 +15,11 @@
         Website Contents
       </h5>
 
+      <WebsiteContentsHomePage
+        :homePageContent="homePageContent"
+        :homePageContentsErrors="errors.homePageContentsErrors ?? {}"
+      ></WebsiteContentsHomePage>
+
       <WebsiteContentsAboutPage
         :aboutPageContent="aboutPageContent"
         :aboutPageContentsErrors="errors.aboutPageContentsErrors ?? {}"
@@ -23,19 +28,19 @@
       <WebsiteContentsContactPage
         :contactPageContent="contactPageContent"
         :contactPageContentsErrors="errors.contactPageContentsErrors ?? {}"
-      >
-      </WebsiteContentsContactPage>
+      ></WebsiteContentsContactPage>
     </div>
   </section>
 </template>
 <script>
 export default {
-  props: ["errors", "aboutPageContent", "contactPageContent"],
+  props: ["errors", "aboutPageContent", "contactPageContent", "homePageContent"],
 };
 </script>
 <script setup>
 import { onMounted, onUpdated } from "vue";
 import { initFlowbite } from "flowbite";
+import WebsiteContentsHomePage from "../../../Shared/AdminDashboardLayoutComponents/WebsiteContentsHomePage.vue";
 import WebsiteContentsAboutPage from "../../../Shared/AdminDashboardLayoutComponents/WebsiteContentsAboutPage.vue";
 import WebsiteContentsContactPage from "../../../Shared/AdminDashboardLayoutComponents/WebsiteContentsContactPage.vue";
 import Breadcrump from "../../../Shared/AdminDashboardLayoutComponents/Breadcrump.vue";

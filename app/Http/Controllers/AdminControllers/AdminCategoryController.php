@@ -5,8 +5,6 @@ namespace App\Http\Controllers\AdminControllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use App\Models\Product;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
@@ -48,10 +46,8 @@ class AdminCategoryController extends Controller
     }
 
 
-    public function create(Category $category)
+    public function create()
     {
-
-
         return Inertia::render('AdminDashboard/Categories/Create');
 
     }

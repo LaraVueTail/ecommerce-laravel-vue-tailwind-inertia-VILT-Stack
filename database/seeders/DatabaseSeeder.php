@@ -7,6 +7,7 @@ namespace Database\Seeders;
 use App\Models\AboutPageContent;
 use App\Models\Cart;
 use App\Models\ContactPageContent;
+use App\Models\HomePageContent;
 use App\Models\Product;
 use App\Models\ThemeOption;
 use App\Models\User;
@@ -24,6 +25,7 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
         // ThemeOption::factory(1)->create();
+        HomePageContent::factory(1)->create();
         AboutPageContent::factory(1)->create();
         ContactPageContent::factory(1)->create();
 
@@ -43,6 +45,6 @@ class DatabaseSeeder extends Seeder
 
         // Cart::factory(5)->create();
 
-        Product::factory(30)->create();
+        Product::factory(10)->create();
     }
 }

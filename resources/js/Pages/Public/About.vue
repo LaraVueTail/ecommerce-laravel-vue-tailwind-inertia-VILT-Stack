@@ -96,7 +96,7 @@
 </template>
 <script>
 export default {
-  props: ["aboutPageContent"],
+  props: ["aboutPageContent", "mainMenu"],
 };
 </script>
 

@@ -36,7 +36,7 @@
             ></path>
           </svg>
           <Link
-            :href="`/admin-dashboard/${link}`"
+            :href="link ? `/admin-dashboard/${link}` : $page.url"
             class="ml-1 text-sm font-medium hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white"
             :class="[
               index === Object.keys(links).length - 1 ? 'text-gray-500' : 'text-gray-700',

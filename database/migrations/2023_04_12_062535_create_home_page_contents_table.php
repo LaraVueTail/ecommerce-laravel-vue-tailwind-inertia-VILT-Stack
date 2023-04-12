@@ -13,12 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('home_page_contents', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('slug')->unique();
-            $table->string('img')->nullable();
-            $table->string('link')->nullable();
+            $table->json('hero_carousel')->default(json_encode(["https://images.pexels.com/photos/1549200/pexels-photo-1549200.jpeg", "https://images.pexels.com/photos/354972/pexels-photo-354972.jpeg", "https://images.pexels.com/photos/6311237/pexels-photo-6311237.jpeg"]));
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('home_page_contents');
     }
 };

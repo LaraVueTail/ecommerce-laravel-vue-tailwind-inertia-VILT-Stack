@@ -10,11 +10,7 @@ class AdminAboutPageContentController extends Controller
 {
     public function update(AboutPageContent $aboutPageContent)
     {
-        // dd(request()->all());
         $attributes = $this->validateAboutPageContent($aboutPageContent);  
-        // dd($attributes);
-
-
         if($attributes['aboutImage'][0] ?? false){
             $attributes['aboutImage'] = $this->uploadImage($attributes['aboutImage'][0] ?? false, $aboutPageContent->aboutImage,'images/about-page');    
         }
@@ -34,9 +30,12 @@ class AdminAboutPageContentController extends Controller
             'aboutSubHeading' => 'required|max:1000',
             'aboutText' => 'required|max:1000',
             'aboutStatuses' => 'nullable|max:300',
-            'aboutImage' => 'nullable|mimes:jpg,jpeg,png |max:2096',
+            'aboutImage' => 'nullable',
+            'aboutImage.*' => 'nullable|mimes:jpg,jpeg,png |max:2096',
             'created_at' => 'nullable',
             'updated_at' => 'nullable',
+        ],[
+            'aboutImage.*' =>'Please Upload a jpg/png image with size less than 2MB!'
         ]);
     }
 
@@ -67,8 +66,4 @@ class AdminAboutPageContentController extends Controller
         }
     }
 
-    public function getUrl($file)
-    {
-        return asset($file);
-    }
 }
