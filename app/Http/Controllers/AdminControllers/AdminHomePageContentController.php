@@ -29,7 +29,6 @@ class AdminHomePageContentController extends Controller
 
         return back()->with('success', 'Image Deleted!');
 
-
     }
 
     public function uploadImage($files,$oldFiles,$path,$storeAsName = false)
