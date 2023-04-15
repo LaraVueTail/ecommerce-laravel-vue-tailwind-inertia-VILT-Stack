@@ -3,17 +3,21 @@
 namespace App\Http\Controllers\AdminControllers;
 use App\Http\Controllers\Controller;
 use App\Models\HomePageContent;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use App\Services\FileManagement;
 
 class AdminHomePageContentController extends Controller
 {
-    public function update(HomePageContent $homePageContent)
+    public function update(HomePageContent $homePageContent,FileManagement $fileManagement)
     {
         $attributes = $this->validateHomePageContent($homePageContent);  
 
         if($attributes['hero_carousel'] ?? false){
-            $attributes['hero_carousel'] = $this->uploadImage($attributes['hero_carousel'] ?? false, $homePageContent->hero_carousel,'images/home-page/hero-slides');  
+            $attributes['hero_carousel'] = 
+            $fileManagement->uploadFile(
+                files:$attributes['hero_carousel'] ?? false,
+                appendFilesTo:$homePageContent->hero_carousel,
+                path:'images/home-page/hero-slides'
+            );
         }
 
         $homePageContent->update($attributes);
@@ -22,58 +26,17 @@ class AdminHomePageContentController extends Controller
 
     }
 
-    public function deleteImage(HomePageContent $homePageContent)
-    {
-        $homePageContent->hero_carousel = $this->removeImage(request()->input('imageUrl'),$homePageContent->hero_carousel);
+    public function deleteImage(HomePageContent $homePageContent,FileManagement $fileManagement)
+    {   
+        $homePageContent->hero_carousel =
+        $fileManagement->deleteFile(
+            fileUrl:request()->input('imageUrl'),
+            oldFilesArray:$homePageContent->hero_carousel
+        );
         $homePageContent->save();
 
         return back()->with('success', 'Image Deleted!');
 
-    }
-
-    public function uploadImage($files,$oldFiles,$path,$storeAsName = false)
-    {
-        if(gettype($files ?? false) === "array"){
-            $imageFiles = $files;    
-            foreach ($imageFiles as $imageFile) {
-                array_push($oldFiles,$imageFile->store($path));
-            }
-            return $oldFiles;
-
-        } else{
-            $imageFile = $files;
-            if(Storage::disk('public')->exists($oldFiles)){
-                Storage::delete($oldFiles);
-            }
-            if(!$storeAsName){
-                $storeAsName = $imageFile->getClientOriginalName();
-            } else {
-                $storeAsName = $storeAsName.'.'.$imageFile->extension();
-            }
-            return $imageFile->storeAs($path,$storeAsName);
-        }
-    }
-
-    public function removeImage($imageUrl,$oldImagesArray)
-    {
-        parse_url($imageUrl)['host'] === 'images.pexels.com' ? $image = $imageUrl :   $image = substr(parse_url($imageUrl)['path'],1);
-
-        if(gettype($oldImagesArray) === "array"){
-            if (($key = array_search($image, $oldImagesArray)) !== false) {
-                unset($oldImagesArray[$key]);
-                if(parse_url($imageUrl)['host'] !== 'images.pexels.com'){
-                    Storage::delete($image);
-                }
-            }
-            $newImages = array_values($oldImagesArray);
-            return $newImages;
-        } else {
-            if(Storage::exists($imageUrl)){
-                Storage::delete($imageUrl);
-            }
-            $newImage = '';
-            return $newImage;
-        }
     }
 
     protected function validateHomePageContent(?HomePageContent $homePageContent = null): array

@@ -1,13 +1,20 @@
 <template>
-  <HeroSliderVue
+  <HeroSliderNewVue
     :hero_carousel="JSON.parse(homePageContent.hero_carousel_url)"
-  ></HeroSliderVue>
+  ></HeroSliderNewVue>
+  <CategoryList :categories="categories"></CategoryList>
+  <ProductsIndex
+    :products="productBestSellers.data"
+    :title="'Best Sellers'"
+  ></ProductsIndex>
 </template>
 <script>
 export default {
-  props: ["homePageContent"],
+  props: ["homePageContent", "categories", "productBestSellers"],
 };
 </script>
 <script setup>
-import HeroSliderVue from "../../Shared/HomePageComponents/HeroSlider.vue";
+import CategoryList from "../../Shared/HomePageComponents/CategoryList.vue";
+import HeroSliderNewVue from "../../Shared/HomePageComponents/HeroSliderNew.vue";
+import ProductsIndex from "./Products/ProductsIndex.vue";
 </script>

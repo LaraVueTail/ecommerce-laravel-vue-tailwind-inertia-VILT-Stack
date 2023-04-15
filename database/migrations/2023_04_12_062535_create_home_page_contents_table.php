@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('home_page_contents', function (Blueprint $table) {
             $table->id();
-            $table->json('hero_carousel')->default(json_encode(["https://images.pexels.com/photos/1549200/pexels-photo-1549200.jpeg", "https://images.pexels.com/photos/354972/pexels-photo-354972.jpeg", "https://images.pexels.com/photos/6311237/pexels-photo-6311237.jpeg"]));
+            $table->json('hero_carousel')->default(json_encode(["https://images.pexels.com/photos/5325632/pexels-photo-5325632.jpeg?auto=compress", "https://images.pexels.com/photos/5325589/pexels-photo-5325589.jpeg?auto=compress","https://images.pexels.com/photos/5325582/pexels-photo-5325582.jpeg?auto=compress","https://images.pexels.com/photos/5325701/pexels-photo-5325701.jpeg?auto=compress"]));
             $table->timestamps();
         });
     }

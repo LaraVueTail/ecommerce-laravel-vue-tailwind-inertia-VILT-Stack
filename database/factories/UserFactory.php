@@ -31,6 +31,7 @@ class UserFactory extends Factory
             'country'=>fake()->country() ,
             'email_verified_at' => now(),
             'password' => 'password', // password
+            'tac' => true,
             'remember_token' => Str::random(10),
         ];
     }

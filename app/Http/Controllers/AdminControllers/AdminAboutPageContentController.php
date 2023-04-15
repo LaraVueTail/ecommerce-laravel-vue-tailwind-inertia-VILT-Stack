@@ -3,16 +3,22 @@
 namespace App\Http\Controllers\AdminControllers;
 use App\Http\Controllers\Controller;
 use App\Models\AboutPageContent;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use App\Services\FileManagement;
 
 class AdminAboutPageContentController extends Controller
 {
-    public function update(AboutPageContent $aboutPageContent)
+    public function update(AboutPageContent $aboutPageContent,FileManagement $fileManagement)
     {
         $attributes = $this->validateAboutPageContent($aboutPageContent);  
+
         if($attributes['aboutImage'][0] ?? false){
-            $attributes['aboutImage'] = $this->uploadImage($attributes['aboutImage'][0] ?? false, $aboutPageContent->aboutImage,'images/about-page');    
+            $attributes['aboutImage'] = 
+            $fileManagement->uploadFile(
+                file:$attributes['aboutImage'][0] ?? false,
+                deleteOldFile:true, 
+                oldFile:$aboutPageContent->aboutImage,
+                path:'images/about-page'
+            );   
         }
 
         $aboutPageContent->update($attributes);
@@ -37,33 +43,6 @@ class AdminAboutPageContentController extends Controller
         ],[
             'aboutImage.*' =>'Please Upload a jpg/png image with size less than 2MB!'
         ]);
-    }
-
-    public function uploadImage($files,$oldFiles,$path,$storeAsName = false)
-    {
-        if(gettype($files ?? false) === "array"){
-            $imageFiles = $files;
-
-            $oldFiles = json_decode($oldFiles);
-    
-            foreach ($imageFiles as $imageFile) {
-                array_push($oldFiles,$imageFile->store($path));
-            }
-    
-            return $oldFiles;
-
-        } else{
-            $imageFile = $files;
-            if(Storage::disk('public')->exists($oldFiles)){
-                Storage::delete($oldFiles);
-            }
-            if(!$storeAsName){
-                $storeAsName = $imageFile->getClientOriginalName();
-            } else {
-                $storeAsName = $storeAsName.'.'.$imageFile->extension();
-            }
-            return $imageFile->storeAs($path,$storeAsName);
-        }
     }
 
 }

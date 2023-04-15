@@ -14,18 +14,21 @@
       >
         <div
           :class="{
-            'col-span-1': JSON.parse(product.more_images).length == 0,
-            'col-span-2': JSON.parse(product.more_images).length == 1,
-            'col-span-3': JSON.parse(product.more_images).length >= 2,
+            'col-span-1': JSON.parse(product.more_images_url).length == 0,
+            'col-span-2': JSON.parse(product.more_images_url).length == 1,
+            'col-span-3': JSON.parse(product.more_images_url).length >= 2,
           }"
         >
           <ProductImage
-            :thumbnail="product.thumbnail"
+            :thumbnail="product.thumbnail_url"
             @sendToLightbox="(image) => showLightbox(image)"
-            :more_images="product.more_images"
+            :more_images="product.more_images_url"
           ></ProductImage>
         </div>
-        <div class="mt-10 sm:px-6 px-4" v-if="JSON.parse(product.more_images).length < 2">
+        <div
+          class="mt-10 sm:px-6 px-4"
+          v-if="JSON.parse(product.more_images_url).length < 2"
+        >
           <div>
             <div class="mb-6">
               <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
@@ -86,7 +89,7 @@
         <div class="md:grid md:grid-cols-3 gap-2 flex flex-col-reverse">
           <div class="col-span-2 md:border-r md:border-gray-200 md:pr-8">
             <div>
-              <div v-if="JSON.parse(product.more_images).length >= 2">
+              <div v-if="JSON.parse(product.more_images_url).length >= 2">
                 <div class="mb-6 hidden md:block">
                   <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
                     {{ product.name }}
@@ -128,7 +131,7 @@
           <div class="md:px-4">
             <div
               class="mb-6 md:hidden"
-              v-if="JSON.parse(product.more_images).length >= 2"
+              v-if="JSON.parse(product.more_images_url).length >= 2"
             >
               <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
                 {{ product.name }}
@@ -156,7 +159,7 @@
               >
             </p>
 
-            <div class="my-6" v-if="JSON.parse(product.more_images).length >= 2">
+            <div class="my-6" v-if="JSON.parse(product.more_images_url).length >= 2">
               <h3 class="sr-only">Reviews</h3>
               <div class="flex items-center">
                 <div class="flex items-center">
@@ -335,7 +338,7 @@ export default {
       return newString.charAt(0).toUpperCase() + newString.slice(1);
     },
     addToCart() {
-      this.added = true;
+      // this.added = true;
       setTimeout(() => (added = false), 500);
       this.itemToCart.product = this.product;
       this.itemToCart.quantity = this.quantity;

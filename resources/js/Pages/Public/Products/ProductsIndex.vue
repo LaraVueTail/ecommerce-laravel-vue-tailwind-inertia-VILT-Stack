@@ -1,0 +1,17 @@
+<template>
+  <div class="mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+    <h2 class="text-2xl font-bold tracking-tight text-gray-900">
+      {{ title }}
+    </h2>
+  </div>
+  <ProductGrid :products="products"></ProductGrid>
+</template>
+
+<script>
+export default {
+  props: ["products", "title"],
+};
+</script>
+<script setup>
+import ProductGrid from "../../../Shared/ProductLayouts/ProductGrid.vue";
+</script>

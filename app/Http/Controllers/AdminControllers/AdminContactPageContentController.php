@@ -3,16 +3,25 @@
 namespace App\Http\Controllers\AdminControllers;
 use App\Http\Controllers\Controller;
 use App\Models\ContactPageContent;
+use App\Services\FileManagement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class AdminContactPageContentController extends Controller
 {
-    public function update(ContactPageContent $contactPageContent)
+    public function update(ContactPageContent $contactPageContent,FileManagement $fileManagement)
     {
         $attributes = $this->validateContactPageContent($contactPageContent);  
         if($attributes['contactImage'][0] ?? false){
-            $attributes['contactImage'] = $this->uploadImage($attributes['contactImage'][0] ?? false, $contactPageContent->contactImage,'images/contact-page');    
+            if($attributes['contactImage'][0] ?? false){
+                $attributes['contactImage'] = 
+                $fileManagement->uploadFile(
+                    file:$attributes['contactImage'][0] ?? false,
+                    deleteOldFile:true, 
+                    oldFile:$contactPageContent->contactImage,
+                    path:'images/contact-page'
+                );   
+            }  
         }
 
         $contactPageContent->update($attributes);
@@ -39,29 +48,6 @@ class AdminContactPageContentController extends Controller
         ],[
             'contactImage.*' =>'Please Upload a jpg/png image with size less than 2MB!'
         ]);
-    }
-
-    public function uploadImage($files,$oldFiles,$path,$storeAsName = false)
-    {
-        if(gettype($files ?? false) === "array"){
-            $imageFiles = $files;    
-            foreach ($imageFiles as $imageFile) {
-                array_push($oldFiles,$imageFile->store($path));
-            }
-            return $oldFiles;
-
-        } else{
-            $imageFile = $files;
-            if(Storage::disk('public')->exists($oldFiles)){
-                Storage::delete($oldFiles);
-            }
-            if(!$storeAsName){
-                $storeAsName = $imageFile->getClientOriginalName();
-            } else {
-                $storeAsName = $storeAsName.'.'.$imageFile->extension();
-            }
-            return $imageFile->storeAs($path,$storeAsName);
-        }
     }
 
 }

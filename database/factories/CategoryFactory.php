@@ -19,6 +19,11 @@ class CategoryFactory extends Factory
         return [
             'name' => $this->faker->unique()->word(),
             'slug' => $this->faker->unique()->word(),
+            'img'=> $this->faker->randomElement([
+                "https://tailwindui.com/img/ecommerce-images/home-page-02-edition-01.jpg",
+                'https://tailwindui.com/img/ecommerce-images/home-page-02-edition-02.jpg',
+                "https://tailwindui.com/img/ecommerce-images/home-page-02-edition-03.jpg"
+                ])
         ];
     }
 }

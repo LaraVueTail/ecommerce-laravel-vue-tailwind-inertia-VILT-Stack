@@ -4,6 +4,7 @@ namespace App\Http\Controllers\AdminControllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Services\FileManagement;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
@@ -19,64 +20,9 @@ class AdminUserController extends Controller
         return Inertia::render(
             'AdminDashboard/Users/Index',
             [
-                'users' => User::query()
-                    ->when(
-                        Request::input('search') ?? false,
-                        fn($query, $search) =>
-                                    $query
-                                        ->where('email', 'like', "%{$search}%")
-                                        ->orWhere('first_name', 'like', "%{$search}%")
-                                        ->orWhere('last_name', 'like', "%{$search}%")
-                                        ->orWhere('phone_number', '=', $search)
-                                        ->orWhere('id', '=', $search)
-                                
-                    )
-                                
-                    ->when(Request::input('dateStart') ?? false, function ($query, $dateStart) {
-                            // dd($dateStart);
-                            $dateStart = Carbon::createFromFormat('m/d/Y', $dateStart)->format('Y-m-d');
-                            $query->whereDate('created_at', '>=', $dateStart);
-                        }
-                    )
-                    ->when(
-                        Request::input('dateEnd') ?? false,
-                        function ($query, $dateEnd) {
-                            // dd($dateEnd);
-                            $dateEnd = Carbon::createFromFormat('m/d/Y', $dateEnd)->format('Y-m-d');
-                            $query->whereDate('created_at', '<=', $dateEnd);
-                        }
-                    )
-                    ->when(
-                        Request::input('sortBy') ?? 'default',
-                        function ($query, $sortBy) {
-                            // dd($dateStart)
-                            if ($sortBy === 'date-dsc') {
-                                $query->latest();
-                            }
-                            if ($sortBy === 'date-asc') {
-                                $query->oldest();
-                            }
-                            if ($sortBy === 'price-dsc') {
-                                $query->orderBy('price', 'desc');
-                            }
-                            if ($sortBy === 'price-asc') {
-                                $query->orderBy('price', 'asc');
-                            }
-                            if ($sortBy === 'inventory-asc') {
-                                $query->orderBy('inventory', 'asc');
-                            }
-                            if ($sortBy === 'inventory-dsc') {
-                                $query->orderBy('inventory', 'dsc');
-                            }
-                            if ($sortBy === 'default') {
-                                $query->latest();
-                            }
-                        }
-                    )
-                    // ->when(true,fn($query)=>
-                    //     $query->latest())
-                    ->paginate(10)
-                    ->withQueryString(),
+                'users' => User::filter(
+                    request(['search','dateStart','dateEnd']))
+                    ->paginate(10)->withQueryString(),
                 'filters' => Request::only(['search', 'dateStart', 'dateEnd'])
             ]
         );
@@ -99,21 +45,26 @@ class AdminUserController extends Controller
 
     }
 
-    public function store()
+    public function store(FileManagement $fileManagement)
     {
-
-
+        
         $attributes = $this->validateUser();
-        $avatar = $attributes['avatar'][0];
-        User::create(array_merge($this->validateUser(), [
-            'avatar' => $avatar->storeAs('images/users/'.$attributes['email'].'/avatar','avatar.'.$avatar->extension()),
-        ]));
+        if($attributes['avatar'][0] ?? false){
+            $attributes['avatar'] = 
+            $fileManagement->uploadFile(
+                file:$attributes['avatar'][0] ?? false,
+                path:'images/users/'.$attributes['email'].'/avatar',
+                storeAsName:'avatar'
+            );
+        }
+
+        User::create($attributes);
+
         return redirect('/admin-dashboard/users')->with('success', 'User Created!');
     }
 
     public function edit(User $user)
     {
-        // $user->avatar = asset($user->avatar);
 
         return Inertia::render('AdminDashboard/Users/Edit', [
             'user' => $user
@@ -121,19 +72,29 @@ class AdminUserController extends Controller
 
     }
 
-    public function update(User $user)
+    public function update(User $user, FileManagement $fileManagement)
     {
 
         $attributes = $this->validateUser($user);
-        if (request()->file('avatar')[0] ?? false) {
-            $avatar = request()->file('avatar')[0];
-            Storage::delete($user->avatar);
-            $attributes['avatar'] = $avatar->storeAs('images/users/'.$user['email'].'/avatar','avatar.'.$avatar->extension());
+
+        if($attributes['avatar'][0] ?? false) {
+            $attributes['avatar'] = 
+            $fileManagement->uploadFile(
+                file:$attributes['avatar'][0] ?? false,
+                deleteOldFile: true, 
+                oldFile: $user->avatar,
+                path:'images/users/'.($user['email'] !== $attributes['email'] ? $attributes['email'] : $user['email']).'/avatar',
+                storeAsName: 'avatar'
+            );  
         }
-        if($user->email !== $attributes['email']){
-            Storage::move('images/users/'.$user['email'].'/avatar', 'images/users/'.$attributes['email'].'/avatar');
-            $attributes['avatar'] = array_key_exists("avatar",$attributes) ? str_replace($user['email'],$attributes['email'],$attributes['avatar']): str_replace($user['email'],$attributes['email'],$user['avatar']);
-            Storage::deleteDirectory('images/users/'.$user['email']);
+
+        if($user['email'] !== $attributes['email']){
+            $fileManagement->moveFiles(
+                oldPath:'images/users/'.$user['email'].'/avatar',
+                newPath:'images/users/'.$attributes['email'].'/avatar',
+                deleteDirectory: 'images/users/'.$user['email']
+            );
+            $attributes['avatar'] = str_replace($user['email'],$attributes['email'],$user['avatar']);
         }
 
         $user->update($attributes);
@@ -145,6 +106,7 @@ class AdminUserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
+        Storage::deleteDirectory('images/users/'.$user['email']);
 
         return redirect('/admin-dashboard/users')->with('success', 'User Deleted!');
     }

@@ -10,16 +10,19 @@ class Category extends Model
 {
     use HasFactory;
 
-    protected function img(): Attribute
-    {
-        return Attribute::make(
-        get: fn($value) => asset($value),
-        );
-    }
+    protected $appends = ['category_image_url','link'];
 
     public function products()
     {
         return $this->hasMany(Product::class);
+    }
+
+    protected function categoryImageUrl():Attribute
+    {
+        return Attribute::make(
+            get: function() {
+                    return asset($this->img ?? '');
+        });
     }
 
     protected function link(): Attribute

@@ -15,7 +15,12 @@ class CheckoutController extends Controller
     //
     public function index()
     {
-        return Inertia::render('Checkout/Index',[
+        \Cart::session(Auth::user()->id);
+        $cartCount =  \Cart::getTotalQuantity();
+        if($cartCount === 0){
+            return redirect('/');
+        }
+        return Inertia::render('Checkout/IndexNew',[
             'userInfo' => auth()->user()
         ]);
     }
@@ -44,8 +49,8 @@ class CheckoutController extends Controller
         $session = \Stripe\Checkout\Session::create([
             'line_items' => $lineItems,
             'mode' => 'payment',
-            'success_url' => route('checkout.success', [], true) . "?session_id={CHECKOUT_SESSION_ID}",
-            'cancel_url' => route('checkout.cancel', [], true),
+            'success_url' => route('public.checkout.success', [], true) . "?session_id={CHECKOUT_SESSION_ID}",
+            'cancel_url' => route('public.checkout.cancel', [], true),
         ]);
 
         $attributes = $request->validate([

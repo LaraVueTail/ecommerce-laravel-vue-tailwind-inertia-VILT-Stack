@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\MainMenu;
 use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Validation\Rule;
@@ -114,22 +115,13 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
-        $more_images = json_decode($product->more_images);
 
-        // $product->thumbnail = asset($product->thumbnail);
-
-        $product->more_images = json_encode(array_map([$this, 'getUrl'],$more_images));
-        // dd($more_images);
-
+        $mainMenu = new MainMenu();
         return Inertia::render('Public/Products/Show', [
+            'mainMenu' => $mainMenu->publicMenu(),
             'product' => $product
         ]);
 
-    }
-
-    public function getUrl($file)
-    {
-        return asset($file);
     }
 
 }

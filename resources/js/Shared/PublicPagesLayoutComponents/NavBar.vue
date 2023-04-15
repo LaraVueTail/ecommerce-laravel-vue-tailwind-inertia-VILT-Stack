@@ -296,12 +296,29 @@
             <div
               class="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6"
             >
-              <a href="#" class="text-sm font-medium text-gray-700 hover:text-gray-800"
-                >Sign in</a
+              <Link
+                href="/login"
+                class="text-sm font-medium text-gray-700 hover:text-gray-800"
+                v-if="!$page.props.auth.firstName ?? false"
+                >Sign in</Link
               >
+              <p class="text-sm font-medium text-gray-700 hover:text-gray-800" v-else>
+                Welcome, {{ $page.props.auth.firstName }}
+              </p>
               <span class="h-6 w-px bg-gray-200" aria-hidden="true" />
-              <a href="#" class="text-sm font-medium text-gray-700 hover:text-gray-800"
-                >Create account</a
+              <Link
+                href="/register"
+                class="text-sm font-medium text-gray-700 hover:text-gray-800"
+                v-if="!$page.props.auth.firstName ?? false"
+                >Create account</Link
+              >
+              <Link
+                href="/logout"
+                method="post"
+                as="button"
+                class="text-sm font-medium text-gray-700 hover:text-gray-800"
+                v-else
+                >Log out</Link
               >
             </div>
 
@@ -365,17 +382,18 @@
 
             <!-- Cart -->
             <div class="ml-4 flow-root lg:ml-6">
-              <a href="#" class="group -m-2 flex items-center p-2">
+              <div class="group -m-2 flex items-center p-2">
                 <ShoppingBagIcon
-                  class="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                  class="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500 cursor-pointer"
                   aria-hidden="true"
+                  @click="$emit('cartOpen', true)"
                 />
                 <span
                   class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800"
-                  >0</span
+                  >{{ this.$page.props.cartCount ?? 0 }}</span
                 >
                 <span class="sr-only">items in cart, view bag</span>
-              </a>
+              </div>
             </div>
           </div>
         </div>
@@ -386,6 +404,7 @@
 <script>
 export default {
   props: ["navMenu"],
+  emits: ["cartOpen"],
 };
 </script>
 <script setup>

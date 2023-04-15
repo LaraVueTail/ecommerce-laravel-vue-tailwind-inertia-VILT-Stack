@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 
+use App\Models\MainMenu;
 use Darryldecode\Cart\CartCollection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -45,15 +46,23 @@ class HandleInertiaRequests extends Middleware
         if(Auth::check()){
             \Cart::session(Auth::user()->id);
         }
-        return array_merge(parent::share($request), [
+
+        $shareData = array(
             'csrf_token' => csrf_token(),
             'auth' => (Auth::check()) ? ['firstName'=> Auth::user()->first_name, 'email' => Auth::user()->email ] : false,
-            'cartCount' => \Cart::getTotalQuantity(),
-            'cartContent' =>  \Cart::getContent(),
-            'cartTotal' =>  \Cart::getTotal(),
             'flash' => [
                 'success' => fn () => $request->session()->get('success')
-            ],
-        ]);
+            ]);
+
+        if(str_starts_with($request->route()->getName(), 'public')){
+            $shareData = array_merge($shareData,array(
+                'mainMenu' => (new MainMenu)->publicMenu(),
+                'cartCount' => \Cart::getTotalQuantity(),
+                'cartContent' =>  \Cart::getContent(),
+                'cartTotal' =>  round(\Cart::getTotal(),2),
+            ));
+        };
+
+        return array_merge(parent::share($request),$shareData);
     }
 }

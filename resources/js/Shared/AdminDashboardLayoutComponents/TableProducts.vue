@@ -35,7 +35,7 @@
           <td class="p-4">
             <div
               class="w-20 h-20 bg-cover bg-center rounded-lg"
-              :style="`background-image: url(${product.thumbnail})`"
+              :style="`background-image: url(${product.thumbnail_url})`"
             ></div>
           </td>
           <th scope="row" class="px-4 py-3 font-medium">

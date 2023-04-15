@@ -30,52 +30,70 @@ use App\Http\Controllers\AdminControllers\AdminUserController;
 | contains the "web" middleware group. Now create something great!
 |
  */
+Route::name('public.')->group(function () {
+    Route::get('/', [PublicPagesController::class, 'homePage'])->name('home');
+    Route::get('/about', [PublicPagesController::class, 'aboutPage'])->name('about');
+    Route::get('/contact', [PublicPagesController::class, 'contactPage'])->name('contact');
 
-Route::get('/', [PublicPagesController::class, 'homePage'])->name('home');
-Route::get('/about', [PublicPagesController::class, 'aboutPage']);
-Route::get('/contact', [PublicPagesController::class, 'contactPage']);
-Route::get('shop', [PublicPagesController::class, 'shopPage']);
-Route::get('products/{product:slug}', [ProductController::class, 'show']);
+    Route::name('account.')->group(function(){
+        Route::get('login', [UserController::class, 'login'])->middleware('guest')->name('login');
+        Route::post('login', [UserController::class, 'auth'])->middleware('guest');
+        Route::post('logout', [UserController::class, 'logout'])->middleware('auth')->name('logout');
+        
+        Route::get('register', [UserController::class, 'create'])->middleware('guest')->name('register');
+        Route::post('register', [UserController::class, 'store'])->middleware('guest');
+    });
 
-Route::get('cart/', [CartController::class, 'index']);
-Route::post('cart/add', [CartController::class, 'add']);
-Route::post('cart/update', [CartController::class, 'update']);
-Route::post('cart/remove', [CartController::class, 'remove']);
+    Route::name('products.')->group(function(){
+        Route::get('shop', [PublicPagesController::class, 'shopPage'])->name('index');
+        Route::get('products/{product:slug}', [ProductController::class, 'show'])->name('show');
+    });
 
-Route::middleware('auth')->group(function () {
-    Route::get('dashboard', [CustomerDashboardController::class, 'index'])->name('customer_dashboard');
-    Route::get('dashboard/manage-address', [CustomerDashboardController::class, 'address']);
-    Route::get('dashboard/orders', [CustomerDashboardController::class, 'orders']);
-    Route::post('dashboard/{user}', [CustomerDashboardController::class, 'update']);
+    Route::name('cart.')->group(function(){
+        Route::get('cart/', [CartController::class, 'index'])->name('index');
+        Route::post('cart/add', [CartController::class, 'add'])->name('add');
+        Route::post('cart/update', [CartController::class, 'update'])->name('update');
+        Route::post('cart/remove', [CartController::class, 'remove'])->name('remove');
+    });
 
-    Route::get('checkout', [CheckoutController::class, 'index']);
-    Route::post('checkout', [CheckoutController::class, 'checkout']);
-    Route::get('/success', [CheckoutController::class, 'success'])->name('checkout.success');
-    Route::get('/cancel', [CheckoutController::class, 'cancel'])->name('checkout.cancel');
-}
-);
-
-Route::middleware('can:admin')->group(function () {
-    Route::get('admin-dashboard', [AdminDashboardController::class, 'index'])->name('admin_dashboard');
-    // Route::resource('admin-dashboard/theme-options', AdminThemeOptionsController::class);
-    Route::get('admin-dashboard/website-contents', [AdminWebsiteContentController::class, 'edit']);
-    Route::put('admin-dashboard/home-page-contents/{homePageContent}', [AdminHomePageContentController::class, 'update']);
-    Route::put('admin-dashboard/home-page-contents/{homePageContent}/deleteImage', [AdminHomePageContentController::class, 'deleteImage']);
-    Route::put('admin-dashboard/about-page-contents/{aboutPageContent}', [AdminAboutPageContentController::class, 'update']);
-    Route::put('admin-dashboard/contact-page-contents/{contactPageContent}', [AdminContactPageContentController::class, 'update']);
-    Route::resource('admin-dashboard/orders', AdminOrderController::class);
-    Route::resource('admin-dashboard/products', AdminProductController::class)->except('show');
-    Route::resource('admin-dashboard/categories', AdminCategoryController::class)->except('show');
-    Route::resource('admin-dashboard/users', AdminUserController::class);
-    Route::put('admin-dashboard/theme-options/{themeOption}/deleteImage', [AdminThemeOptionsController::class, 'deleteImage']);
-    Route::put('admin-dashboard/products/{product}/deleteImage', [AdminProductController::class, 'deleteImage']);
-    Route::put('admin-dashboard/orders/{order}/edit-status', [AdminOrderController::class, 'updateOrderStatus']); 
+    Route::middleware('auth')->group(function () {
+        Route::name('dashboard.')->group(function(){
+            Route::prefix('dashboard')->group(function(){
+                Route::get('/', [CustomerDashboardController::class, 'index'])->name('home');
+                Route::get('/manage-address', [CustomerDashboardController::class, 'address'])->name('addresses');
+                Route::get('/orders', [CustomerDashboardController::class, 'orders'])->name('orders');
+                Route::post('/{user}', [CustomerDashboardController::class, 'update']);
+            });
+        });
+        Route::name('checkout.')->group(function(){
+            Route::get('checkout', [CheckoutController::class, 'index'])->name('checkout');
+            Route::post('checkout', [CheckoutController::class, 'checkout']);
+            Route::get('/success', [CheckoutController::class, 'success'])->name('success');
+            Route::get('/cancel', [CheckoutController::class, 'cancel'])->name('cancel');
+        });
+    });
 });
 
-Route::get('login', [UserController::class, 'login'])->middleware('guest')->name('login');
-Route::post('login', [UserController::class, 'auth'])->middleware('guest');
-Route::post('logout', [UserController::class, 'logout'])->middleware('auth');
+Route::name('admin.')->group(function(){
+    Route::middleware('can:admin')->group(function () {
+        Route::prefix('admin-dashboard')->group(function () {
+            Route::get('', [AdminDashboardController::class, 'index'])->name('home');
+            Route::get('/website-contents', [AdminWebsiteContentController::class, 'edit'])->name('website_contents');
+            Route::put('/home-page-contents/{homePageContent}', [AdminHomePageContentController::class, 'update']);
+            Route::put('/home-page-contents/{homePageContent}/deleteImage', [AdminHomePageContentController::class, 'deleteImage']);
+            Route::put('/about-page-contents/{aboutPageContent}', [AdminAboutPageContentController::class, 'update']);
+            Route::put('/contact-page-contents/{contactPageContent}', [AdminContactPageContentController::class, 'update']);
+            Route::resource('/orders', AdminOrderController::class);
+            Route::resource('/products', AdminProductController::class)->except('show');
+            Route::resource('/categories', AdminCategoryController::class)->except('show');
+            Route::resource('/users', AdminUserController::class);
+            Route::put('/products/{product}/deleteImage', [AdminProductController::class, 'deleteImage']);
+            Route::put('/orders/{order}/edit-status', [AdminOrderController::class, 'updateOrderStatus']); 
+        });
+    
+    });
+});
 
-Route::get('register', [UserController::class, 'create'])->middleware('guest')->name('register');
-Route::post('register', [UserController::class, 'store'])->middleware('guest');
+
+
 

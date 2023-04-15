@@ -21,11 +21,10 @@ class PublicPagesController extends Controller
     public function homePage()
     {
         $homePageContent = HomePageContent::first();
-        $mainMenu = new MainMenu();
         return Inertia::render('Public/HomeNew', [
-            'mainMenu' => $mainMenu->publicMenu(),
             'homePageContent' => $homePageContent,
-            'products' => Product::all()
+            'categories' => Category::all(),
+            'productBestSellers'=>Product::whereIn('tag',['best_seller','new_arrival'])->paginate(10)->withQueryString()
         ]);
     }
 
@@ -33,24 +32,15 @@ class PublicPagesController extends Controller
     {
 
         $aboutPageContent = AboutPageContent::first();
-        $aboutPageContent->aboutImage = $this->getUrl($aboutPageContent->aboutImage);
-        $mainMenu = new MainMenu();
         return Inertia::render('Public/About',[
-            'mainMenu' => $mainMenu->publicMenu(),
             'aboutPageContent' => $aboutPageContent,
         ]);
     }
 
     public function contactPage()
     {
-        // dd($cart->cart_data);
         $contactPageContent = ContactPageContent::first();
-        // dd($contactPageContent);
-        $contactPageContent->contactImage = $this->getUrl($contactPageContent->contactImage);
-        // dd($contactPageContent);
-        $mainMenu = new MainMenu();
         return Inertia::render('Public/Contact',[
-            'mainMenu' => $mainMenu->publicMenu(),
             'contactPageContent' => $contactPageContent,
         ]);
     }
@@ -64,10 +54,8 @@ class PublicPagesController extends Controller
 
     public function shopPage()
     {
-        // dd(json_decode(request('categories')));
-        $mainMenu = new MainMenu();
+
         return Inertia::render('Public/Shop', [
-            'mainMenu' => $mainMenu->publicMenu(),
             'products' => Product::filter(
                 request(['categories','minPrice','maxPrice'])
             )->get(),

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\AdminControllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Services\FileManagement;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
@@ -52,41 +53,51 @@ class AdminCategoryController extends Controller
 
     }
 
-    public function store()
+    public function store(FileManagement $fileManagement)
     {   
-        // dd(request()->input('product_details'));
         $attributes = $this->validateCategory();
-        $img = $attributes['img'][0];
-        Category::create(array_merge($this->validateCategory(), [
-            'img' => $img->storeAs('images/categories/'.$attributes['slug'].'/img','img.'.$img->extension()),
-        ]));
+        $attributes['img'] = 
+        $fileManagement->uploadFile(
+            file:$attributes['img'][0] ?? false,
+            path:'images/categories/'.$attributes['slug'].'/img',
+            storeAsName: 'thumbnail'
+
+        );  
+
+        Category::create($attributes);
 
         return redirect('/admin-dashboard/categories')->with('success', 'Category Created!');
     }
 
     public function edit(Category $category)
     {
-        // $category->img = asset($category->img);
-
         return Inertia::render('AdminDashboard/Categories/Edit', [
             'category' => $category
         ]);
 
     }
 
-    public function update(Category $category)
+    public function update(Category $category, FileManagement $fileManagement)
     {
         $attributes = $this->validateCategory($category);
+        if($attributes['img'][0] ?? false) {
+            $attributes['img'] = 
+            $fileManagement->uploadFile(
+                file:$attributes['img'][0] ?? false,
+                deleteOldFile:true, 
+                oldFile:$category->img,
+                path:'images/categories/'.($category['slug'] !== $attributes['slug'] ? $attributes['slug'] : $category['slug']).'/img',
+                storeAsName: 'thumbnail'
 
-        if (request()->file('img')[0] ?? false) {
-            $img = request()->file('img')[0];
-            Storage::delete($category->img);
-            $attributes['img'] = $img->storeAs('images/categories/'.$category['slug'].'/img','img.'.$img->extension());
+            );  
         }
         if($category->slug !== $attributes['slug']){
-            Storage::move('images/categories/'.$category['slug'].'/img', 'images/categories/'.$attributes['slug'].'/img');
-            $attributes['img'] = array_key_exists("img",$attributes) ? str_replace($category['slug'],$attributes['slug'],$attributes['img']): str_replace($category['slug'],$attributes['slug'],$category['img']);
-            Storage::deleteDirectory('images/categories/'.$category['slug']);
+            $fileManagement->moveFiles(
+                oldPath:'images/categories/'.$category['slug'].'/img',
+                newPath:'images/categories/'.$attributes['slug'].'/img',
+                deleteDirectory: 'images/categories/'.$category['slug']
+            );
+            $attributes['img'] = str_replace($category['slug'],$attributes['slug'],$category['img']);
         }
 
         $category->update($attributes);
@@ -98,6 +109,7 @@ class AdminCategoryController extends Controller
     public function destroy(Category $category)
     {
         $category->delete();
+        Storage::deleteDirectory('images/categories/'.$category['slug']);
 
         return redirect('/admin-dashboard/categories')->with('success', 'Category Deleted!');
     }

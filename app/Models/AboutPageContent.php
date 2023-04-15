@@ -30,7 +30,7 @@ class AboutPageContent extends Model
     {
         return Attribute::make(
             get: function() {
-                    return asset($this->aboutImage);
+                    return asset($this->aboutImage ?? '');
         });
     }
 }

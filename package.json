@@ -16,7 +16,7 @@
     },
     "dependencies": {
         "@fortawesome/fontawesome-free": "^6.3.0",
-        "@headlessui/vue": "^1.7.9",
+        "@headlessui/vue": "^1.7.13",
         "@heroicons/vue": "^2.0.15",
         "@inertiajs/vue3": "^1.0.0",
         "@morioh/v-lightbox": "^1.0.3",
@@ -26,6 +26,7 @@
         "flowbite-datepicker": "^1.2.2",
         "pexels": "^1.4.0",
         "swiper": "^9.2.0",
-        "vue-router": "^4.1.6"
+        "vue-router": "^4.1.6",
+        "vueperslides": "^3.5.1"
     }
 }

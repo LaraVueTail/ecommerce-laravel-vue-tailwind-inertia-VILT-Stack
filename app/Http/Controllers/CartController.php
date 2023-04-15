@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MainMenu;
 use App\Models\Product;
 use Darryldecode\Cart\CartCollection;
 use Illuminate\Http\Request;
@@ -33,12 +34,16 @@ class CartController extends Controller
     public function add()
     {
         $product = request()->product;
+        // dd($product);
         \Cart::add(
             array(
                 'id' => $product['id'],
                 'name' => $product['name'],
                 'price' => $product['price'],
                 'quantity' => request()->quantity,
+                'attributes' => [
+                    'image' => $product['thumbnail_url']
+                ],
                 'associatedModel' => $product
             )
         );

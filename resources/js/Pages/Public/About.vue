@@ -1,7 +1,7 @@
 <template>
   <div class="relative isolate overflow-hidden bg-gray-900 py-24 sm:py-32">
     <img
-      :src="aboutPageContent.aboutImage"
+      :src="aboutPageContent.about_image_url"
       alt=""
       class="absolute inset-0 -z-10 h-full w-full object-cover object-right md:object-center opacity-20"
     />

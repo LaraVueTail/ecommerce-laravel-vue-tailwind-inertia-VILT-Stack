@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Models\MainMenu;
-use Darryldecode\Cart\CartCollection;
-
 use App\Models\User;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +14,7 @@ class UserController extends Controller
     public function login()
     {
         $mainMenu = new MainMenu();
-        return Inertia::render('Auth/Login',[
+        return Inertia::render('Auth/LoginNew',[
             'mainMenu'=>$mainMenu->publicMenu()
         ]);
     }
@@ -31,17 +30,17 @@ class UserController extends Controller
             $request->session()->regenerate();
 
             $cartItems = \Cart::getContent();
-            // dd($cartItems);
+
             if(Auth::check()) {
                 \Cart::session(Auth::user()->id);
                 foreach($cartItems as $row) {
-                    // dd($row);
                     \Cart::add(
                         array(
                             'id' => $row['id'],
                             'name' => $row['name'],
                             'price' => $row['price'],
                             'quantity' => $row['quantity'],
+                            'attributes'=>$row['attributes'],
                             'associatedModel' => $row['associatedModel']
                         )
                     );
@@ -67,7 +66,6 @@ class UserController extends Controller
 
         \Cart::session('4yTlTDKu3oJOfzD')->clear();
 
- 
         $request->session()->invalidate();
      
         $request->session()->regenerateToken();
@@ -77,22 +75,36 @@ class UserController extends Controller
 
     public function create()
     {
-        return Inertia::render('Auth/Register');
+        return Inertia::render('Auth/RegisterNew');
     }
 
     public function store(Request $request)
     {
-        $credentials = $request->validate(
-            [
-                'first_name' => 'required|max:255',
-                'last_name' => 'required|max:255',
-                'phone_number' => 'required',
-                'email' => 'required|email|max:255|unique:users,email',
-                'password' => 'required|min:7|max:255',
-            ]
-            );
 
-            Auth::login(User::create($credentials));
+            $attributes = $this->validateUser();
+
+            Auth::login(User::create($attributes));
             return redirect('/')->with('success', 'Your account has been created.');
+    }
+
+        protected function validateUser(?User $user = null): array
+    {
+        $user ??= new User();
+
+        return request()->validate([
+            'first_name' => 'required|min:3|max:50',
+            'last_name' => 'required|max:50',
+            'avatar' => $user->exists ? 'nullable' : 'nullable',
+            'avatar.*' => 'nullable|mimes:jpeg,png |max:2096',
+            'email' => ['required','email', Rule::unique('users', 'email')->ignore($user)],
+            'gender' => 'nullable',
+            'birthday' => 'nullable',
+            'phone_number' => 'required',
+            'password' => (request()->input('password') ?? false || !$user->exists ) ? 'required|confirmed|min:6': 'nullable',
+            'tac'=>'required|accepted'
+        ],[
+            'avatar.*.mimes' => 'Upload Profile image as jpg/png format with size less than 2MB',
+            'avatar.*.max' => 'Upload Profile image with size less than 2MB',
+        ]);
     }
 }

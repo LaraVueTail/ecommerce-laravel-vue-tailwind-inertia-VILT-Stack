@@ -16,15 +16,15 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('availability')->nullable();
+            $table->string('availability');
             $table->string('brand')->nullable();
             $table->string('tag')->nullable();
             $table->integer('inventory')->nullable();
             $table->foreignId('category_id');
             $table->string('slug')->unique();
-            $table->string('link')->nullable();
+            // $table->string('link')->nullable();
             $table->string('thumbnail')->nullable();
-            $table->json('more_images')->nullable();
+            $table->json('more_images')->default(json_encode([]))->nullable();
             $table->text('description');
             $table->text('short_description')->nullable();
             $table->json('product_details')->nullable();

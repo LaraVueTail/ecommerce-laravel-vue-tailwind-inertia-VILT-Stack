@@ -143,7 +143,7 @@ export default {
       console.log(this.categoryInfo);
       this.categoryInfo._method = "put";
       router.post(`/admin-dashboard/categories/${this.category.id}`, this.categoryInfo, {
-        preserveState: false,
+        preserveState: true,
         only: ["category"],
         preserveScroll: true,
       });
