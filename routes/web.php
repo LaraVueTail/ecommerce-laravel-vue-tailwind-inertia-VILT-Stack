@@ -45,7 +45,7 @@ Route::name('public.')->group(function () {
     });
 
     Route::name('products.')->group(function(){
-        Route::get('shop', [PublicPagesController::class, 'shopPage'])->name('index');
+        Route::get('shop', [ProductController::class, 'index'])->name('index');
         Route::get('products/{product:slug}', [ProductController::class, 'show'])->name('show');
     });
 

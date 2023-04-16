@@ -4,12 +4,12 @@
       {{ title }}
     </h2>
   </div>
-  <ProductGrid :products="products"></ProductGrid>
+  <ProductGrid :products="products" :cols="cols"></ProductGrid>
 </template>
 
 <script>
 export default {
-  props: ["products", "title"],
+  props: ["products", "title", "cols"],
 };
 </script>
 <script setup>

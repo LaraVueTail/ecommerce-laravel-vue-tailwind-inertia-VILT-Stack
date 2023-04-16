@@ -16,98 +16,13 @@ class ProductController extends Controller
     public function index()
     {
         return Inertia::render(
-            'AdminDashboard/Products/Index',
+            'Public/ShopNew',
             [
-                'products' => Product::query()
-                
-                    ->when(
-                        Request::input('search') ?? false,fn($query, $search) =>
-                        $query
-                            ->where(fn($query) =>
-                            $query
-                                ->where('name', 'like', "%{$search}%")
-                                    ->orWhere('description', 'like', "%{$search}%")
-                                        ->orWhere('short_description', 'like', "%{$search}%")
-                                            ->orWhere('id', '=', $search)
-                        )
-                        )
-                                
-                                          
-                    ->when(Request::input('category') ?? false, fn($query, $categories) =>
-                                $query
-                                    ->whereHas(
-                                        'category', fn($query) =>
-                                        $query
-                                            ->whereIn('slug', json_decode($categories))
-                                )
-                                )
-
-                    ->when(Request::input('tag') ?? false, fn($query, $tags) =>
-                        $query
-                            ->whereIn('tag', json_decode($tags))
-                    
-                    )
-
-                    ->when(Request::input('availability') ?? false, fn($query, $availability) =>
-                        $query
-                            ->whereIn('availability', json_decode($availability))
-                
-                    )
-
-                    ->when(Request::input('brand') ?? false, fn($query, $brands) =>
-                        $query
-                            ->whereIn('brand', json_decode($brands))
-                
-                    )
-
-
-                    ->when(Request::input('dateStart') ?? false, function ($query, $dateStart) {
-                            $dateStart = Carbon::createFromFormat('m/d/Y', $dateStart)->format('Y-m-d');
-                            $query
-                                ->whereDate('created_at', '>=', $dateStart);
-                        }
-                    )
-
-                    ->when(
-                        Request::input('dateEnd') ?? false,
-                        function ($query, $dateEnd) {
-                            // dd($dateEnd);
-                            $dateEnd = Carbon::createFromFormat('m/d/Y', $dateEnd)->format('Y-m-d');
-                            $query
-                                ->whereDate('created_at', '<=', $dateEnd);
-                        }
-                    )
-
-                    ->when(
-                        Request::input('sortBy') ?? 'default',
-                        function ($query, $sortBy) {
-                            // dd($dateStart)
-                            if ($sortBy === 'date-dsc') {
-                                $query->latest();
-                            }
-                            if ($sortBy === 'date-asc') {
-                                $query->oldest();
-                            }
-                            if ($sortBy === 'price-dsc') {
-                                $query->orderBy('price', 'desc');
-                            }
-                            if ($sortBy === 'price-asc') {
-                                $query->orderBy('price', 'asc');
-                            }
-                            if ($sortBy === 'inventory-asc') {
-                                $query->orderBy('inventory', 'asc');
-                            }
-                            if ($sortBy === 'inventory-dsc') {
-                                $query->orderBy('inventory', 'dsc');
-                            }
-                            if ($sortBy === 'default') {
-                                $query->latest();
-                            }
-                        }
-                    )
-                    ->paginate(10)
-                    ->withQueryString(),
-                'filters' => Request::only(['search', 'sortBy', 'categories','tags','availability','brands', 'dateStart', 'dateEnd'])
+                'products' => Product::filter(
+                    request(['search', 'category', 'tag','availability','brand','dateStart','dateEnd','sortBy']))
+                    ->paginate(10)->withQueryString(),
+                'filters' => Request::only(['search', 'sortBy', 'category','tags','availability','brands', 'dateStart', 'dateEnd']),
+                'categories'=>Category::all()
             ]
         );
 
