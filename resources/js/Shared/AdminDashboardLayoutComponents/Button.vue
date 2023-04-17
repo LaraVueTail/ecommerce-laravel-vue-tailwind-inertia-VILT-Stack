@@ -1,21 +1,51 @@
 <template>
-  <button
-    type="submit"
-    :class="{
-      'bg-blue-700 hover:bg-blue-800 focus:ring-blue-300  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800':
-        color === 'blue',
-      'bg-red-700 hover:bg-red-800 focus:ring-red-300  dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800':
-        color === 'red',
-      'bg-green-700 hover:bg-green-800 focus:ring-green-300  dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800':
-        color === 'green',
-    }"
-    class="text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-  >
-    {{ text }}
-  </button>
+  <div>
+    <button
+      type="submit"
+      :class="{
+        'bg-blue-700 hover:bg-blue-800 focus:ring-blue-300  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800':
+          color === 'blue',
+        'bg-red-700 hover:bg-red-800 focus:ring-red-300  dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800':
+          color === 'red',
+        'bg-green-700 hover:bg-green-800 focus:ring-green-300  dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800':
+          color === 'green',
+      }"
+      class="text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+    >
+      {{ text }}
+    </button>
+    <p
+      class="text-sm font-medium px-4 my-4 border-l-2 border-green-500"
+      v-if="show"
+      :class="{ 'text-green-600 bg-green-100': flash }"
+    >
+      {{ flash.success }}
+    </p>
+  </div>
 </template>
 <script>
 export default {
   props: ["text", "color"],
+  data() {
+    return {
+      show: false,
+    };
+  },
+  mounted() {
+    this.show = true;
+    setTimeout(() => (this.show = false), 2000);
+  },
+  computed: {
+    flash() {
+      return this.$page.props.flash;
+    },
+  },
+  flash: {
+    deep: true,
+    handler(val, oldVal) {
+      this.show = true;
+      setTimeout(() => (this.show = false), 2000);
+    },
+  },
 };
 </script>

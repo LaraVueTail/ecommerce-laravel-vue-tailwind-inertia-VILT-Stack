@@ -56,11 +56,11 @@ Route::name('public.')->group(function () {
         Route::post('cart/remove', [CartController::class, 'remove'])->name('remove');
     });
 
-    Route::name('dashboard.')->group(function () {
-        Route::middleware('auth')->group(function(){
+    Route::middleware('auth')->group(function () {
+        Route::name('dashboard.')->group(function(){
             Route::prefix('dashboard')->group(function(){
                 Route::get('/', [CustomerDashboardController::class, 'index'])->name('home');
-                Route::get('/manage-address', [CustomerDashboardController::class, 'address'])->name('addresses');
+                Route::get('/address', [CustomerDashboardController::class, 'address'])->name('address');
                 Route::get('/orders', [CustomerDashboardController::class, 'orders'])->name('orders');
                 Route::post('/{user}', [CustomerDashboardController::class, 'update']);
             });

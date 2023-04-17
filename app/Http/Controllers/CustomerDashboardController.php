@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\User;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Request;
+
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use IntlChar;
@@ -15,7 +16,7 @@ class CustomerDashboardController extends Controller
     public function index()
     {
         return Inertia::render('Public/CustomerDashboard/Index',[
-            'userInfo' => auth()->user()
+            'user' => auth()->user()
         ]);
     }
     // public function index()
@@ -27,15 +28,21 @@ class CustomerDashboardController extends Controller
 
     public function address()
     {
-        return Inertia::render('CustomerDashboard/AddressInfo',[
-            'userInfo' => auth()->user()
+        return Inertia::render('Public/CustomerDashboard/Address',[
+            'user' => auth()->user()
         ]);
     }
 
-    public function orders()
-    { 
-        return Inertia::render('CustomerDashboard/OrdersInfo',[
-            'orders' => Order::where('user_id','=',Auth::user()->id)->get()->makeHidden(['id','updated_at','user_id'])
+    public function orders(Request $request)
+    {   $orders = Order::filter(request(['search', 'orderStatus','dateStart','dateEnd','sortBy']))->where('user_id','=',Auth::user()->id)
+        ->paginate(10);
+        $data=$orders;
+        $orders = $orders->makeHidden(['user']);
+        $data->data = $orders;
+        // dd(request(['search', 'orderStatus','dateStart','dateEnd','sortBy']));
+        return Inertia::render('Public/CustomerDashboard/Orders',[
+            'orders' => $data,
+            'filters' => Request::only(['search', 'sortBy', 'orderStatus', 'dateStart', 'dateEnd'])
         ]);
         
     }

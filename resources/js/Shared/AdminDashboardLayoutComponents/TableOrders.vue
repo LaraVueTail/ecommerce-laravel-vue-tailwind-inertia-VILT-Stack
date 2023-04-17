@@ -7,12 +7,12 @@
         <tr>
           <th scope="col" class="px-4 py-3">ID</th>
           <th scope="col" class="px-4 py-3">Date</th>
-          <th scope="col" class="px-4 py-3">User</th>
-          <th scope="col" class="px-4 py-3">Shipping Address</th>
-          <th scope="col" class="px-4 py-3">Items</th>
+          <th scope="col" class="px-4 py-3" v-if="orders.data[0].user">User</th>
+          <th scope="col" class="px-6 py-3">Shipping Address</th>
+          <th scope="col" class="px-6 py-3">Items</th>
           <th scope="col" class="px-4 py-3">Total Price</th>
           <th scope="col" class="px-4 py-3">Order Status</th>
-          <th scope="col" class="px-4 py-3">
+          <th scope="col" class="px-4 py-3" v-if="orders.data[0].user">
             <span class="sr-only">Actions</span>
           </th>
         </tr>
@@ -32,7 +32,7 @@
           <th scope="row" class="px-4 py-3 font-medium">
             {{ toDate(order.created_at) }}
           </th>
-          <td class="px-4 py-3">
+          <td class="px-4 py-3" v-if="order.user">
             <b>User ID : </b>{{ order.user_id }}<br />
             <b>Email : </b>{{ order.user.email }}<br />
             <b>Phone Number : </b>{{ order.user.phone_number }}<br />
@@ -46,32 +46,13 @@
             <b>Email : </b>{{ JSON.parse(order.shipping_address)["email"] }}<br />
             <b>Phone Number : </b>{{ JSON.parse(order.shipping_address)["phone_number"]
             }}<br />
-            <!-- {{
-                                        JSON.parse(order.shipping_address)[
-                                            "address_line_1"
-                                        ]
-                                    }}
-                                    <br />
-                                    {{
-                                        JSON.parse(order.shipping_address)[
-                                            "address_line_2"
-                                        ]
-                                    }}<br />
-                                    {{
-                                        JSON.parse(order.shipping_address)[
-                                            "city"
-                                        ]
-                                    }}<br />
-                                    {{
-                                        JSON.parse(order.shipping_address)[
-                                            "pin_code"
-                                        ]
-                                    }}<br />
-                                    {{
-                                        JSON.parse(order.shipping_address)[
-                                            "country"
-                                        ]
-                                    }}<br /> -->
+            <b>Address : </b><br />
+            {{ JSON.parse(order.shipping_address)["address_line_1"] }}
+            <br />
+            {{ JSON.parse(order.shipping_address)["address_line_2"] }}<br />
+            {{ JSON.parse(order.shipping_address)["city"] }}<br />
+            {{ JSON.parse(order.shipping_address)["pin_code"] }}<br />
+            {{ JSON.parse(order.shipping_address)["country"] }}<br />
           </td>
           <td class="px-4 py-3">
             <div v-for="cartItem in JSON.parse(order.cart_content)" :key="cartItem">
@@ -98,7 +79,7 @@
             >
           </td>
 
-          <td class="px-4 py-3 flex items-center justify-end">
+          <td class="px-4 py-3 flex items-center justify-end" v-if="orders.data[0].user">
             <button
               :id="`${order.id}-dropdown-button`"
               :data-dropdown-toggle="`${order.id}-dropdown`"

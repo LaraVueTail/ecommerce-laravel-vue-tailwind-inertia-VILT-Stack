@@ -23,7 +23,8 @@
     </div>
 
     <div
-      class="relative text-white hover:text-red-600 cursor-pointer mt-3 mb-10"
+      class="relative text-white hover:text-red-600 cursor-pointer mt-3 mb-10 h-48 w-48 mx-auto"
+      :class="{ 'w-full h-48': !rounded }"
       v-if="addedFile || oldImage"
     >
       <div
@@ -45,7 +46,8 @@
         </svg>
       </div>
       <div
-        class="bg-contain bg-center bg-no-repeat shadow-2xl saturate-50 bg-blend-overlay bg-gray-900/75 h-48 w-full rounded-lg"
+        class="bg-contain bg-center bg-no-repeat shadow-2xl saturate-50 bg-blend-overlay bg-gray-900/75 w-full h-full"
+        :class="{ 'rounded-full': rounded, 'rounded-lg': !rounded }"
         :style="`background-image: url(${uploadedFile()})`"
       ></div>
     </div>
@@ -55,7 +57,7 @@
 <script>
 import { FlagIcon } from "@heroicons/vue/20/solid";
 export default {
-  props: ["label", "error", "name", "oldImageLink"],
+  props: ["label", "error", "name", "oldImageLink", "rounded"],
   data() {
     return {
       addedFile: null,

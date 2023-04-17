@@ -41,6 +41,7 @@ export default {
     "searchPlaceHolder",
     "currentPage",
     "sortByFilters",
+    "sendToUrl",
   ],
   data() {
     return {
@@ -56,6 +57,7 @@ export default {
       sortBy: this.filters.sortBy !== undefined ? this.filters.sortBy : "",
       filterByFilter: {},
       filterQueries: {},
+      url: this.sendToUrl ?? "/admin-dashboard",
     };
   },
 
@@ -101,7 +103,7 @@ export default {
       }
       Object.assign(this.filterQueries, this.filterByFilter);
 
-      router.get(`/admin-dashboard/${this.dataName}`, this.filterQueries, {
+      router.get(`${this.url}/${this.dataName}`, this.filterQueries, {
         preserveState: true,
         replace: true,
       });
