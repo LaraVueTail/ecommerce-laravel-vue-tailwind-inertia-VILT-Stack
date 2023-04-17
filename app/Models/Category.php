@@ -29,7 +29,7 @@ class Category extends Model
     {
         return Attribute::make(
         get: function($value) {
-            $link = asset('').'shop?'.http_build_query(['categories'=>json_encode([$this->slug])]);
+            $link = asset('').'shop?'.http_build_query(['category'=>json_encode([$this->slug])]);
             return $link;
     });
     }

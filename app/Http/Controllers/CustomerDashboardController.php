@@ -14,10 +14,16 @@ class CustomerDashboardController extends Controller
     //
     public function index()
     {
-        return Inertia::render('CustomerDashboard/ProfileInfo',[
+        return Inertia::render('Public/CustomerDashboard/Index',[
             'userInfo' => auth()->user()
         ]);
     }
+    // public function index()
+    // {
+    //     return Inertia::render('CustomerDashboard/ProfileInfo',[
+    //         'userInfo' => auth()->user()
+    //     ]);
+    // }
 
     public function address()
     {

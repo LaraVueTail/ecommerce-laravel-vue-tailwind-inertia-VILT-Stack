@@ -12,6 +12,11 @@ class MainMenu extends Model
     public function publicMenu()
     {
         $publicMenu = [
+            'logo' => [ 
+              "name"=> "Website Name",
+              "imageSrc"=> "https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600", 
+              "href" => asset('')
+             ],
             'categories'=> [
               [
                 "id"=> "category",
@@ -19,13 +24,13 @@ class MainMenu extends Model
                 "featured"=> [
                   [
                     "name"=> "Best Seller",
-                    "href"=> "#",
+                    "href"=> asset('').'shop?tag=%5B"best_seller"%5D',
                     "imageSrc"=>
                       "https://images.pexels.com/photos/5650017/pexels-photo-5650017.jpeg?auto=compress"
                   ],
                   [
                     "name"=> "New Arrivals",
-                    "href"=> "#",
+                    "href"=> asset('').'shop?tag=%5B"new_arrival"%5D',
                     "imageSrc"=>
                       "https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg"
                   ],
@@ -41,6 +46,7 @@ class MainMenu extends Model
             ],
             ],
             "pages"=> [
+              [ "name"=> "Shop", "href" => asset('').'shop' ],
               [ "name"=> "About", "href" => asset('').'about' ],
               [ "name"=> "Contact", "href" => asset('').'contact' ],
             ],

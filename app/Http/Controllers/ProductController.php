@@ -21,7 +21,7 @@ class ProductController extends Controller
                 'products' => Product::filter(
                     request(['search', 'category', 'tag','availability','brand','dateStart','dateEnd','sortBy']))
                     ->paginate(10)->withQueryString(),
-                'filters' => Request::only(['search', 'sortBy', 'category','tags','availability','brands', 'dateStart', 'dateEnd']),
+                'filters' => Request::only(['search', 'sortBy', 'category','tag','availability','brands', 'dateStart', 'dateEnd']),
                 'categories'=>Category::all()
             ]
         );

@@ -1,17 +1,3 @@
-<!--
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
--->
 <template>
   <div class="bg-white">
     <div>
@@ -63,10 +49,18 @@
                 <form class="mt-4 border-t border-gray-200">
                   <h3 class="sr-only">Categories</h3>
                   <ul role="list" class="px-2 py-3 font-medium text-gray-900">
-                    <li v-for="category in simpleFilters" :key="category.name">
-                      <a :href="category.href" class="block px-2 py-3">{{
-                        category.name
-                      }}</a>
+                    <li v-for="option in tagOptions" :key="option.name">
+                      <p
+                        class="block px-2 py-3"
+                        @click="tagValue = option.value"
+                        :class="{
+                          'text-indigo-600': $page.props.filters.tag
+                            ? JSON.parse($page.props.filters.tag).includes(option.value)
+                            : false,
+                        }"
+                      >
+                        {{ option.name }}
+                      </p>
                     </li>
                   </ul>
 
@@ -74,6 +68,7 @@
                     as="div"
                     v-for="section in filters"
                     :key="section.id"
+                    :defaultOpen="$page.props.filters.category"
                     class="border-t border-gray-200 px-4 py-6"
                     v-slot="{ open }"
                   >
@@ -154,32 +149,35 @@
                 >
                   <div class="py-1">
                     <MenuItem
-                      v-for="option in sortOptions"
+                      v-for="option in sortByOptions"
                       :key="option.name"
                       v-slot="{ active }"
                     >
-                      <a
-                        :href="option.href"
+                      <p
                         :class="[
-                          option.current ? 'font-medium text-gray-900' : 'text-gray-500',
+                          option.value === sortByValue
+                            ? 'font-medium text-gray-900'
+                            : 'text-gray-500',
                           active ? 'bg-gray-100' : '',
                           'block px-4 py-2 text-sm',
                         ]"
-                        >{{ option.name }}</a
+                        @click="sortByValue = option.value"
                       >
+                        {{ option.name }}
+                      </p>
                     </MenuItem>
                   </div>
                 </MenuItems>
               </transition>
             </Menu>
 
-            <button
+            <!-- <button
               type="button"
               class="-m-2 ml-5 p-2 text-gray-400 hover:text-gray-500 sm:ml-7"
             >
               <span class="sr-only">View grid</span>
               <Squares2X2Icon class="h-5 w-5" aria-hidden="true" />
-            </button>
+            </button> -->
             <button
               type="button"
               class="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden"
@@ -202,8 +200,18 @@
                 role="list"
                 class="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900"
               >
-                <li v-for="category in simpleFilters" :key="category.name">
-                  <a :href="category.href">{{ category.name }}</a>
+                <li v-for="option in tagOptions" :key="option.name">
+                  <p
+                    @click="tagValue = option.value"
+                    class="cursor-pointer"
+                    :class="{
+                      'text-indigo-600': $page.props.filters.tag
+                        ? JSON.parse($page.props.filters.tag).includes(option.value)
+                        : false,
+                    }"
+                  >
+                    {{ option.name }}
+                  </p>
                 </li>
               </ul>
 
@@ -211,6 +219,7 @@
                 as="div"
                 v-for="section in filters"
                 :key="section.id"
+                :defaultOpen="$page.props.filters.category"
                 class="border-b border-gray-200 py-6"
                 v-slot="{ open }"
               >
@@ -273,12 +282,20 @@ export default {
       return [{ id: "categories", name: "Categories", options: this.defaultCategories }];
     },
     defaultCategories() {
-      console.log(this.defaultFilters.category);
       return this.categories.map((item) => ({
         ...item,
-        checked: item.slug in JSON.parse(this.defaultFilters.category ?? "[]"),
+        checked: JSON.parse(this.defaultFilters.category ?? "[]").includes(item.slug),
       }));
     },
+  },
+  watch: {
+    sortByValue() {
+      this.createQuery();
+    },
+    tagValue() {
+      this.createQuery();
+    },
+    filters() {},
   },
   methods: {
     createQuery() {
@@ -288,7 +305,13 @@ export default {
           return selectedCategories.push(option.slug);
         }
       });
-      this.searchQuery.category = JSON.stringify(selectedCategories);
+      selectedCategories.length
+        ? (this.searchQuery.category = JSON.stringify(selectedCategories))
+        : delete this.searchQuery.category;
+      this.searchQuery.sortBy = this.sortByValue;
+      this.tagValue
+        ? (this.searchQuery.tag = JSON.stringify([this.tagValue]))
+        : delete this.searchQuery.tag;
       this.sendRequest();
     },
     sendRequest() {
@@ -297,20 +320,22 @@ export default {
       });
     },
   },
-  mounted() {
-    console.log(
-      typeof this.$page.props.categories[0].name === typeof this.defaultCategories[0].name
-    );
-    console.log(this.defaultCategories[0].name);
-  },
   data() {
     return {
       categories: this.$page.props.categories,
       defaultFilters: this.$page.props.filters ?? [],
       searchQuery: {},
-      simpleFilters: [
-        { name: "Best Sellers", href: "#" },
-        { name: "New Arrivals", href: "#" },
+      sortByValue: this.$page.props.filters.sortBy ?? "date-dsc",
+      sortByOptions: [
+        { name: "Newest", value: "date-dsc" },
+        { name: "Price: Low to High", value: "price-asc" },
+        { name: "Price: High to Low", value: "price-dsc" },
+      ],
+      tagValue: this.$page.props.filters.tag ?? "",
+      tagOptions: [
+        { name: "All", value: "" },
+        { name: "Best Sellers", value: "best_seller" },
+        { name: "New Arrivals", value: "new_arrival" },
       ],
     };
   },
@@ -341,14 +366,6 @@ import {
   Squares2X2Icon,
 } from "@heroicons/vue/20/solid";
 import { router } from "@inertiajs/core";
-
-const sortOptions = [
-  { name: "Most Popular", href: "#", current: true },
-  { name: "Best Rating", href: "#", current: false },
-  { name: "Newest", href: "#", current: false },
-  { name: "Price: Low to High", href: "#", current: false },
-  { name: "Price: High to Low", href: "#", current: false },
-];
 
 const mobileFiltersOpen = ref(false);
 </script>

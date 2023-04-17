@@ -81,10 +81,13 @@
                           class="object-cover object-center"
                         />
                       </div>
-                      <a :href="item.href" class="mt-6 block font-medium text-gray-900">
+                      <Link
+                        :href="item.href"
+                        class="mt-6 block font-medium text-gray-900"
+                      >
                         <span class="absolute inset-0 z-10" aria-hidden="true" />
                         {{ item.name }}
-                      </a>
+                      </Link>
                       <p aria-hidden="true" class="mt-1">Shop now</p>
                     </div>
                   </div>
@@ -103,11 +106,15 @@
                       <li
                         v-for="item in section.items"
                         :key="item.name"
+                        @click="open = false"
                         class="flow-root"
                       >
-                        <Link :href="item.link" class="-m-2 block p-2 text-gray-500">{{
-                          item.name
-                        }}</Link>
+                        <Link
+                          :href="item.link"
+                          class="-m-2 block p-2 text-gray-500"
+                          preser
+                          >{{ item.name }}</Link
+                        >
                       </li>
                     </ul>
                   </div>
@@ -174,14 +181,10 @@
 
           <!-- Logo -->
           <div class="ml-4 flex lg:ml-0">
-            <a href="#">
+            <Link :href="navMenu.logo.href">
               <span class="sr-only">Your Company</span>
-              <img
-                class="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                alt=""
-              />
-            </a>
+              <img class="h-8 w-auto" :src="navMenu.logo.imageSrc" alt="" />
+            </Link>
           </div>
 
           <!-- Flyout menus -->
@@ -213,7 +216,10 @@
                   leave-from-class="opacity-100"
                   leave-to-class="opacity-0"
                 >
-                  <PopoverPanel class="absolute inset-x-0 top-full text-sm text-gray-500">
+                  <PopoverPanel
+                    class="absolute inset-x-0 top-full text-sm text-gray-500"
+                    v-slot="{ close }"
+                  >
                     <!-- Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow -->
                     <div
                       class="absolute inset-0 top-1/2 bg-white shadow"
@@ -235,16 +241,18 @@
                                 <img
                                   :src="item.imageSrc"
                                   :alt="item.imageAlt"
+                                  @click="close"
                                   class="object-cover object-center"
                                 />
                               </div>
-                              <a
+                              <Link
                                 :href="item.href"
+                                @click="close"
                                 class="mt-6 block font-medium text-gray-900"
                               >
                                 <span class="absolute inset-0 z-10" aria-hidden="true" />
                                 {{ item.name }}
-                              </a>
+                              </Link>
                               <p aria-hidden="true" class="mt-1">Shop now</p>
                             </div>
                           </div>
@@ -268,9 +276,12 @@
                                   :key="item.name"
                                   class="flex"
                                 >
-                                  <Link :href="item.link" class="hover:text-gray-800">{{
-                                    item.name
-                                  }}</Link>
+                                  <Link
+                                    :href="item.link"
+                                    class="hover:text-gray-800"
+                                    @click="close"
+                                    >{{ item.name }}</Link
+                                  >
                                 </li>
                               </ul>
                             </div>
@@ -348,7 +359,8 @@
             </div>
             <div
               id="dropdownSearch"
-              class="z-10 hidden bg-white rounded-lg shadow w-60 dark:bg-gray-700 mt-10"
+              class="z-10 bg-gray-400 rounded-lg shadow w-60 dark:bg-gray-700 mt-10"
+              :class="{ 'hidden ': !searchTerm }"
             >
               <div class="p-3">
                 <label for="input-group-search" class="sr-only">Search</label>
@@ -373,6 +385,7 @@
                   <input
                     type="text"
                     id="input-group-search"
+                    v-model="searchTerm"
                     class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Search product"
                   />
@@ -405,6 +418,22 @@
 export default {
   props: ["navMenu"],
   emits: ["cartOpen"],
+  watch: {
+    searchTerm() {
+      if (this.searchTerm) {
+        router.get("/shop", {
+          search: this.searchTerm,
+        });
+      } else {
+        router.get("/shop");
+      }
+    },
+  },
+  data() {
+    return {
+      searchTerm: this.$page.props.filters ? this.$page.props.filters.search ?? "" : "",
+    };
+  },
 };
 </script>
 <script setup>
@@ -430,6 +459,7 @@ import {
   ShoppingBagIcon,
   XMarkIcon,
 } from "@heroicons/vue/24/outline";
+import { router } from "@inertiajs/vue3";
 
 const navigation = {
   categories: [
