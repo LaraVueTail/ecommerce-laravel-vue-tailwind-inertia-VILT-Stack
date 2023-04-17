@@ -7,6 +7,7 @@
     :products="productBestSellers.data"
     :title="'Best Sellers'"
     :cols="4"
+    class="mb-36"
   ></ProductsIndex>
 </template>
 <script>

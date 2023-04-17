@@ -11,46 +11,19 @@
               <p class="font-medium text-blue-600 dark:text-gray-400 my-4">
                 Shipping Address:
               </p>
-              <div class="grid gap-4 sm:grid-cols-2">
-                <FormInput
-                  :label="'First Name'"
-                  :name="'first_name'"
-                  :type="'text'"
-                  v-model="orderInfoShippingAddress.first_name"
-                ></FormInput>
-                <FormInput
-                  :label="'last Name'"
-                  :name="'last_name'"
-                  :type="'text'"
-                  v-model="orderInfoShippingAddress.last_name"
-                ></FormInput>
-              </div>
-              <div class="grid gap-4 sm:grid-cols-2">
-                <FormInput
-                  :label="'Email'"
-                  :name="'email'"
-                  :type="'email'"
-                  v-model="orderInfoShippingAddress.email"
-                ></FormInput>
-                <FormInput
-                  :label="'Phone Number'"
-                  :name="'phone_number'"
-                  :type="'text'"
-                  v-model="orderInfoShippingAddress.phone_number"
-                ></FormInput>
-              </div>
+
               <div class="grid gap-4 sm:grid-cols-2">
                 <FormInput
                   :label="'Address Line 1'"
                   :name="'address_line_1'"
                   :type="'text'"
-                  v-model="orderInfoShippingAddress.address_line_1"
+                  v-model="userInfo.address_line_1"
                 ></FormInput>
                 <FormInput
                   :label="'Address Line 2'"
                   :name="'address_line_2'"
                   :type="'text'"
-                  v-model="orderInfoShippingAddress.address_line_2"
+                  v-model="userInfo.address_line_2"
                 ></FormInput>
               </div>
               <div class="grid gap-4 sm:grid-cols-2">
@@ -58,13 +31,13 @@
                   :label="'City'"
                   :name="'city'"
                   :type="'text'"
-                  v-model="orderInfoShippingAddress.city"
+                  v-model="userInfo.city"
                 ></FormInput>
                 <FormInput
                   :label="'Pin code'"
                   :name="'pin_code'"
                   :type="'text'"
-                  v-model="orderInfoShippingAddress.pin_code"
+                  v-model="userInfo.pin_code"
                 ></FormInput>
               </div>
               <div class="grid gap-4 sm:grid-cols-2">
@@ -72,7 +45,7 @@
                   :label="'Country'"
                   :name="'country'"
                   :type="'text'"
-                  v-model="orderInfoShippingAddress.country"
+                  v-model="userInfo.country"
                 ></FormInput>
               </div>
             </div>
@@ -83,7 +56,11 @@
           <Errors :errors="errors ?? false"></Errors>
 
           <div class="flex items-center space-x-4">
-            <Button @click.prevent="update()" :text="'Update'" :color="'blue'"></Button>
+            <Button
+              @click.prevent="updateAddress()"
+              :text="'Update'"
+              :color="'blue'"
+            ></Button>
           </div>
         </div>
       </form>
@@ -93,63 +70,19 @@
 </template>
 <script>
 import { router } from "@inertiajs/vue3";
-import { useForm } from "@inertiajs/vue3";
 export default {
-  props: ["user", "errors"],
+  props: ["errors", "user"],
   data() {
     return {
       userInfo: this.user,
-      orderInfoShippingAddress: JSON.parse(this.order.shipping_address),
-      orderContent: JSON.parse(this.order.cart_content),
-      newOrderItem: {},
       form: {},
     };
   },
-  computed: {
-    totalAmount() {
-      var total = 0;
-      this.orderContent.forEach((element) => {
-        total += element.price * element.quantity;
-      });
-      return total;
-    },
-  },
   methods: {
-    addOrderItem() {
-      if (
-        this.newOrderItem.id > 0 &&
-        this.newOrderItem.name !== "" &&
-        this.newOrderItem.price > 0 &&
-        this.newOrderItem.quantity > 0
-      )
-        this.orderContent.push(this.newOrderItem);
-    },
-    deleteOrderItem(item) {
-      var index = this.orderContent.indexOf(item);
-      if (index !== -1) {
-        this.orderContent.splice(index, 1);
-      }
-    },
-    reloadPage() {
-      router.visit(`/admin-dashboard/orders/${this.order.id}/edit`);
-    },
-    deleteOrder() {
-      window.scrollTo(0, 0);
-      this.deleteAlertOrder = true;
-      this.deleteAlertOrderText = `Deleting the Order will permanently removed from the database. You can't recover the
-          order again. Are you sure about deleting?`;
-      setTimeout(() => (this.deleteAlertOrder = false), 5000);
-    },
-    deleteOrderConfirm() {
-      console.log("dd");
-      router.delete(`/admin-dashboard/orders/${this.order.id}`);
-    },
-    updateOrder() {
-      this.orderInfo.shipping_address = JSON.stringify(this.orderInfoShippingAddress);
-      this.orderInfo.cart_content = JSON.stringify(this.orderContent);
-      this.form = useForm(this.orderInfo);
-      console.log(this.orderInfo);
-      this.form.put(`/admin-dashboard/orders/${this.order.id}`, {
+    updateAddress() {
+      this.userInfo._method = "put";
+      router.post(`/admin-dashboard/users/${this.user.id}`, this.userInfo, {
+        preserveState: false,
         preserveScroll: true,
       });
     },

@@ -74,10 +74,9 @@ class AdminUserController extends Controller
 
     public function update(User $user, FileManagement $fileManagement)
     {
-
         $attributes = $this->validateUser($user);
 
-        if($attributes['avatar'][0] ?? false) {
+        if(gettype($attributes['avatar'][0] ?? false) === 'array') {
             $attributes['avatar'] = 
             $fileManagement->uploadFile(
                 file:$attributes['avatar'][0] ?? false,
@@ -119,12 +118,18 @@ class AdminUserController extends Controller
             'first_name' => 'required|min:3|max:50',
             'last_name' => 'required|max:50',
             'avatar' => $user->exists ? 'nullable' : 'required',
-            'avatar.*' => 'required|mimes:jpeg,png |max:2096',
+            'avatar.*' => 'nullable|mimes:jpeg,png |max:2096',
             'email' => ['required','email', Rule::unique('users', 'email')->ignore($user)],
             'gender' => 'nullable',
             'birthday' => 'required',
             'phone_number' => 'required',
             'password' => (request()->input('password') ?? false || !$user->exists ) ? 'required|confirmed|min:6': 'nullable',
+            'address_line_1' => 'nullable',
+            'address_line_2' => 'nullable',
+            'city' => 'nullable',
+            'pin_code' => 'nullable',
+            'country' => 'nullable',
+
         ],[
             'avatar.required' => 'Add a profile picture',
             'avatar.*.mimes' => 'Upload Profile image as jpg/png format with size less than 2MB',

@@ -4,7 +4,7 @@
       {{ title }}
     </h2>
   </div>
-  <ProductGrid :products="products" :cols="cols"></ProductGrid>
+  <ProductGrid :products="products" :cols="cols" class="pb-48"></ProductGrid>
 </template>
 
 <script>

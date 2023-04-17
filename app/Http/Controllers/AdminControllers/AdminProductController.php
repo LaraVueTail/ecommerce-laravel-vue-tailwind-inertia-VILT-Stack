@@ -151,7 +151,6 @@ class AdminProductController extends Controller
             'price_sale' => 'nullable',
             'price' => 'required',
             'slug' => [$product->exists ? 'exclude' : 'required', Rule::unique('products', 'slug')->ignore($product)],
-            'link' => 'nullable',
             'thumbnail' => $product->exists ? 'nullable' : 'required',
             'more_images' => $product->exists ? 'nullable' : 'required',
             'thumbnail.*' => 'required|mimes:jpeg,png |max:2096',
