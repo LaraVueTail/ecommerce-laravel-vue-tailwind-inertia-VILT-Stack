@@ -80,14 +80,21 @@
                 v-model="siteIdentityInfo.stripe_secret_key"
                 :error="siteIdentityErrors.stripe_secret_key"
               ></FormInput>
-              <FormInput
-                :label="'Site Owner Email'"
-                :name="'site_owner_email'"
-                :type="'email'"
-                :placeholder="'admin@laracommerce.com'"
-                v-model="siteIdentityInfo.siteOwnerEmail"
-                :error="siteIdentityErrors.siteOwnerEmail"
-              ></FormInput>
+              <FormSelectVue
+                :label="'Choose currency'"
+                :name="'currency'"
+                v-model="siteIdentityInfo.currency"
+                :selected="siteIdentityInfo.currency"
+                :optionsArray="[
+                  { value: 'usd', name: '&#x24;' },
+                  { value: 'euro', name: '&#x20AC;' },
+                  { value: 'yen', name: '&#xa5;' },
+                  { value: 'inr', name: '&#x20B9;' },
+                ]"
+                :optionName="'name'"
+                :optionValue="'value'"
+              >
+              </FormSelectVue>
             </div>
           </div>
           <div class="grid">
@@ -161,6 +168,8 @@ import FormFileUploadSingle from "./FormFileUploadSingle.vue";
 import Button from "./Button.vue";
 import Errors from "./Errors.vue";
 import FormCheckBox from "./FormCheckBox.vue";
+
+import FormSelectVue from "./FormSelect.vue";
 
 onMounted(() => {
   initFlowbite();

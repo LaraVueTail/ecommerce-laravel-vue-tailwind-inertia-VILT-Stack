@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class SiteIdentity extends Model
 {
     use HasFactory;
-    protected $appends = ['logo_image_url','enable_stripe','stripe_secret_key'];
+    protected $appends = ['logo_image_url'];
 
     protected function logoImage(): Attribute
     {
@@ -33,21 +33,4 @@ class SiteIdentity extends Model
         });
     }
 
-    protected function enableStripe():Attribute
-    {
-        return Attribute::make(
-            get: function() {
-                    return config('ecommerce.enable_stripe');
-        }
-    );
-    }
-
-    protected function stripeSecretKey():Attribute
-    {
-        return Attribute::make(
-            get: function() {
-                    return config('ecommerce.stripe_secret_key');
-        }
-    );
-    }
 }

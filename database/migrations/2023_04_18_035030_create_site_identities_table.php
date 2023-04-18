@@ -21,6 +21,9 @@ return new class extends Migration
             $table->string('siteOwnerName');
             $table->string('siteOwnerEmail');
             $table->string('logoImage');
+            $table->string('stripe_secret_key')->default(config('ecommerce.stripe_secret_key'));
+            $table->boolean('enable_stripe')->default(config('ecommerce.enable_stripe'));
+            $table->string('currency')->default(config('ecommerce.currency'));
             $table->timestamps();
         });
     }

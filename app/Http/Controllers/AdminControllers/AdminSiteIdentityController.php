@@ -11,8 +11,6 @@ class AdminSiteIdentityController extends Controller
     public function update(SiteIdentity $siteIdentity,FileManagement $fileManagement)
     {
         $attributes = $this->validateSiteIdentity($siteIdentity);
-        config(['ecommerce.stripe_secret_key' => $attributes['stripe_secret_key']]);
-        unset($attributes['stripe_secret_key']);
 
         if($attributes['logoImage'] ?? false){
             $attributes['logoImage'] = 
@@ -44,6 +42,7 @@ class AdminSiteIdentityController extends Controller
             'logoImage' => [$siteIdentity->exists ? 'nullable' : 'required','mimes:jpg,jpeg,png','max:2096'],
             'enable_stripe' => 'required',
             'stripe_secret_key' => 'required',
+            'currency'=> 'required',
             'created_at' => 'nullable',
             'updated_at' => 'nullable',
         ],[
