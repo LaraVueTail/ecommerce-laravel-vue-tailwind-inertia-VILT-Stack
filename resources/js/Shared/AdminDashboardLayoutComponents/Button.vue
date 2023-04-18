@@ -40,11 +40,13 @@ export default {
       return this.$page.props.flash;
     },
   },
-  flash: {
-    deep: true,
-    handler(val, oldVal) {
-      this.show = true;
-      setTimeout(() => (this.show = false), 2000);
+  watch: {
+    flash: {
+      deep: true,
+      handler(val, oldVal) {
+        this.show = true;
+        setTimeout(() => (this.show = false), 2000);
+      },
     },
   },
 };

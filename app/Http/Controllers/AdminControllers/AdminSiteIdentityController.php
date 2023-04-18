@@ -10,12 +10,14 @@ class AdminSiteIdentityController extends Controller
 {
     public function update(SiteIdentity $siteIdentity,FileManagement $fileManagement)
     {
-        $attributes = $this->validateSiteIdentity($siteIdentity);  
+        $attributes = $this->validateSiteIdentity($siteIdentity);
+        config(['ecommerce.stripe_secret_key' => $attributes['stripe_secret_key']]);
+        unset($attributes['stripe_secret_key']);
 
-        if($attributes['logoImage'][0] ?? false){
+        if($attributes['logoImage'] ?? false){
             $attributes['logoImage'] = 
             $fileManagement->uploadFile(
-                file:$attributes['logoImage'][0] ?? false,
+                file:$attributes['logoImage'] ?? false,
                 deleteOldFile:true, 
                 oldFile:$siteIdentity->logoImage,
                 path:'images/site-identity'
@@ -24,13 +26,14 @@ class AdminSiteIdentityController extends Controller
 
         $siteIdentity->update($attributes);
 
-        return back()->withErrors('SiteIdentityErrors')->with('success','Site Identity Updated!');
+        return back()->withErrors('siteIdentityErrors')->with('success','Site Identity Updated!');
 
     }
 
     protected function validateSiteIdentity(?SiteIdentity $siteIdentity = null): array
     {
         $siteIdentity ??= new SiteIdentity();
+        // dd('aa');
 
         return request()->validateWithBag('siteIdentityErrors',[
             'siteName' => 'required|max:50',
@@ -38,8 +41,9 @@ class AdminSiteIdentityController extends Controller
             'siteEmail' => 'required|max:50',
             'siteOwnerName' => 'required|max:50',
             'siteOwnerEmail' => 'required|max:50',
-            'logoImage' => 'required',
-            'logoImage.*' => [Rule::requiredIf(request()->input('logoImage') ?? false),'mimes:jpg,jpeg,png','max:2096'],
+            'logoImage' => [$siteIdentity->exists ? 'nullable' : 'required','mimes:jpg,jpeg,png','max:2096'],
+            'enable_stripe' => 'required',
+            'stripe_secret_key' => 'required',
             'created_at' => 'nullable',
             'updated_at' => 'nullable',
         ],[

@@ -27,7 +27,7 @@ class CheckoutController extends Controller
     public function checkout(Request $request)
     {
 
-        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+        \Stripe\Stripe::setApiKey(config('ecommerce.stripe_secret_key'));
         \Cart::session(Auth::user()->id);
         $cartContent =  \Cart::getContent();
         $cartTotal =  \Cart::getTotal();

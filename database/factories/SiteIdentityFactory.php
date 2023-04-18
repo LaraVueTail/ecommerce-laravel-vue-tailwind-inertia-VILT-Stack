@@ -17,7 +17,12 @@ class SiteIdentityFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'siteName' => 'LaraCommerce',
+            'siteDomain' => 'laracommerce.com',
+            'siteEmail' => 'official@laracommerce.com',
+            'siteOwnerName' => 'Ameerali C',
+            'siteOwnerEmail' => 'admin@laracommerce.com',
+            'logoImage' => 'https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600',
         ];
     }
 }

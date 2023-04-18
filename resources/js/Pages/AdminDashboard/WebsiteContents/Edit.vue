@@ -15,6 +15,11 @@
         Website Contents
       </h5>
 
+      <WebsiteContentsSiteIdentity
+        :siteIdentity="siteIdentity"
+        :siteIdentityErrors="errors.siteIdentityErrors ?? {}"
+      ></WebsiteContentsSiteIdentity>
+
       <WebsiteContentsHomePage
         :homePageContent="homePageContent"
         :homePageContentsErrors="errors.homePageContentsErrors ?? {}"
@@ -34,7 +39,14 @@
 </template>
 <script>
 export default {
-  props: ["errors", "aboutPageContent", "contactPageContent", "homePageContent"],
+  props: [
+    "errors",
+    "aboutPageContent",
+    "contactPageContent",
+    "homePageContent",
+    "siteIdentity",
+  ],
+  components: { WebsiteContentsSiteIdentity },
 };
 </script>
 <script setup>
@@ -45,6 +57,7 @@ import WebsiteContentsAboutPage from "../../../Shared/AdminDashboardLayoutCompon
 import WebsiteContentsContactPage from "../../../Shared/AdminDashboardLayoutComponents/WebsiteContentsContactPage.vue";
 import Breadcrump from "../../../Shared/AdminDashboardLayoutComponents/Breadcrump.vue";
 import AlertDelete from "../../../Shared/AdminDashboardLayoutComponents/AlertDelete.vue";
+import WebsiteContentsSiteIdentity from "../../../Shared/AdminDashboardLayoutComponents/WebsiteContentsSiteIdentity.vue";
 onMounted(() => {
   initFlowbite();
 });

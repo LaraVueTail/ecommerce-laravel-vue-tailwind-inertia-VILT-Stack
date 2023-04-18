@@ -12,6 +12,7 @@ use App\Http\Controllers\CustomerDashboardController;
 
 // use App\Http\Controllers\AdminControllers\AdminThemeOptionsController;
 use App\Http\Controllers\AdminControllers\AdminWebsiteContentController;
+use App\Http\Controllers\AdminControllers\AdminSiteIdentityController;
 use App\Http\Controllers\AdminControllers\AdminHomePageContentController;
 use App\Http\Controllers\AdminControllers\AdminAboutPageContentController;
 use App\Http\Controllers\AdminControllers\AdminContactPageContentController;
@@ -79,6 +80,7 @@ Route::name('admin.')->group(function(){
         Route::prefix('admin-dashboard')->group(function () {
             Route::get('', [AdminDashboardController::class, 'index'])->name('home');
             Route::get('/website-contents', [AdminWebsiteContentController::class, 'edit'])->name('website_contents');
+            Route::put('/site-identity/{siteIdentity}', [AdminSiteIdentityController::class, 'update']);
             Route::put('/home-page-contents/{homePageContent}', [AdminHomePageContentController::class, 'update']);
             Route::put('/home-page-contents/{homePageContent}/deleteImage', [AdminHomePageContentController::class, 'deleteImage']);
             Route::put('/about-page-contents/{aboutPageContent}', [AdminAboutPageContentController::class, 'update']);
