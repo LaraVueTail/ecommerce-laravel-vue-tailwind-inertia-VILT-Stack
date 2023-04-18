@@ -22,7 +22,7 @@ class FileManagement
             return $appendFilesTo;
 
         } 
-        else if(!empty($file))
+        else if(!empty($file) && !empty($file->extension() ?? ''))
         {
             if($deleteOldFile){
                 if(Storage::disk('public')->exists($oldFile)){

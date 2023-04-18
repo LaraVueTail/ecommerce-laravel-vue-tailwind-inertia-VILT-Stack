@@ -211,11 +211,11 @@
 import { router } from "@inertiajs/vue3";
 
 export default {
-  props: ["errors"],
+  props: ["errors", "userInfo"],
   data() {
     return {
       cartContent: this.$page.props.cartContent,
-      orderInfoShippingAddress: {},
+      orderInfoShippingAddress: this.userInfo,
       errors: this.$page.props.errors,
     };
   },

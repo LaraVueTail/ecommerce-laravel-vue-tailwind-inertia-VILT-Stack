@@ -118,7 +118,7 @@ class AdminUserController extends Controller
             'first_name' => 'required|min:3|max:50',
             'last_name' => 'required|max:50',
             'avatar' => $user->exists ? 'nullable' : 'required',
-            'avatar.*' => 'nullable|mimes:jpeg,png |max:2096',
+            'avatar.*' => 'required|mimes:jpeg,png |max:2096',
             'email' => ['required','email', Rule::unique('users', 'email')->ignore($user)],
             'gender' => 'nullable',
             'birthday' => 'required',
