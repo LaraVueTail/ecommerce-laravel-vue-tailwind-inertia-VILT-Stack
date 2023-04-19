@@ -54,7 +54,11 @@
                         <p v-if="cartContent.length === 0" class="text-gray-500">
                           No items in the cart!
                         </p>
-                        <ul role="list" class="-my-6 divide-y divide-gray-200">
+                        <ul
+                          role="list"
+                          class="-my-6 divide-y divide-gray-200"
+                          :key="cartRefresh"
+                        >
                           <li
                             v-for="product in cartContent"
                             :key="product.id"
@@ -78,7 +82,10 @@
                                   <h3>
                                     <a :href="product.href">{{ product.name }}</a>
                                   </h3>
-                                  <p class="ml-4">{{ product.price }}</p>
+                                  <p
+                                    class="ml-4"
+                                    v-html="product.attributes.price_with_currency"
+                                  ></p>
                                 </div>
                                 <p class="mt-1 text-sm text-gray-500">
                                   {{ product.color }}
@@ -123,7 +130,10 @@
                   <div class="border-t border-gray-200 px-4 py-6 sm:px-6">
                     <div class="flex justify-between text-base font-medium text-gray-900">
                       <p>Subtotal</p>
-                      <p>${{ $page.props.cartTotal }}</p>
+                      <p>
+                        <span v-html="$page.props.currencySymbol"></span
+                        >{{ $page.props.cartTotal }}
+                      </p>
                     </div>
                     <p class="mt-0.5 text-sm text-gray-500">
                       Shipping and taxes calculated at checkout.
@@ -164,11 +174,10 @@
 
 <script>
 export default {
-  props: ["cartShow"],
+  props: ["cartShow", "cartContent"],
   data() {
     return {
       open: this.cartShow,
-      cartContent: this.$page.props.cartContent,
     };
   },
   methods: {

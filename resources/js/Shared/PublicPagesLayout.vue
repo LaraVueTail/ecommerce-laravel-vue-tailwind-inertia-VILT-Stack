@@ -2,7 +2,11 @@
   <div class="bg-gray-50">
     <NavBar :navMenu="JSON.parse(mainMenu)" @cartOpen="cartClick()"></NavBar>
     <slot></slot>
-    <CartNewVue :cartShow="cart" :key="cartToggle"></CartNewVue>
+    <CartNewVue
+      :cartShow="cart"
+      :key="cartToggle"
+      :cartContent="$page.props.cartContent"
+    ></CartNewVue>
     <Footer></Footer>
   </div>
 </template>

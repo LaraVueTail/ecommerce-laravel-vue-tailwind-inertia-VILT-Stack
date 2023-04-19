@@ -85,12 +85,7 @@
                 :name="'currency'"
                 v-model="siteIdentityInfo.currency"
                 :selected="siteIdentityInfo.currency"
-                :optionsArray="[
-                  { value: 'usd', name: '&#x24;' },
-                  { value: 'euro', name: '&#x20AC;' },
-                  { value: 'yen', name: '&#xa5;' },
-                  { value: 'inr', name: '&#x20B9;' },
-                ]"
+                :optionsArray="currenciesArray"
                 :optionName="'name'"
                 :optionValue="'value'"
               >
@@ -136,6 +131,21 @@ export default {
       logoImage: false,
       oldLogoImage: this.siteIdentity.logo_image_url,
     };
+  },
+  computed: {
+    currenciesArray() {
+      var currenciesArray = [];
+      var inputArray = JSON.parse(this.siteIdentityInfo.available_currencies);
+      console.log(inputArray);
+      Object.keys(inputArray).forEach(function (key, index) {
+        currenciesArray.push({
+          value: key,
+          name: inputArray[key],
+        });
+      });
+      console.log(this.currenciesArray);
+      return currenciesArray;
+    },
   },
   methods: {
     updateSiteIdentity() {

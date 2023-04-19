@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use App\Models\Order;
+use App\Models\SiteIdentity;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,49 +22,58 @@ class CheckoutController extends Controller
             return redirect('/');
         }
         return Inertia::render('Checkout/IndexNew',[
-            'userInfo' => auth()->user()
+            'userInfo' => auth()->user(),
+            'enable_stripe'=>SiteIdentity::first()->enable_stripe
         ]);
     }
     public function checkout(Request $request)
     {
 
         \Stripe\Stripe::setApiKey(config('ecommerce.stripe_secret_key'));
+        
+        $attributes = $request->validate([
+            'shippingAddress.first_name' => 'required',
+            'shippingAddress.last_name' => 'required',
+            'shippingAddress.phone_number' => 'required',
+            'shippingAddress.email' => 'required',
+            'shippingAddress.address_line_1' => 'required',
+            'shippingAddress.address_line_2' => 'required',
+            'shippingAddress.city' => 'required',
+            'shippingAddress.pin_code' => 'required',
+            'shippingAddress.country' => 'required',
+            'payment_mode'=>'required'
+        ]);
+        // dd($attributes);
+
         \Cart::session(Auth::user()->id);
         $cartContent =  \Cart::getContent();
         $cartTotal =  \Cart::getTotal();
-        $lineItems = [];
+        // dd(request()->all());
+        if($attributes['payment_mode'] === 'stripe'){
+            $lineItems = [];
 
-        foreach ($cartContent as $cartItem) {
-            $lineItems[] = [
-                'price_data' => [
-                    'currency' => 'inr',
-                    'product_data' => [
-                        'name' => $cartItem->name,
-                        // 'images' => [$product->image],
+            foreach ($cartContent as $cartItem) {
+                $lineItems[] = [
+                    'price_data' => [
+                        'currency' => SiteIdentity::first()->currency,
+                        'product_data' => [
+                            'name' => $cartItem->name,
+                            'images' => [$cartItem->attributes->image],
+                        ],
+                        'unit_amount' => $cartItem->price * 100,
                     ],
-                    'unit_amount' => $cartItem->price * 100,
-                ],
-                'quantity' => $cartItem->quantity,
-            ];
+                    'quantity' => $cartItem->quantity,
+                ];
+            }
+            $session = \Stripe\Checkout\Session::create([
+                'line_items' => $lineItems,
+                'mode' => 'payment',
+                'success_url' => route('public.checkout.success', [], true) . "?session_id={CHECKOUT_SESSION_ID}",
+                'cancel_url' => route('public.checkout.cancel', [], true),
+            ]);
         }
-        $session = \Stripe\Checkout\Session::create([
-            'line_items' => $lineItems,
-            'mode' => 'payment',
-            'success_url' => route('public.checkout.success', [], true) . "?session_id={CHECKOUT_SESSION_ID}",
-            'cancel_url' => route('public.checkout.cancel', [], true),
-        ]);
 
-        $attributes = $request->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'phone_number' => 'required',
-            'email' => 'required',
-            'address_line_1' => 'required',
-            'address_line_2' => 'required',
-            'city' => 'required',
-            'pin_code' => 'required',
-            'country' => 'required',
-        ]);
+
 
         $order_items = [];
         foreach ($cartContent as $cartItem) {
@@ -74,19 +84,23 @@ class CheckoutController extends Controller
                 'quantity' => $cartItem->quantity,
             ];
         }
-        // dd($order_items);   
+ 
         $order = new Order();
         $order->status = 'unpaid';
         $order->user_id = Auth::user()->id;
-        $order->shipping_address = json_encode($attributes);
+        $order->shipping_address = json_encode($attributes['shippingAddress']);
         $order->cart_content = json_encode($order_items);
         $order->total_price = $cartTotal;
-        $order->session_id = $session->id;
+        $order->payment_mode = $attributes['payment_mode'];
+        $order->session_id = $session->id ?? 'cash_on_delivery';
         $order->save();
 
         \Cart::session(Auth::user()->id)->clear();
+        if($session->id ?? false){
+            return Inertia::location($session->url);
+        }
+        return to_route('public.dashboard.orders');
 
-        return Inertia::location($session->url);
     }
     public function success(Request $request)
     {

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class SiteIdentity extends Model
 {
     use HasFactory;
-    protected $appends = ['logo_image_url'];
+    protected $appends = ['logo_image_url','currency_symbol','available_currencies'];
 
     protected function logoImage(): Attribute
     {
@@ -25,6 +25,33 @@ class SiteIdentity extends Model
         );
     }
 
+    protected function currencySymbol():Attribute
+    {
+        return Attribute::make(
+            get: function($value) {
+                    $currencySymbols = [
+                        'USD' => '&#x24;',
+                        'EUR'=>'&#x20AC;',
+                        'JPY'=>'&#xa5;',
+                        'INR'=>'&#x20B9;'
+                    ];
+                    return $currencySymbols[$this->currency] ?? 'usd';
+        });
+    }
+
+    public function availableCurrencies():Attribute
+    {
+        return Attribute::make(
+            get: function($value) {
+                    $currencySymbols = [
+                        'USD' => '&#x24;',
+                        'EUR'=>'&#x20AC;',
+                        'JPY'=>'&#xa5;',
+                        'INR'=>'&#x20B9;'
+                    ];
+                    return json_encode($currencySymbols);
+        });
+    }
     protected function logoImageUrl():Attribute
     {
         return Attribute::make(

@@ -20,9 +20,8 @@
         :key="option"
         :value="option[optionValue]"
         :selected="selected === option[optionValue]"
-      >
-        {{ option[optionName] }}
-      </option>
+        v-html="option[optionName]"
+      ></option>
       <!-- <option value="TV">TV/Monitors</option>
                                     <option value="PC">PC</option>
                                     <option value="GA">Gaming/Console</option>

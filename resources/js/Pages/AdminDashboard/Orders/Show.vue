@@ -252,6 +252,10 @@
                 >
               </p>
             </div>
+            <div>
+              <p class="font-medium text-blue-600 dark:text-gray-400">Payment Mode:</p>
+              <p class="text-gray-900">{{ order.payment_mode }}</p>
+            </div>
           </div>
         </div>
       </div>

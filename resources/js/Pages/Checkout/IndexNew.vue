@@ -1,6 +1,6 @@
 <template>
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-    <div class="mx-auto max-w-2xl pt-5 sm:pt-16 lg:max-w-none lg:pt-10">
+    <div class="mx-auto max-w-2xl pt-5 sm:pt-16 lg:max-w-none lg:pt-10 py-36">
       <h1 class="text-xl font-bold tracking-tight text-gray-600 sm:text-2xl my-6">
         Checkout
       </h1>
@@ -83,22 +83,13 @@
                 v-model="orderInfoShippingAddress.country"
               ></FormInput>
             </div>
-            <div>
-              <Errors></Errors>
-              <div class="flex items-center space-x-4 my-2">
-                <Button
-                  @click.prevent="submitCheckout()"
-                  :text="'Complete Checkout'"
-                  :color="'green'"
-                ></Button>
-              </div>
-            </div>
           </div>
         </div>
         <div>
           <p class="font-medium text-blue-600 dark:text-gray-400 my-4">Cart:</p>
           <p class="font-medium text-gray-600 dark:text-gray-400 my-4">
-            Total Amount: ${{ $page.props.cartTotal }}
+            Total Amount: <span v-html="$page.props.currencySymbol"></span
+            >{{ $page.props.cartTotal }}
           </p>
           <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -188,7 +179,7 @@
                     </div>
                   </td>
                   <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                    ${{ cartItem.price }}
+                    <span v-html="$page.props.currencySymbol"></span>{{ cartItem.price }}
                   </td>
                   <td class="px-6 py-4">
                     <a
@@ -202,6 +193,43 @@
               </tbody>
             </table>
           </div>
+
+          <div class="p-5 col-span-2 bg-white rounded-lg shadow-md my-5">
+            <p class="font-medium text-blue-600 dark:text-gray-400 my-4">
+              Payment Methods:
+            </p>
+            <div class="grid gap-4 sm:grid-cols-2">
+              <FormRadioButton
+                :label="'Cash on Delivery(COD)'"
+                :name="'cash_on_delivery'"
+                :error="errors.payment_mode"
+                :checked="!enable_stripe"
+                @checked="(value) => (paymentMode = value)"
+                :value="'cod'"
+              >
+              </FormRadioButton>
+              <FormRadioButton
+                :label="'Online Payment(Stripe)'"
+                :name="'stripe'"
+                :error="errors.payment_mode"
+                :checked="enable_stripe"
+                @checked="(value) => (paymentMode = value)"
+                :value="'stripe'"
+              >
+              </FormRadioButton>
+            </div>
+            <div>
+              <Errors></Errors>
+              <div class="flex items-center space-x-4 mt-6">
+                <Button
+                  @click.prevent="submitCheckout()"
+                  :text="'Complete Checkout'"
+                  :color="'blue'"
+                  :fullWidth="true"
+                ></Button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -211,12 +239,13 @@
 import { router } from "@inertiajs/vue3";
 
 export default {
-  props: ["errors", "userInfo"],
+  props: ["errors", "userInfo", "enable_stripe"],
   data() {
     return {
       cartContent: this.$page.props.cartContent,
       orderInfoShippingAddress: this.userInfo,
       errors: this.$page.props.errors,
+      paymentMode: this.enable_stripe ? "stripe" : "cod",
     };
   },
   methods: {
@@ -251,7 +280,12 @@ export default {
       );
     },
     submitCheckout() {
-      router.post("/checkout", this.orderInfoShippingAddress, {
+      console.log(this.paymentMode);
+      var dataToSend = {
+        ...{ shippingAddress: this.orderInfoShippingAddress },
+        ...{ payment_mode: this.paymentMode },
+      };
+      router.post("/checkout", dataToSend, {
         preserveState: false,
         preserveScroll: false,
         only: ["errors"],
@@ -264,4 +298,5 @@ export default {
 import FormInput from "../../Shared/AdminDashboardLayoutComponents/FormInput.vue";
 import Button from "../../Shared/AdminDashboardLayoutComponents/Button.vue";
 import Errors from "../../Shared/AdminDashboardLayoutComponents/Errors.vue";
+import FormRadioButton from "../../Shared/AdminDashboardLayoutComponents/FormRadioButton.vue";
 </script>

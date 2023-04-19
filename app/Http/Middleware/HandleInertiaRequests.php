@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 
 use App\Models\MainMenu;
+use App\Models\SiteIdentity;
 use Darryldecode\Cart\CartCollection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -49,6 +50,7 @@ class HandleInertiaRequests extends Middleware
 
         $shareData = array(
             'csrf_token' => csrf_token(),
+            'currencySymbol'=>SiteIdentity::first()->currency_symbol,
             'auth' => (Auth::check()) ? ['firstName'=> Auth::user()->first_name, 'email' => Auth::user()->email ] : false,
             'flash' => [
                 'success' => fn () => $request->session()->get('success')

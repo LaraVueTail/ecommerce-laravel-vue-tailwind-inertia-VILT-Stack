@@ -42,7 +42,8 @@ class CartController extends Controller
                 'price' => $product['price'],
                 'quantity' => request()->quantity,
                 'attributes' => [
-                    'image' => $product['thumbnail_url']
+                    'image' => $product['thumbnail_url'],
+                    'price_with_currency'=>$product['price_with_currency']
                 ],
                 'associatedModel' => $product
             )

@@ -12,7 +12,7 @@ class Product extends Model
 {
     use HasFactory;
     protected $with = ['category'];
-    protected $appends = ['thumbnail_url','more_images_url','link'];
+    protected $appends = ['thumbnail_url','more_images_url','link','price_with_currency'];
 
     protected $casts = [
         'more_images' => 'array'
@@ -126,6 +126,15 @@ class Product extends Model
         return Attribute::make(
         get: fn($value) => asset($this->thumbnail ?? ''),
         );
+    }
+
+    protected function priceWithCurrency():Attribute
+    {
+        return Attribute::make(
+            get: function($value) {
+                $currencySymbol = SiteIdentity::first()->currency_symbol;
+                return "{$currencySymbol} {$this->price}";
+        });
     }
 
     public function category()

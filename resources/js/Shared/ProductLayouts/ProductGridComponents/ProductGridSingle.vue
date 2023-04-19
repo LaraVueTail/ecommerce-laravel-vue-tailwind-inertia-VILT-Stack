@@ -19,7 +19,10 @@
         </h3>
         <p class="mt-1 text-sm text-gray-500">{{ product.category.name }}</p>
       </div>
-      <p class="text-sm font-medium text-gray-900">{{ product.price }}</p>
+      <p
+        class="text-sm font-medium text-gray-900"
+        v-html="product.price_with_currency"
+      ></p>
     </div>
   </div>
 </template>

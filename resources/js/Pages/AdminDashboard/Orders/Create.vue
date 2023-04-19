@@ -113,6 +113,18 @@
                   :optionValue="'value'"
                 >
                 </FormSelect>
+                <p class="font-medium text-blue-600 dark:text-gray-400 my-4">
+                  Payment Details:
+                </p>
+                <FormSelect
+                  :label="'Payment Method'"
+                  :name="'payment_method'"
+                  v-model="orderInfo.payment_mode"
+                  :error="errors.payment_mode"
+                  :optionsArray="[{ value: 'cod' }, { value: 'stripe' }]"
+                  :optionName="'value'"
+                  :optionValue="'value'"
+                ></FormSelect>
               </div>
             </div>
           </div>
@@ -247,7 +259,14 @@ export default {
         this.newOrderItem.price > 0 &&
         this.newOrderItem.quantity > 0
       )
-        this.orderContent.push(this.newOrderItem);
+        var item = {};
+      item["id"] = this.newOrderItem.id;
+      item["name"] = this.newOrderItem.name;
+      item["price"] = this.newOrderItem.price;
+      item["quantity"] = this.newOrderItem.quantity;
+      this.orderContent.push(item);
+      item = {};
+      this.newOrderItem = {};
     },
     deleteOrderItem(item) {
       var index = this.orderContent.indexOf(item);

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->longText('cart_content');
             $table->string('status');
             $table->decimal('total_price', 6, 2);
+            $table->string('payment_mode');
             $table->string('session_id');
             $table->timestamps();
         });

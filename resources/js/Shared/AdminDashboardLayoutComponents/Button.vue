@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="{ 'w-full': fullWidth }">
     <button
       type="submit"
       :class="{
@@ -9,6 +9,7 @@
           color === 'red',
         'bg-green-700 hover:bg-green-800 focus:ring-green-300  dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800':
           color === 'green',
+        'w-full': fullWidth,
       }"
       class="text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center"
     >
@@ -25,7 +26,7 @@
 </template>
 <script>
 export default {
-  props: ["text", "color"],
+  props: ["text", "color", "fullWidth"],
   data() {
     return {
       show: false,

@@ -98,6 +98,7 @@ class AdminOrderController extends Controller
             'shipping_address' => 'required',
             'user_id' => ['required', Rule::exists('users', 'id')],
             'cart_content' => 'required',
+            'payment_mode' => 'required',
             'session_id' => 'nullable',
             'status' => 'required',
             'total_price' => 'required'

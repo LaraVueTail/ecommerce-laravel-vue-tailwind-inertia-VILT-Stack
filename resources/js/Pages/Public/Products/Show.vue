@@ -153,10 +153,14 @@
               </svg>
             </p>
             <p class="text-3xl tracking-tight text-gray-900">
-              ${{ product.price }}
-              <span class="text-xl tracking-tight text-gray-600 line-through px-2"
-                >${{ product.price_sale }}</span
-              >
+              <span
+                class="text-3xl tracking-tight text-gray-900"
+                v-html="$page.props.currencySymbol"
+              ></span>
+              {{ product.price }}
+              <span class="text-xl tracking-tight text-gray-600 line-through px-2">{{
+                product.price_sale
+              }}</span>
             </p>
 
             <div class="my-6" v-if="JSON.parse(product.more_images_url).length >= 2">
@@ -339,7 +343,6 @@ export default {
     },
     addToCart() {
       // this.added = true;
-      setTimeout(() => (added = false), 500);
       this.itemToCart.product = this.product;
       this.itemToCart.quantity = this.quantity;
       this.form = useForm(this.itemToCart);
