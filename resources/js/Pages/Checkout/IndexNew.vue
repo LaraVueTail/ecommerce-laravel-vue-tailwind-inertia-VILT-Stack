@@ -203,7 +203,7 @@
                 :label="'Cash on Delivery(COD)'"
                 :name="'cash_on_delivery'"
                 :error="errors.payment_mode"
-                :checked="!enable_stripe"
+                :checked="paymentMode === 'cod'"
                 @checked="(value) => (paymentMode = value)"
                 :value="'cod'"
               >
@@ -212,7 +212,7 @@
                 :label="'Online Payment(Stripe)'"
                 :name="'stripe'"
                 :error="errors.payment_mode"
-                :checked="enable_stripe"
+                :checked="paymentMode === 'stripe'"
                 @checked="(value) => (paymentMode = value)"
                 :value="'stripe'"
               >

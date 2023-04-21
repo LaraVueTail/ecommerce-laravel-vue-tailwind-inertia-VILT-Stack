@@ -3,23 +3,24 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\PublicPagesController;
 use App\Http\Controllers\AdminDashboardController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CustomerDashboardController;
 
 // use App\Http\Controllers\AdminControllers\AdminThemeOptionsController;
-use App\Http\Controllers\AdminControllers\AdminWebsiteContentController;
-use App\Http\Controllers\AdminControllers\AdminSiteIdentityController;
-use App\Http\Controllers\AdminControllers\AdminHomePageContentController;
-use App\Http\Controllers\AdminControllers\AdminAboutPageContentController;
-use App\Http\Controllers\AdminControllers\AdminContactPageContentController;
+use App\Http\Controllers\AdminControllers\AdminUserController;
 use App\Http\Controllers\AdminControllers\AdminOrderController;
 use App\Http\Controllers\AdminControllers\AdminProductController;
 use App\Http\Controllers\AdminControllers\AdminCategoryController;
-use App\Http\Controllers\AdminControllers\AdminUserController;
+use App\Http\Controllers\AdminControllers\AdminSiteIdentityController;
+use App\Http\Controllers\AdminControllers\AdminFooterContentController;
+use App\Http\Controllers\AdminControllers\AdminWebsiteContentController;
+use App\Http\Controllers\AdminControllers\AdminHomePageContentController;
+use App\Http\Controllers\AdminControllers\AdminAboutPageContentController;
+use App\Http\Controllers\AdminControllers\AdminContactPageContentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -81,6 +82,7 @@ Route::name('admin.')->group(function(){
             Route::get('', [AdminDashboardController::class, 'index'])->name('home');
             Route::get('/website-contents', [AdminWebsiteContentController::class, 'edit'])->name('website_contents');
             Route::put('/site-identity/{siteIdentity}', [AdminSiteIdentityController::class, 'update']);
+            Route::put('/footer-content/{footerContent}', [AdminFooterContentController::class, 'update']);
             Route::put('/home-page-contents/{homePageContent}', [AdminHomePageContentController::class, 'update']);
             Route::put('/home-page-contents/{homePageContent}/deleteImage', [AdminHomePageContentController::class, 'deleteImage']);
             Route::put('/about-page-contents/{aboutPageContent}', [AdminAboutPageContentController::class, 'update']);

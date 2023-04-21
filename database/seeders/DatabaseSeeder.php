@@ -4,13 +4,14 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-use App\Models\AboutPageContent;
-use App\Models\ContactPageContent;
-use App\Models\HomePageContent;
+use App\Models\User;
 use App\Models\Product;
 use App\Models\SiteIdentity;
-use App\Models\User;
+use App\Models\FooterContent;
+use App\Models\HomePageContent;
 use Illuminate\Database\Seeder;
+use App\Models\AboutPageContent;
+use App\Models\ContactPageContent;
 
 class DatabaseSeeder extends Seeder
 {
@@ -25,6 +26,7 @@ class DatabaseSeeder extends Seeder
 
         // ThemeOption::factory(1)->create();
         SiteIdentity::factory(1)->create();
+        FooterContent::factory(1)->create();
         HomePageContent::factory(1)->create();
         AboutPageContent::factory(1)->create();
         ContactPageContent::factory(1)->create();

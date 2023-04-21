@@ -20,6 +20,11 @@
         :siteIdentityErrors="errors.siteIdentityErrors ?? {}"
       ></WebsiteContentsSiteIdentity>
 
+      <WebsiteContentsFooter
+        :footerContent="footerContent"
+        :FooterContentErrors="errors.FooterContentErrors ?? {}"
+      ></WebsiteContentsFooter>
+
       <WebsiteContentsHomePage
         :homePageContent="homePageContent"
         :homePageContentsErrors="errors.homePageContentsErrors ?? {}"
@@ -45,6 +50,7 @@ export default {
     "contactPageContent",
     "homePageContent",
     "siteIdentity",
+    "footerContent",
   ],
   components: { WebsiteContentsSiteIdentity },
 };
@@ -58,6 +64,7 @@ import WebsiteContentsContactPage from "../../../Shared/AdminDashboardLayoutComp
 import Breadcrump from "../../../Shared/AdminDashboardLayoutComponents/Breadcrump.vue";
 import AlertDelete from "../../../Shared/AdminDashboardLayoutComponents/AlertDelete.vue";
 import WebsiteContentsSiteIdentity from "../../../Shared/AdminDashboardLayoutComponents/WebsiteContentsSiteIdentity.vue";
+import WebsiteContentsFooter from "../../../Shared/AdminDashboardLayoutComponents/WebsiteContentsFooter.vue";
 onMounted(() => {
   initFlowbite();
 });

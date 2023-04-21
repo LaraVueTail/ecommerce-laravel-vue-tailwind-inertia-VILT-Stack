@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\AdminControllers;
 
-use App\Http\Controllers\Controller;
+use Inertia\Inertia;
+use App\Models\SiteIdentity;
+use App\Models\FooterContent;
+use App\Models\HomePageContent;
 use App\Models\AboutPageContent;
 use App\Models\ContactPageContent;
-use App\Models\HomePageContent;
-use App\Models\SiteIdentity;
-use Inertia\Inertia;
+use App\Http\Controllers\Controller;
 
 
 class AdminWebsiteContentController extends Controller
@@ -17,12 +18,14 @@ class AdminWebsiteContentController extends Controller
     {
 
         $siteIdentity = SiteIdentity::first();
+        $footerContent = FooterContent::first();
         $homePageContent = HomePageContent::first();
         $aboutPageContent = AboutPageContent::first();
         $contactPageContent = ContactPageContent::first();
         
         return Inertia::render('AdminDashboard/WebsiteContents/Edit', [
             'siteIdentity'=>$siteIdentity,
+            'footerContent'=>$footerContent,
             'homePageContent'=>$homePageContent,
             'contactPageContent' => $contactPageContent,
             'aboutPageContent' => $aboutPageContent
