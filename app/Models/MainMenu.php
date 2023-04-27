@@ -9,12 +9,13 @@ use App\Models\Category;
 class MainMenu extends Model
 {
     use HasFactory;
+
     public function publicMenu()
     {
         $publicMenu = [
             'logo' => [ 
-              "name"=> "Website Name",
-              "imageSrc"=> "https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600", 
+              "name"=> SiteIdentity::first()->siteName,
+              "imageSrc"=> SiteIdentity::first()->logoImage, 
               "href" => asset('')
              ],
             'categories'=> [

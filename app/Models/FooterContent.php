@@ -13,7 +13,26 @@ class FooterContent extends Model
         'page_links' => 'array',
         'social_links' => 'array',
     ];
-    protected $appends = ['page_links','social_links'];
+    protected $appends = ['site_logo','site_name'];
+
+    protected function siteLogo(): Attribute
+    {
+        return Attribute::make(
+        get: function($value) {
+            $logo = SiteIdentity::first()->logoImage;
+            return asset($logo);
+        },
+        );
+    }
+
+    protected function siteName(): Attribute
+    {
+        return Attribute::make(
+        get: function($value) {
+            return SiteIdentity::first()->siteName;
+        },
+        );
+    }
 
     protected function pageLinks():Attribute
     {

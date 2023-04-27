@@ -88,9 +88,7 @@
   </div>
   <div class="mx-auto max-w-5xl px-6 lg:px-8 my-20">
     <div class="mx-auto max-w-2xl lg:mx-0">
-      <h2 class="text-sm text-gray-600 sm:text-md tracking-wide">
-        {{ aboutPageContent.aboutText }}
-      </h2>
+      <h2 class="text-gray-600 tracking-wide" v-html="aboutPageContent.aboutText"></h2>
     </div>
   </div>
 </template>

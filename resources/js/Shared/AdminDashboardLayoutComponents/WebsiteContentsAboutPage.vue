@@ -28,15 +28,22 @@
                 :error="this.aboutPageContentsErrors.aboutSubHeading"
               >
               </FormTextArea>
-              <FormTextArea
+              <div class="grid gap-0">
+                <!-- <QuillEditor
+                  theme="snow"
+                  v-model:content="aboutPageContentInfo.aboutText"
+                  content-type="html"
+                /> -->
+              </div>
+              <!-- <FormTextArea
                 :label="'Main Paragraph'"
                 :name="'text'"
                 v-model="aboutPageContentInfo.aboutText"
                 :row="'5'"
                 :placeholder="'About page text content'"
-                :error="this.aboutPageContentsErrors.aboutText"
+                :error="this.aboutPageContentsErrors.aboutText"Editor
               >
-              </FormTextArea>
+              </FormTextArea> -->
             </div>
           </div>
           <div class="grid">
@@ -188,6 +195,7 @@ export default {
   props: ["aboutPageContentsErrors", "aboutPageContent"],
   data() {
     return {
+      demo: "aaa",
       aboutPageContentInfo: this.aboutPageContent,
       aboutImage: false,
       oldAboutImage: this.aboutPageContent.about_image_url,
@@ -244,6 +252,8 @@ import FormFileUploadSingle from "./FormFileUploadSingle.vue";
 
 import Button from "./Button.vue";
 import Errors from "./Errors.vue";
+import { QuillEditor } from "@vueup/vue-quill";
+import "@vueup/vue-quill/dist/vue-quill.snow.css";
 
 onMounted(() => {
   initFlowbite();
