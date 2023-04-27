@@ -18,7 +18,7 @@ class FooterContent extends Model
     protected function pageLinks():Attribute
     {
         return Attribute::make(
-        set: function($value) {
+        get: function($value) {
                 if($value === null){
                     return json_encode([
                         [

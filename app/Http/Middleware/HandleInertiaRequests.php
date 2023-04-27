@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-
+use App\Models\FooterContent;
 use App\Models\MainMenu;
 use App\Models\SiteIdentity;
 use Darryldecode\Cart\CartCollection;
@@ -59,6 +59,7 @@ class HandleInertiaRequests extends Middleware
         if(str_starts_with($request->route()->getName(), 'public')){
             $shareData = array_merge($shareData,array(
                 'mainMenu' => (new MainMenu)->publicMenu(),
+                'footerContent' => FooterContent::first(),
                 'cartCount' => \Cart::getTotalQuantity(),
                 'cartContent' =>  \Cart::getContent(),
                 'cartTotal' =>  round(\Cart::getTotal(),2),
