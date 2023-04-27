@@ -5,7 +5,16 @@
       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
       >{{ label }}</label
     >
-    <QuillEditor theme="snow" content="modelValue" content-type="html" />
+    <div class="grid gap-0 overflow-y-auto">
+      <QuillEditor
+        theme="snow"
+        :content="modelValue"
+        content-type="html"
+        toolbar="minimal"
+        @update:content="$emit('update:modelValue', $event.target.content)"
+      />
+    </div>
+
     <div v-if="error" v-text="error" class="text-red-500 text-xs mt-1"></div>
   </div>
 </template>

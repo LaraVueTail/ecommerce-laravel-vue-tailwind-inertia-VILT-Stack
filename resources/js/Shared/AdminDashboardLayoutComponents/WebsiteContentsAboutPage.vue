@@ -28,13 +28,18 @@
                 :error="this.aboutPageContentsErrors.aboutSubHeading"
               >
               </FormTextArea>
-              <div class="grid gap-0">
-                <!-- <QuillEditor
+
+              <FormTextEditor
+                v-model="aboutPageContentInfo.aboutText"
+                :label="'Main Paragraph'"
+                :name="'text'"
+                :error="this.aboutPageContentsErrors.aboutText"
+              ></FormTextEditor>
+              <!-- <QuillEditor
                   theme="snow"
                   v-model:content="aboutPageContentInfo.aboutText"
                   content-type="html"
                 /> -->
-              </div>
               <!-- <FormTextArea
                 :label="'Main Paragraph'"
                 :name="'text'"
@@ -249,6 +254,7 @@ import FormTextArea from "./FormTextArea.vue";
 
 import FormInput from "./FormInput.vue";
 import FormFileUploadSingle from "./FormFileUploadSingle.vue";
+import FormTextEditor from "./FormTextEditor.vue";
 
 import Button from "./Button.vue";
 import Errors from "./Errors.vue";
