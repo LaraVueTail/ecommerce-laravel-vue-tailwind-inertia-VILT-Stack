@@ -8,6 +8,15 @@ use Illuminate\Validation\Rule;
 
 class AdminCustomPageContentController extends Controller
 {
+    public function store()
+    {
+        $attributes = $this->validateCustomPage();
+        CustomPage::create($attributes);
+
+        return back()->withErrors('CustomPagesErrors')->with('success','Page Created!');
+
+    }
+    
     public function update(CustomPage $customPage,FileManagement $fileManagement)
     {
         $attributes = $this->validateCustomPage($customPage);  

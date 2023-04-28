@@ -7,13 +7,38 @@
       :customPageContent="customPage"
       :customPageContentsErrors="errors[`customPagesErrors_${customPage.id}`] ?? {}"
     ></WebsiteContentsCustomPage>
+    <Button
+      @click.prevent="addNewCustomPage()"
+      :text="'+ Add New Page'"
+      :color="'blue'"
+      :fullWidth="true"
+    ></Button>
   </EditSectionLayout>
   <!-- Modal content -->
 </template>
 
 <script>
+import { router } from "@inertiajs/vue3";
 export default {
   props: ["errors", "customPages"],
+  data() {
+    return {
+      customPagesList: this.customPages,
+    };
+  },
+  methods: {
+    addNewCustomPage() {
+      var newCustomPage = {};
+      newCustomPage["name"] = "New Page";
+      newCustomPage["slug"] = "new-page";
+      newCustomPage["title"] = "New Page Title";
+      router.post(`/admin-dashboard/more-pages-store/`, newCustomPage, {
+        preserveState: true,
+        preserveScroll: true,
+        only: ["customPages", "flash", "errors"],
+      });
+    },
+  },
 };
 </script>
 
@@ -24,8 +49,10 @@ import { initFlowbite } from "flowbite";
 import ModalHeader from "../../../Shared/AdminDashboardLayoutComponents/ModalHeader.vue";
 import Breadcrump from "../../../Shared/AdminDashboardLayoutComponents/Breadcrump.vue";
 import EditSectionLayout from "../../../Shared/AdminDashboardLayoutComponents/EditSectionLayout.vue";
+import Button from "../../../Shared/AdminDashboardLayoutComponents/Button.vue";
 
 import WebsiteContentsCustomPage from "../../../Shared/AdminDashboardLayoutComponents/WebsiteContentsCustomPage.vue";
+import { router } from "@inertiajs/vue3";
 
 onMounted(() => {
   initFlowbite();
