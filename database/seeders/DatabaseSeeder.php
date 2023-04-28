@@ -10,6 +10,7 @@ use App\Models\SiteIdentity;
 use App\Models\FooterContent;
 use App\Models\HomePageContent;
 use Illuminate\Database\Seeder;
+use App\Models\CustomPage;
 use App\Models\AboutPageContent;
 use App\Models\ContactPageContent;
 
@@ -25,6 +26,7 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
         // ThemeOption::factory(1)->create();
+        CustomPage::factory(5)->create();
         SiteIdentity::factory(1)->create();
         FooterContent::factory(1)->create();
         HomePageContent::factory(1)->create();

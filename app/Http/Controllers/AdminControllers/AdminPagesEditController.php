@@ -11,8 +11,42 @@ use App\Models\ContactPageContent;
 use App\Http\Controllers\Controller;
 use App\Models\CustomPage;
 
-class AdminWebsiteContentController extends Controller
+class AdminPagesEditController extends Controller
 {
+
+
+    public function homePageEdit()
+    {
+        $homePageContent = HomePageContent::first();
+        return Inertia::render('AdminDashboard/Pages/HomePageEdit', [
+            'homePageContent'=>$homePageContent,
+        ]);
+    }
+
+    public function aboutPageEdit()
+    {
+        $aboutPageContent = AboutPageContent::first();
+        return Inertia::render('AdminDashboard/Pages/AboutPageEdit', [
+            'aboutPageContent' => $aboutPageContent,
+        ]);
+    }
+
+    public function contactPageEdit()
+    {
+        $contactPageContent = ContactPageContent::first();
+        return Inertia::render('AdminDashboard/Pages/ContactPageEdit', [
+            'contactPageContent' => $contactPageContent,
+        ]);
+    }
+
+    public function morePagesEdit()
+    {
+        $customPages = CustomPage::all();
+        return Inertia::render('AdminDashboard/Pages/MorePagesEdit', [
+            'customPages' => $customPages,
+        ]);
+    }
+
 
     public function edit()
     {

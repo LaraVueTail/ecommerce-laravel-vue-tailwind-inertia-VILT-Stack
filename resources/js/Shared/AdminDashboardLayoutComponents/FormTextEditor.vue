@@ -11,7 +11,8 @@
         :content="modelValue"
         content-type="html"
         toolbar="minimal"
-        @update:content="$emit('update:modelValue', $event.target.content)"
+        ref="textEditor"
+        @update:content="$emit('update:modelValue', $refs.textEditor.getContents())"
       />
     </div>
 

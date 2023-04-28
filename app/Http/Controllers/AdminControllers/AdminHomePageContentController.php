@@ -22,7 +22,7 @@ class AdminHomePageContentController extends Controller
 
         $homePageContent->update($attributes);
 
-        return back()->withErrors('homePageContentsErrors')->with('success','Home Page Updated!');
+        return back()->with('success','Home Page Updated!');
 
     }
 
@@ -43,7 +43,7 @@ class AdminHomePageContentController extends Controller
     {
         $homePageContent ??= new HomePageContent();
 
-        return request()->validateWithBag('homePageContentsErrors',[
+        return request()->validate([
             'hero_carousel' => 'nullable',
             'hero_carousel.*' => 'nullable|mimes:jpg,jpeg,png |max:2096',
             'created_at' => 'nullable',

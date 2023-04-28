@@ -76,9 +76,10 @@
     <div class="mx-auto max-w-6xl px-6 lg:px-2 my-20">
       <div class="grid md:grid-cols-2 gap-6">
         <div>
-          <h2 class="text-sm text-gray-600 sm:text-md tracking-wide">
-            {{ contactPageContent.contactText }}
-          </h2>
+          <h2
+            class="text-sm text-gray-600 sm:text-md tracking-wide"
+            v-html="contactPageContent.contactText"
+          ></h2>
         </div>
         <div>
           <ul

@@ -39,6 +39,13 @@
         :contactPageContent="contactPageContent"
         :contactPageContentsErrors="errors.contactPageContentsErrors ?? {}"
       ></WebsiteContentsContactPage>
+
+      <WebsiteContentsCustomPage
+        v-for="customPage in customPages"
+        :key="customPage.id"
+        :customPageContent="customPage"
+        :customPageContentsErrors="errors[`customPagesErrors_${customPage.id}`] ?? {}"
+      ></WebsiteContentsCustomPage>
     </div>
   </section>
 </template>
@@ -51,6 +58,7 @@ export default {
     "homePageContent",
     "siteIdentity",
     "footerContent",
+    "customPages",
   ],
   components: { WebsiteContentsSiteIdentity },
 };
@@ -65,6 +73,7 @@ import Breadcrump from "../../../Shared/AdminDashboardLayoutComponents/Breadcrum
 import AlertDelete from "../../../Shared/AdminDashboardLayoutComponents/AlertDelete.vue";
 import WebsiteContentsSiteIdentity from "../../../Shared/AdminDashboardLayoutComponents/WebsiteContentsSiteIdentity.vue";
 import WebsiteContentsFooter from "../../../Shared/AdminDashboardLayoutComponents/WebsiteContentsFooter.vue";
+import WebsiteContentsCustomPage from "../../../Shared/AdminDashboardLayoutComponents/WebsiteContentsCustomPage.vue";
 onMounted(() => {
   initFlowbite();
 });
