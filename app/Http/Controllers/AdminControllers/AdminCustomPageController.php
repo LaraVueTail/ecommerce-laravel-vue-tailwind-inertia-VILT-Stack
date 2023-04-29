@@ -6,7 +6,7 @@ use App\Models\CustomPage;
 use App\Services\FileManagement;
 use Illuminate\Validation\Rule;
 
-class AdminCustomPageContentController extends Controller
+class AdminCustomPageController extends Controller
 {
     public function store()
     {

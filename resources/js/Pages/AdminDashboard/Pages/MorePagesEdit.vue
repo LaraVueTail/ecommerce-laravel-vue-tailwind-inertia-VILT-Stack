@@ -29,10 +29,13 @@ export default {
   methods: {
     addNewCustomPage() {
       var newCustomPage = {};
-      newCustomPage["name"] = "New Page";
-      newCustomPage["slug"] = "new-page";
+      var pageId =
+        Math.floor(Math.random() * (10000 - this.customPages.length)) +
+        this.customPages.length;
+      newCustomPage["name"] = " - New Page-" + pageId;
+      newCustomPage["slug"] = "new-page-" + pageId;
       newCustomPage["title"] = "New Page Title";
-      router.post(`/admin-dashboard/more-pages-store/`, newCustomPage, {
+      router.post(`/admin-dashboard/pages/more-pages-store`, newCustomPage, {
         preserveState: true,
         preserveScroll: true,
         only: ["customPages", "flash", "errors"],

@@ -21,7 +21,7 @@ use App\Http\Controllers\AdminControllers\AdminWebsiteContentController;
 use App\Http\Controllers\AdminControllers\AdminHomePageContentController;
 use App\Http\Controllers\AdminControllers\AdminAboutPageContentController;
 use App\Http\Controllers\AdminControllers\AdminContactPageContentController;
-use App\Http\Controllers\AdminControllers\AdminCustomPageContentController;
+use App\Http\Controllers\AdminControllers\AdminCustomPageController;
 
 
 use App\Http\Controllers\AdminControllers\AdminPagesEditController;
@@ -93,12 +93,13 @@ Route::name('admin.')->group(function(){
             Route::put('/home-page-contents/{homePageContent}/deleteImage', [AdminHomePageContentController::class, 'deleteImage']);
             Route::put('/about-page-contents/{aboutPageContent}', [AdminAboutPageContentController::class, 'update']);
             Route::put('/contact-page-contents/{contactPageContent}', [AdminContactPageContentController::class, 'update']);
-            Route::put('/custom-page-contents/{customPage}', [AdminCustomPageContentController::class, 'update']);
+            Route::put('/custom-page-contents/{customPage}', [AdminCustomPageController::class, 'update']);
 
             Route::name('pages.')->group(function(){
                 Route::get('/pages/home-page-edit', [AdminPagesEditController::class, 'homePageEdit'])->name('home_page_edit');
                 Route::get('/pages/about-page-edit', [AdminPagesEditController::class, 'aboutPageEdit'])->name('about_page_edit');
                 Route::get('/pages/contact-page-edit', [AdminPagesEditController::class, 'contactPageEdit'])->name('contact_page_edit');
+                Route::post('/pages/more-pages-store', [AdminCustomPageController::class, 'store'])->name('more_pages_store');
                 Route::get('/pages/more-pages-edit', [AdminPagesEditController::class, 'morePagesEdit'])->name('more_pages_edit');
             });
 
