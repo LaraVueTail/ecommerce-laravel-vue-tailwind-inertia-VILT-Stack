@@ -53,7 +53,7 @@
                   <FormFileUploadSingle
                     @fileChange="(file) => (this.img = file)"
                     :label="'Image'"
-                    :oldImageLink="this.categoryInfo.img"
+                    :oldImageLink="this.categoryInfo.category_image_url"
                     :name="'image'"
                     :error="errors.img ?? errors['img.0']"
                   ></FormFileUploadSingle>
@@ -73,6 +73,7 @@
               <Button
                 @click.prevent="deleteCategory()"
                 :text="'Delete Category'"
+                :disableFlash="true"
                 :color="'red'"
               ></Button>
             </div>
@@ -129,12 +130,6 @@ export default {
       });
     },
     updateCategory() {
-      this.form = useForm(this.categoryInfo);
-      console.log(this.categoryInfo);
-      this.form.put(`/admin-dashboard/categories/${this.category.id}`, {
-        preserveScroll: true,
-      });
-
       if (this.img) {
         this.categoryInfo.img = this.img;
       } else {
@@ -144,7 +139,7 @@ export default {
       this.categoryInfo._method = "put";
       router.post(`/admin-dashboard/categories/${this.category.id}`, this.categoryInfo, {
         preserveState: true,
-        only: ["category"],
+        only: ["category", "flash", "errors"],
         preserveScroll: true,
       });
     },

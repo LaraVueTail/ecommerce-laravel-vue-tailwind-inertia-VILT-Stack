@@ -280,7 +280,7 @@
                     </p>
 
                     <FormFileUploadSingle
-                      @fileChange="(file) => (this.productInfo.thumbnail = file)"
+                      @fileChange="(file) => (this.productInfo.thumbnail = file[0])"
                       :label="'Thumbnail'"
                       :name="'thumbnail'"
                       :error="errors.thumbnail ?? errors['thumbnail.0']"

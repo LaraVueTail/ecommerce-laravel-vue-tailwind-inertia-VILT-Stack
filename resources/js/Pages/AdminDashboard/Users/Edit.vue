@@ -126,6 +126,7 @@
               <Button
                 @click.prevent="deleteUser()"
                 :text="'Delete User'"
+                :disableFlash="true"
                 :color="'red'"
               ></Button>
             </div>

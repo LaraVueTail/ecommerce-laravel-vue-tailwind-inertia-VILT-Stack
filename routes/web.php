@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\PublicPagesController;
@@ -39,9 +38,7 @@ Route::name('public.')->group(function () {
     Route::get('/', [PublicPagesController::class, 'homePage'])->name('home');
     Route::get('/about', [PublicPagesController::class, 'aboutPage'])->name('about');
     Route::get('/contact', [PublicPagesController::class, 'contactPage'])->name('contact');
-    Route::get('/{customPage:slug}', [PublicPagesController::class, 'customPage'])->name('customPage');
-    Route::get('/shop', [ProductController::class, 'index'])->name('products.index');
-    Route::get('products/{product:slug}', [ProductController::class, 'show'])->name('products.show');
+    Route::get('/pages/{customPage:slug}', [PublicPagesController::class, 'customPage'])->name('customPage');
 
 
     Route::name('account.')->group(function(){
@@ -51,6 +48,11 @@ Route::name('public.')->group(function () {
 
         Route::get('register', [UserController::class, 'create'])->middleware('guest')->name('register');
         Route::post('register', [UserController::class, 'store'])->middleware('guest');
+    });
+
+    Route::name('products.')->group(function(){
+        Route::get('/shop', [ProductController::class, 'index'])->name('index');
+        Route::get('products/{product:slug}', [ProductController::class, 'show'])->name('show');
     });
 
     Route::name('cart.')->group(function(){
@@ -111,10 +113,6 @@ Route::name('admin.')->group(function(){
                     Route::get('/footer/edit', [AdminFooterController::class, 'edit'])->name('footer_edit');
                     Route::put('/site-identity/{siteIdentity}', [AdminSiteIdentityController::class, 'update'])->name('site_identity_update');
                     Route::put('/footer/{footerContent}', [AdminFooterController::class, 'update'])->name('footer_update');
-                    // Route::get('/about-page-edit', [AdminPagesEditController::class, 'aboutPageEdit'])->name('about_page_edit');
-                    // Route::get('/contact-page-edit', [AdminPagesEditController::class, 'contactPageEdit'])->name('contact_page_edit');
-                    // Route::post('/more-pages-store', [AdminCustomPageController::class, 'store'])->name('more_pages_store');
-                    // Route::get('/more-pages-edit', [AdminPagesEditController::class, 'morePagesEdit'])->name('more_pages_edit');
                 });
             });
 

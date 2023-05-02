@@ -2,11 +2,11 @@
   <div class="bg-gray-50">
     <NavBar :navMenu="JSON.parse(mainMenu)" @cartOpen="cartClick()"></NavBar>
     <slot></slot>
-    <CartNewVue
+    <CartNew
       :cartShow="cart"
       :key="cartToggle"
       :cartContent="$page.props.cartContent"
-    ></CartNewVue>
+    ></CartNew>
     <Footer></Footer>
   </div>
 </template>
@@ -31,5 +31,5 @@ export default {
 <script setup>
 import NavBar from "./PublicPagesLayoutComponents/NavBar.vue";
 import Footer from "./PublicPagesLayoutComponents/Footer.vue";
-import CartNewVue from "../Pages/Cart/CartNew.vue";
+import CartNew from "../Pages/Cart/Cart.vue";
 </script>

@@ -150,6 +150,7 @@
               <Button
                 @click.prevent="deleteOrder()"
                 :text="'Delete Product'"
+                :disableFlash="true"
                 :color="'red'"
               ></Button>
             </div>
@@ -276,6 +277,7 @@
               <div class="justify-self-stretch col-span-2">
                 <Button
                   @click.prevent="addOrderItem()"
+                  :disableFlash="true"
                   :text="'Create Product'"
                   :color="'blue'"
                 ></Button>
@@ -303,6 +305,7 @@
                   <Button
                     @click.prevent="deleteOrder()"
                     :text="'Delete Product'"
+                    :disableFlash="true"
                     :color="'red'"
                   ></Button>
                 </div>

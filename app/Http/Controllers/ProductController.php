@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Models\MainMenu;
+use App\Models\ThemeSettings\MainMenu;
 use App\Models\Product;
-use Carbon\Carbon;
-use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Request;
 

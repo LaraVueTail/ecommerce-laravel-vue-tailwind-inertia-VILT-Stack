@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\AdminControllers\ThemeSettingsControllers;
 use App\Http\Controllers\Controller;
-use App\Models\SiteIdentity;
+use App\Models\ThemeSettings\SiteIdentity;
 use App\Services\FileManagement;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;

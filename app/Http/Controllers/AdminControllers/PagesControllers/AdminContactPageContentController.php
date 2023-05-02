@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\AdminControllers\PagesControllers;
 use App\Http\Controllers\Controller;
-use App\Models\ContactPageContent;
+use App\Models\Pages\ContactPageContent;
 use App\Services\FileManagement;
 use Inertia\Inertia;
 

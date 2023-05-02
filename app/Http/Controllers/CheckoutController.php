@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use App\Models\Order;
-use App\Models\SiteIdentity;
+use App\Models\ThemeSettings\SiteIdentity;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +21,7 @@ class CheckoutController extends Controller
         if($cartCount === 0){
             return redirect('/');
         }
-        return Inertia::render('Checkout/IndexNew',[
+        return Inertia::render('Checkout/Index',[
             'userInfo' => auth()->user(),
             'enable_stripe'=>SiteIdentity::first()->enable_stripe
         ]);

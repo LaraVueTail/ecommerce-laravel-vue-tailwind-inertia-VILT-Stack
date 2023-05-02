@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\AdminControllers\PagesControllers;
 use App\Http\Controllers\Controller;
-use App\Models\HomePageContent;
+use App\Models\Pages\HomePageContent;
 use App\Services\FileManagement;
 use Inertia\Inertia;
 

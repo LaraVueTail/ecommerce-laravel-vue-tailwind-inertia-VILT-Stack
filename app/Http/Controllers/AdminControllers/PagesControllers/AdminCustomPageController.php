@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\AdminControllers\PagesControllers;
 use App\Http\Controllers\Controller;
-use App\Models\CustomPage;
+use App\Models\Pages\CustomPage;
 use App\Services\FileManagement;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;

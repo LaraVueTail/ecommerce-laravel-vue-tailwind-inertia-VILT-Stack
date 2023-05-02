@@ -2,18 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AboutPageContent;
-use App\Models\Cart;
+use App\Models\Pages\AboutPageContent;
 use App\Models\Category;
-use App\Models\ContactPageContent;
-use App\Models\CustomPage;
-use App\Models\HomePageContent;
-use App\Models\MainMenu;
+use App\Models\Pages\ContactPageContent;
+use App\Models\Pages\CustomPage;
+use App\Models\Pages\HomePageContent;
 use App\Models\Product;
-use App\Models\ThemeOption;
-use Darryldecode\Cart\CartCollection;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class PublicPagesController extends Controller
@@ -71,9 +65,5 @@ class PublicPagesController extends Controller
             'selectedCategories' => request('categories'),
             'query'=>request()->all()
         ]);
-    }
-    public function getUrl($file)
-    {
-        return asset($file);
     }
 }

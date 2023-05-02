@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\AdminControllers\ThemeSettingsControllers;
 use App\Http\Controllers\Controller;
-use App\Models\FooterContent;
+use App\Models\ThemeSettings\FooterContent;
 use Inertia\Inertia;
 
 class AdminFooterController extends Controller

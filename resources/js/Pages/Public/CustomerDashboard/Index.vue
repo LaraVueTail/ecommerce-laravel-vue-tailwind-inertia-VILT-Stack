@@ -90,7 +90,7 @@
                   </p>
 
                   <FormFileUploadSingle
-                    @fileChange="(file) => (this.avatar = file)"
+                    @fileChange="(file) => (this.avatar = file[0])"
                     :label="'Profile Picture'"
                     :oldImageLink="this.userInfo.avatar"
                     :rounded="true"

@@ -52,10 +52,10 @@ class AdminProductController extends Controller
 
         $attributes = $this->validateProduct();
 
-        if($attributes['thumbnail'][0] ?? false){
+        if($attributes['thumbnail'] ?? false){
             $attributes['thumbnail'] = 
             $fileManagement->uploadFile(
-                file:$attributes['thumbnail'][0] ?? false,
+                file:$attributes['thumbnail'] ?? false,
                 path:'images/products/'.$attributes['slug'].'/thumbnail'
             );
         }
@@ -88,10 +88,10 @@ class AdminProductController extends Controller
 
         $attributes = $this->validateProduct($product);
 
-        if($attributes['thumbnail'][0] ?? false){
+        if($attributes['thumbnail'] ?? false){
             $attributes['thumbnail'] = 
             $fileManagement->uploadFile(
-                file:$attributes['thumbnail'][0] ?? false,
+                file:$attributes['thumbnail'] ?? false,
                 path:'images/products/'.$product->slug.'/thumbnail',
                 deleteOldFile:true,
                 oldFile:$product['thumbnail']
@@ -151,20 +151,16 @@ class AdminProductController extends Controller
             'price_sale' => 'nullable',
             'price' => 'required',
             'slug' => [$product->exists ? 'exclude' : 'required', Rule::unique('products', 'slug')->ignore($product)],
-            'thumbnail' => $product->exists ? 'nullable' : 'required',
-            'more_images' => $product->exists ? 'nullable' : 'required',
-            'thumbnail.*' => 'required|mimes:jpeg,png |max:2096',
-            'more_images.*' => 'mimes:jpeg,png |max:2096',
+            'thumbnail' => $product->exists ? 'nullable|mimes:jpeg,png |max:2096' : 'required|mimes:jpeg,png |max:2096',
+            'more_images.*' => $product->exists ?'nullable|mimes:jpeg,png |max:2096':'required|mimes:jpeg,png |max:2096',
             'description' => 'required',
             'short_description' => 'required',
             'product_details' => 'nullable',
             'created_at' => 'nullable',
             'updated_at' => 'nullable',
         ],[
-            'thumbnail.*.mimes' => 'Upload thumbnail as jpg/png format with size less than 2MB',
-            'thumbnail.*.max' => 'Upload thumbnail with size less than 2MB',
-            'more_images.*.mimes' => 'Upload images as jpg/png format with size less than 2MB',
-            'more_images.*.max' => 'Upload images with size less than 2MB',
+            'thumbnail' => 'Upload thumbnail as jpg/png format with size less than 2MB',
+            'more_images.*' => 'Upload images as jpg/png format with size less than 2MB',
         ]);
     }
 }

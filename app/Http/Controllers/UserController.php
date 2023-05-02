@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\MainMenu;
+use App\Models\ThemeSettings\MainMenu;
 use App\Models\User;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
@@ -14,9 +14,7 @@ class UserController extends Controller
     public function login()
     {
         $mainMenu = new MainMenu();
-        return Inertia::render('Auth/LoginNew',[
-            'mainMenu'=>$mainMenu->publicMenu()
-        ]);
+        return Inertia::render('Auth/Login');
     }
 
     public function auth(Request $request)
@@ -75,7 +73,7 @@ class UserController extends Controller
 
     public function create()
     {
-        return Inertia::render('Auth/RegisterNew');
+        return Inertia::render('Auth/Register');
     }
 
     public function store(Request $request)
@@ -94,8 +92,7 @@ class UserController extends Controller
         return request()->validate([
             'first_name' => 'required|min:3|max:50',
             'last_name' => 'required|max:50',
-            'avatar' => $user->exists ? 'nullable' : 'nullable',
-            'avatar.*' => 'nullable|mimes:jpeg,png |max:2096',
+            'avatar' => 'nullable|mimes:jpeg,png |max:2096',
             'email' => ['required','email', Rule::unique('users', 'email')->ignore($user)],
             'gender' => 'nullable',
             'birthday' => 'nullable',
@@ -103,8 +100,8 @@ class UserController extends Controller
             'password' => (request()->input('password') ?? false || !$user->exists ) ? 'required|confirmed|min:6': 'nullable',
             'tac'=>'required|accepted'
         ],[
-            'avatar.*.mimes' => 'Upload Profile image as jpg/png format with size less than 2MB',
-            'avatar.*.max' => 'Upload Profile image with size less than 2MB',
+            'avatar' => 'Upload Profile image as jpg/png format with size less than 2MB',
+            'tac'=>'Please agree to the Terms and Conditions!'
         ]);
     }
 }

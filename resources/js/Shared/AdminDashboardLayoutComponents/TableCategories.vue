@@ -30,7 +30,7 @@
           <td class="p-4">
             <div
               class="w-20 h-20 bg-cover bg-center rounded-lg"
-              :style="`background-image: url(${category.img})`"
+              :style="`background-image: url(${category.category_image_url})`"
             ></div>
           </td>
 

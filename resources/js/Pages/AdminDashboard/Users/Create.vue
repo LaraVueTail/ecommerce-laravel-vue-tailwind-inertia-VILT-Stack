@@ -96,7 +96,7 @@
                     </p>
 
                     <FormFileUploadSingle
-                      @fileChange="(file) => (this.userInfo.avatar = file)"
+                      @fileChange="(file) => (this.userInfo.avatar = file[0])"
                       :label="'Profile Picture'"
                       :name="'avatar'"
                       :error="errors.avatar ?? errors['avatar.0']"
@@ -135,6 +135,7 @@ export default {
   },
   methods: {
     createUser() {
+      this.userInfo.tac = true;
       console.log(this.userInfo);
       this.form = useForm(this.userInfo);
       this.form.post(`/admin-dashboard/users`, {

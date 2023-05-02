@@ -6,13 +6,13 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Models\Product;
-use App\Models\SiteIdentity;
-use App\Models\FooterContent;
-use App\Models\HomePageContent;
+use App\Models\ThemeSettings\SiteIdentity;
+use App\Models\ThemeSettings\FooterContent;
+use App\Models\Pages\HomePageContent;
 use Illuminate\Database\Seeder;
-use App\Models\CustomPage;
-use App\Models\AboutPageContent;
-use App\Models\ContactPageContent;
+use App\Models\Pages\CustomPage;
+use App\Models\Pages\AboutPageContent;
+use App\Models\Pages\ContactPageContent;
 
 class DatabaseSeeder extends Seeder
 {

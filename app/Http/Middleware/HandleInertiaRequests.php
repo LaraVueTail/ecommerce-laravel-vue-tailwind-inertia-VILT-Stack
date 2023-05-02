@@ -2,9 +2,9 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\FooterContent;
-use App\Models\MainMenu;
-use App\Models\SiteIdentity;
+use App\Models\ThemeSettings\FooterContent;
+use App\Models\ThemeSettings\MainMenu;
+use App\Models\ThemeSettings\SiteIdentity;
 use Darryldecode\Cart\CartCollection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

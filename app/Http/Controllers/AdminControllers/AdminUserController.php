@@ -21,9 +21,9 @@ class AdminUserController extends Controller
             'AdminDashboard/Users/Index',
             [
                 'users' => User::filter(
-                    request(['search','dateStart','dateEnd']))
+                    request(['search','dateStart','dateEnd','sortBy']))
                     ->paginate(10)->withQueryString(),
-                'filters' => Request::only(['search', 'dateStart', 'dateEnd'])
+                'filters' => Request::only(['search', 'dateStart', 'dateEnd','sortBy'])
             ]
         );
 
@@ -47,12 +47,14 @@ class AdminUserController extends Controller
 
     public function store(FileManagement $fileManagement)
     {
+        // dd(request()->all());
+
         
         $attributes = $this->validateUser();
-        if($attributes['avatar'][0] ?? false){
+        if($attributes['avatar'] ?? false){
             $attributes['avatar'] = 
             $fileManagement->uploadFile(
-                file:$attributes['avatar'][0] ?? false,
+                file:$attributes['avatar'] ?? false,
                 path:'images/users/'.$attributes['email'].'/avatar',
                 storeAsName:'avatar'
             );
@@ -76,10 +78,10 @@ class AdminUserController extends Controller
     {
         $attributes = $this->validateUser($user);
 
-        if(gettype($attributes['avatar'][0] ?? false) === 'array') {
+        if($attributes['avatar'] ?? false) {
             $attributes['avatar'] = 
             $fileManagement->uploadFile(
-                file:$attributes['avatar'][0] ?? false,
+                file:$attributes['avatar'] ?? false,
                 deleteOldFile: true, 
                 oldFile: $user->avatar,
                 path:'images/users/'.($user['email'] !== $attributes['email'] ? $attributes['email'] : $user['email']).'/avatar',
@@ -117,8 +119,7 @@ class AdminUserController extends Controller
         return request()->validate([
             'first_name' => 'required|min:3|max:50',
             'last_name' => 'required|max:50',
-            'avatar' => $user->exists ? 'nullable' : 'required',
-            'avatar.*' => 'required|mimes:jpeg,png |max:2096',
+            'avatar' => 'nullable|mimes:jpeg,png |max:2096',
             'email' => ['required','email', Rule::unique('users', 'email')->ignore($user)],
             'gender' => 'nullable',
             'birthday' => 'required',
@@ -129,11 +130,10 @@ class AdminUserController extends Controller
             'city' => 'nullable',
             'pin_code' => 'nullable',
             'country' => 'nullable',
+            'tac'=>'required|accepted'
 
         ],[
-            'avatar.required' => 'Add a profile picture',
-            'avatar.*.mimes' => 'Upload Profile image as jpg/png format with size less than 2MB',
-            'avatar.*.max' => 'Upload Profile image with size less than 2MB',
+            'avatar' => 'Upload Profile image as jpg/png format with size less than 2MB',
         ]);
     }
 

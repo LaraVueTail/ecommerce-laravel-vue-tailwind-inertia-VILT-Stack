@@ -116,8 +116,10 @@
                 <Link
                   href="/logout"
                   method="post"
-                  as="button"
                   class="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                  :class="
+                    $page.url === '/dashboard/address' ? 'text-blue-700' : 'text-gray-700'
+                  "
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -132,7 +134,7 @@
                     />
                   </svg>
 
-                  <span class="flex-1 ml-3 whitespace-nowrap">Log out</span>
+                  <span class="flex-1 ml-3 whitespace-nowrap">Logout</span>
                 </Link>
               </li>
             </ul>

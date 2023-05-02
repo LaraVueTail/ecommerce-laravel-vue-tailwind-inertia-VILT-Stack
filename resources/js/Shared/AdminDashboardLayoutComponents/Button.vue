@@ -16,17 +16,20 @@
       {{ text }}
     </button>
     <p
-      class="text-sm font-medium px-4 my-4 border-l-2 border-green-500"
       v-if="show"
-      :class="{ 'text-green-600 bg-green-100': flash }"
-    >
-      {{ flash.success }}
-    </p>
+      :class="{
+        'text-green-600 bg-green-100 text-sm font-medium px-4 my-4 border-l-2 border-green-500':
+          flash && !disableFlash,
+        'text-transparent bg-transparent text-sm font-medium px-4 my-4 border-l-2 border-transparent':
+          flash && disableFlash,
+      }"
+      v-html="disableFlash ? 'no' : flash.success"
+    ></p>
   </div>
 </template>
 <script>
 export default {
-  props: ["text", "color", "fullWidth"],
+  props: ["text", "color", "fullWidth", "disableFlash"],
   data() {
     return {
       show: false,

@@ -332,6 +332,7 @@
               <Button
                 @click.prevent="deleteProduct()"
                 :text="'Delete Product'"
+                :disableFlash="true"
                 :color="'red'"
               ></Button>
             </div>
