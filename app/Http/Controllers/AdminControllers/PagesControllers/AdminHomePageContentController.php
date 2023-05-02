@@ -1,12 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\AdminControllers;
+namespace App\Http\Controllers\AdminControllers\PagesControllers;
 use App\Http\Controllers\Controller;
 use App\Models\HomePageContent;
 use App\Services\FileManagement;
+use Inertia\Inertia;
 
 class AdminHomePageContentController extends Controller
 {
+    public function edit()
+    {
+        $homePageContent = HomePageContent::first();
+        return Inertia::render('AdminDashboard/Pages/HomePageEdit', [
+            'homePageContent'=>$homePageContent,
+        ]);
+    }
+    
     public function update(HomePageContent $homePageContent,FileManagement $fileManagement)
     {
         $attributes = $this->validateHomePageContent($homePageContent);  

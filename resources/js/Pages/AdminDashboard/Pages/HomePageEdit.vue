@@ -66,11 +66,15 @@ export default {
         delete this.homePageContentInfo.hero_carousel;
       }
       this.homePageContentInfo._method = "put";
-      router.post(`/admin-dashboard/home-page-contents/1`, this.homePageContentInfo, {
-        preserveState: false,
-        preserveScroll: true,
-        only: ["homePageContent", "flash", "errors"],
-      });
+      router.post(
+        `/admin-dashboard/pages/home-page-content/1`,
+        this.homePageContentInfo,
+        {
+          preserveState: false,
+          preserveScroll: true,
+          only: ["homePageContent", "flash", "errors"],
+        }
+      );
     },
   },
 };

@@ -32,7 +32,7 @@ export default {
       var pageId =
         Math.floor(Math.random() * (10000 - this.customPages.length)) +
         this.customPages.length;
-      newCustomPage["name"] = " - New Page-" + pageId;
+      newCustomPage["name"] = " New Page-" + pageId;
       newCustomPage["slug"] = "new-page-" + pageId;
       newCustomPage["title"] = "New Page Title";
       router.post(`/admin-dashboard/pages/more-pages-store`, newCustomPage, {

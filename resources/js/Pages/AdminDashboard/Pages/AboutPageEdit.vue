@@ -22,7 +22,7 @@
                   :type="'text'"
                   :placeholder="'Page Heading'"
                   v-model="aboutPageContentInfo.aboutHeading"
-                  :error="this.$page.props.errors.aboutHeading ?? ''"
+                  :error="$page.props.errors.aboutHeading ?? ''"
                 ></FormInput>
                 <FormTextArea
                   :label="'Sub Heading'"
@@ -30,7 +30,7 @@
                   v-model="aboutPageContentInfo.aboutSubHeading"
                   :row="'3'"
                   :placeholder="'About page text content'"
-                  :error="this.$page.props.errors.aboutSubHeading ?? ''"
+                  :error="$page.props.errors.aboutSubHeading ?? ''"
                 >
                 </FormTextArea>
 
@@ -38,7 +38,7 @@
                   v-model="aboutPageContentInfo.aboutText"
                   :label="'Main Paragraph'"
                   :name="'text'"
-                  :error="this.$page.props.errors.aboutText ?? ''"
+                  :error="$page.props.errors.aboutText ?? ''"
                 ></FormTextEditor>
               </div>
             </div>
@@ -52,7 +52,7 @@
                   :label="'Image'"
                   :oldImageLink="oldAboutImage"
                   :name="'aboutImage'"
-                  :error="this.$page.props.errors.aboutImage ?? ''"
+                  :error="$page.props.errors.aboutImage ?? ''"
                 ></FormFileUploadSingle>
 
                 <!-- Status table -->
@@ -176,7 +176,7 @@
         </div>
 
         <div>
-          <Errors :errors="this.$page.props.errors ?? false"></Errors>
+          <Errors :errors="$page.props.errors ?? false"></Errors>
           <div class="flex items-center space-x-4">
             <Button
               @click.prevent="updateAboutPageContent()"
@@ -232,11 +232,15 @@ export default {
         delete this.aboutPageContentInfo.aboutImage;
       }
       this.aboutPageContentInfo._method = "put";
-      router.post(`/admin-dashboard/about-page-contents/1`, this.aboutPageContentInfo, {
-        preserveState: true,
-        preserveScroll: true,
-        only: ["aboutPageContent", "flash", "errors"],
-      });
+      router.post(
+        `/admin-dashboard/pages/about-page-content/1`,
+        this.aboutPageContentInfo,
+        {
+          preserveState: true,
+          preserveScroll: true,
+          only: ["aboutPageContent", "flash", "errors"],
+        }
+      );
     },
   },
 };

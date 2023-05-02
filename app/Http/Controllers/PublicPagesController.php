@@ -6,6 +6,7 @@ use App\Models\AboutPageContent;
 use App\Models\Cart;
 use App\Models\Category;
 use App\Models\ContactPageContent;
+use App\Models\CustomPage;
 use App\Models\HomePageContent;
 use App\Models\MainMenu;
 use App\Models\Product;
@@ -42,6 +43,13 @@ class PublicPagesController extends Controller
         $contactPageContent = ContactPageContent::first();
         return Inertia::render('Public/Contact',[
             'contactPageContent' => $contactPageContent,
+        ]);
+    }
+
+    public function customPage(CustomPage $customPage)
+    {
+        return Inertia::render('Public/CustomPage',[
+            'customPageContent' => $customPage,
         ]);
     }
 

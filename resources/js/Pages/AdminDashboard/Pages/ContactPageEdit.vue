@@ -121,7 +121,7 @@ export default {
       }
       this.contactPageContentInfo._method = "put";
       router.post(
-        `/admin-dashboard/contact-page-contents/1`,
+        `/admin-dashboard/pages/contact-page-content/1`,
         this.contactPageContentInfo,
         {
           preserveState: true,

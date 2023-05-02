@@ -1,14 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\AdminControllers;
+namespace App\Http\Controllers\AdminControllers\PagesControllers;
 use App\Http\Controllers\Controller;
 use App\Models\ContactPageContent;
 use App\Services\FileManagement;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Inertia\Inertia;
 
 class AdminContactPageContentController extends Controller
 {
+    public function edit()
+    {
+        $contactPageContent = ContactPageContent::first();
+        return Inertia::render('AdminDashboard/Pages/ContactPageEdit', [
+            'contactPageContent' => $contactPageContent,
+        ]);
+    }
+    
     public function update(ContactPageContent $contactPageContent,FileManagement $fileManagement)
     {
         $attributes = $this->validateContactPageContent($contactPageContent);  

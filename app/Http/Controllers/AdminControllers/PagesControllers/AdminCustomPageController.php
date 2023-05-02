@@ -1,13 +1,23 @@
 <?php
 
-namespace App\Http\Controllers\AdminControllers;
+namespace App\Http\Controllers\AdminControllers\PagesControllers;
 use App\Http\Controllers\Controller;
 use App\Models\CustomPage;
 use App\Services\FileManagement;
 use Illuminate\Validation\Rule;
+use Inertia\Inertia;
 
 class AdminCustomPageController extends Controller
 {
+
+    public function edit()
+    {
+        $customPages = CustomPage::all();
+        return Inertia::render('AdminDashboard/Pages/MorePagesEdit', [
+            'customPages' => $customPages,
+        ]);
+    }
+    
     public function store()
     {
         $attributes = $this->validateCustomPage();

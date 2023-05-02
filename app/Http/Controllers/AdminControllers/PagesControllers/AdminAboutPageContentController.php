@@ -1,12 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\AdminControllers;
+namespace App\Http\Controllers\AdminControllers\PagesControllers;
 use App\Http\Controllers\Controller;
 use App\Models\AboutPageContent;
 use App\Services\FileManagement;
+use Inertia\Inertia;
 
 class AdminAboutPageContentController extends Controller
 {
+    public function edit()
+    {
+        $aboutPageContent = AboutPageContent::first();
+        return Inertia::render('AdminDashboard/Pages/AboutPageEdit', [
+            'aboutPageContent' => $aboutPageContent,
+        ]);
+    }
+
     public function update(AboutPageContent $aboutPageContent,FileManagement $fileManagement)
     {
         $attributes = $this->validateAboutPageContent($aboutPageContent);  

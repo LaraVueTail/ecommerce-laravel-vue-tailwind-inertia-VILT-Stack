@@ -15,6 +15,7 @@ class ProductController extends Controller
     //
     public function index()
     {
+        // dd('ss');
         return Inertia::render(
             'Public/ShopNew',
             [

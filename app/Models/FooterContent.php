@@ -10,8 +10,7 @@ class FooterContent extends Model
 {
     use HasFactory;
     protected $casts = [
-        'page_links' => 'array',
-        'social_links' => 'array',
+        'page_links' => 'array'
     ];
     protected $appends = ['site_logo','site_name'];
 
@@ -34,56 +33,4 @@ class FooterContent extends Model
         );
     }
 
-    protected function pageLinks():Attribute
-    {
-        return Attribute::make(
-        get: function($value) {
-                if($value === null){
-                    return json_encode([
-                        [
-                            'pageName'=>'About',
-                            'pageLink'=>asset('about')
-                        ],
-                        [
-                            'pageName'=>'Contact',
-                            'pageLink'=>asset('contact')
-                        ]
-                    ]);
-                } else {
-                    return $value;
-                }
-        },
-        );
-    }
-
-    protected function socialLinks():Attribute
-    {
-        
-        return Attribute::make(
-        get: function($value) {
-                if($value === null){
-                    return json_encode([
-                        [
-                            'socialName'=>'facebook',
-                            'socialLink'=>'#'
-                        ],
-                        [
-                            'socialName'=>'instagram',
-                            'socialLink'=>'#'
-                        ],
-                        [
-                            'socialName'=>'youtube',
-                            'socialLink'=>'#'
-                        ],
-                        [
-                            'socialName'=>'whatsapp',
-                            'socialLink'=>'#'
-                        ]
-                    ]);
-                } else {
-                    return $value;
-                }
-        },
-        );
-    }
 }

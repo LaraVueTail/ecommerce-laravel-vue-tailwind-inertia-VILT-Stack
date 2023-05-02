@@ -4,7 +4,7 @@
   >
     <!-- Modal header -->
     <ModalHeader
-      :heading="`Custom Page ${customPageContentInfo.name}`"
+      :heading="`Custom Page - ${customPageContentInfo.name}`"
       :url="$page.url"
     ></ModalHeader>
     <!-- Modal body -->
@@ -128,7 +128,7 @@ export default {
       }
       this.customPageContentInfo._method = "put";
       router.post(
-        `/admin-dashboard/custom-page-contents/${this.customPageContentInfo.id}`,
+        `/admin-dashboard/pages/custom-page-content/${this.customPageContentInfo.id}`,
         this.customPageContentInfo,
         {
           preserveState: true,
