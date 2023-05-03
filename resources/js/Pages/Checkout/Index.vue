@@ -295,8 +295,8 @@ export default {
 };
 </script>
 <script setup>
-import FormInput from "../../Shared/AdminDashboardLayoutComponents/FormInput.vue";
-import Button from "../../Shared/AdminDashboardLayoutComponents/Button.vue";
-import Errors from "../../Shared/AdminDashboardLayoutComponents/Errors.vue";
-import FormRadioButton from "../../Shared/AdminDashboardLayoutComponents/FormRadioButton.vue";
+import FormInput from "../../Shared/FormComponents/FormInput.vue";
+import Button from "../../Shared/FormComponents/Button.vue";
+import Errors from "../../Shared/FormComponents/Errors.vue";
+import FormRadioButton from "../../Shared/FormComponents/FormRadioButton.vue";
 </script>

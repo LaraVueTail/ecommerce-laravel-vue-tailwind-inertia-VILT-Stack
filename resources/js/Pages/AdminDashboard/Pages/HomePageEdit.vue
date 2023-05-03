@@ -85,9 +85,9 @@ import { onMounted, onUpdated } from "vue";
 import { initFlowbite } from "flowbite";
 
 import ModalHeader from "../../../Shared/AdminDashboardLayoutComponents/ModalHeader.vue";
-import FormFileUploadMultiple from "../../../Shared/AdminDashboardLayoutComponents/FormFileUploadMultiple.vue";
-import Button from "../../../Shared/AdminDashboardLayoutComponents/Button.vue";
-import Errors from "../../../Shared/AdminDashboardLayoutComponents/Errors.vue";
+import FormFileUploadMultiple from "../../../Shared/FormComponents/FormFileUploadMultiple.vue";
+import Button from "../../../Shared/FormComponents/Button.vue";
+import Errors from "../../../Shared/FormComponents/Errors.vue";
 import Breadcrump from "../../../Shared/AdminDashboardLayoutComponents/Breadcrump.vue";
 import EditSectionLayout from "../../../Shared/AdminDashboardLayoutComponents/EditSectionLayout.vue";
 

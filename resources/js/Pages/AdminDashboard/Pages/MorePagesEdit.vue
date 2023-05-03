@@ -52,7 +52,7 @@ import { initFlowbite } from "flowbite";
 import ModalHeader from "../../../Shared/AdminDashboardLayoutComponents/ModalHeader.vue";
 import Breadcrump from "../../../Shared/AdminDashboardLayoutComponents/Breadcrump.vue";
 import EditSectionLayout from "../../../Shared/AdminDashboardLayoutComponents/EditSectionLayout.vue";
-import Button from "../../../Shared/AdminDashboardLayoutComponents/Button.vue";
+import Button from "../../../Shared/FormComponents/Button.vue";
 
 import WebsiteContentsCustomPage from "../../../Shared/AdminDashboardLayoutComponents/WebsiteContentsCustomPage.vue";
 import { router } from "@inertiajs/vue3";

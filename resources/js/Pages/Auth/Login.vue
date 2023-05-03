@@ -109,5 +109,5 @@ export default {
 };
 </script>
 <script setup>
-import FormInputVue from "../../Shared/AdminDashboardLayoutComponents/FormInput.vue";
+import FormInputVue from "../../Shared/FormComponents/FormInput.vue";
 </script>

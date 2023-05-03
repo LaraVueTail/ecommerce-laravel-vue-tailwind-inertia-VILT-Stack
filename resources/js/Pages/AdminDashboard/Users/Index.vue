@@ -80,7 +80,7 @@ export default {
 import { onMounted, onUpdated } from "vue";
 import { initFlowbite } from "flowbite";
 import Filters from "../../../Shared/Filters/Filters.vue";
-import TableUsers from "../../../Shared/AdminDashboardLayoutComponents/TableUsers.vue";
+import TableUsers from "../../../Shared/AdminDashboardLayoutComponents/Tables/TableUsers.vue";
 import PageNavigation from "../../../Shared/AdminDashboardLayoutComponents/PageNavigation.vue";
 import AlertDelete from "../../../Shared/AdminDashboardLayoutComponents/AlertDelete.vue";
 

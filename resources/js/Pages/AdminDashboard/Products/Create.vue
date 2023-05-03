@@ -376,13 +376,13 @@ import { onMounted, onUpdated } from "vue";
 import { initFlowbite } from "flowbite";
 import Breadcrump from "../../../Shared/AdminDashboardLayoutComponents/Breadcrump.vue";
 import ModalHeader from "../../../Shared/AdminDashboardLayoutComponents/ModalHeader.vue";
-import FormInput from "../../../Shared/AdminDashboardLayoutComponents/FormInput.vue";
-import FormSelect from "../../../Shared/AdminDashboardLayoutComponents/FormSelect.vue";
-import FormTextArea from "../../../Shared/AdminDashboardLayoutComponents/FormTextArea.vue";
-import FormFileUploadSingle from "../../../Shared/AdminDashboardLayoutComponents/FormFileUploadSingle.vue";
-import FormFileUploadMultiple from "../../../Shared/AdminDashboardLayoutComponents/FormFileUploadMultiple.vue";
-import Button from "../../../Shared/AdminDashboardLayoutComponents/Button.vue";
-import Errors from "../../../Shared/AdminDashboardLayoutComponents/Errors.vue";
+import FormInput from "../../../Shared/FormComponents/FormInput.vue";
+import FormSelect from "../../../Shared/FormComponents/FormSelect.vue";
+import FormTextArea from "../../../Shared/FormComponents/FormTextArea.vue";
+import FormFileUploadSingle from "../../../Shared/FormComponents/FormFileUploadSingle.vue";
+import FormFileUploadMultiple from "../../../Shared/FormComponents/FormFileUploadMultiple.vue";
+import Button from "../../../Shared/FormComponents/Button.vue";
+import Errors from "../../../Shared/FormComponents/Errors.vue";
 
 onMounted(() => {
   initFlowbite();

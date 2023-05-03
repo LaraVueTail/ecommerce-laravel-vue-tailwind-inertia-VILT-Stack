@@ -92,9 +92,9 @@ export default {
 <script setup>
 import { onMounted, onUpdated } from "vue";
 import { initFlowbite } from "flowbite";
-import FormInput from "../../../Shared/AdminDashboardLayoutComponents/FormInput.vue";
-import Button from "../../../Shared/AdminDashboardLayoutComponents/Button.vue";
-import Errors from "../../../Shared/AdminDashboardLayoutComponents/Errors.vue";
+import FormInput from "../../../Shared/FormComponents/FormInput.vue";
+import Button from "../../../Shared/FormComponents/Button.vue";
+import Errors from "../../../Shared/FormComponents/Errors.vue";
 import CustomerDashboardLayoutVue from "../../../Shared/CustomerDashboard/CustomerDashboardLayout.vue";
 
 onMounted(() => {

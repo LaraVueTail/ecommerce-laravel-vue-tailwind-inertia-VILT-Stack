@@ -136,6 +136,6 @@ export default {
 </script>
 <script setup>
 import { Link, router } from "@inertiajs/vue3";
-import FormInput from "../../Shared/AdminDashboardLayoutComponents/FormInput.vue";
-import FormCheckBox from "../../Shared/AdminDashboardLayoutComponents/FormCheckBox.vue";
+import FormInput from "../../Shared/FormComponents/FormInput.vue";
+import FormCheckBox from "../../Shared/FormComponents/FormCheckBox.vue";
 </script>

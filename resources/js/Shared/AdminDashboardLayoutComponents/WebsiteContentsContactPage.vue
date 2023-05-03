@@ -133,13 +133,13 @@ export default {
 import { onMounted, onUpdated } from "vue";
 import { initFlowbite } from "flowbite";
 import ModalHeader from "./ModalHeader.vue";
-import FormTextArea from "./FormTextArea.vue";
+import FormTextArea from "../FormComponents/FormTextArea.vue";
 
-import FormInput from "./FormInput.vue";
-import FormFileUploadSingle from "./FormFileUploadSingle.vue";
+import FormInput from "../FormComponents/FormInput.vue";
+import FormFileUploadSingle from "../FormComponents/FormFileUploadSingle.vue";
 
-import Button from "./Button.vue";
-import Errors from "./Errors.vue";
+import Button from "../FormComponents/Button.vue";
+import Errors from "../FormComponents/Errors.vue";
 
 onMounted(() => {
   initFlowbite();

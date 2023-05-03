@@ -182,14 +182,14 @@ import { onMounted, onUpdated } from "vue";
 import { initFlowbite } from "flowbite";
 
 import ModalHeader from "../../../Shared/AdminDashboardLayoutComponents/ModalHeader.vue";
-import Button from "../../../Shared/AdminDashboardLayoutComponents/Button.vue";
-import Errors from "../../../Shared/AdminDashboardLayoutComponents/Errors.vue";
+import Button from "../../../Shared/FormComponents/Button.vue";
+import Errors from "../../../Shared/FormComponents/Errors.vue";
 import Breadcrump from "../../../Shared/AdminDashboardLayoutComponents/Breadcrump.vue";
 import EditSectionLayout from "../../../Shared/AdminDashboardLayoutComponents/EditSectionLayout.vue";
-import FormFileUploadSingle from "../../../Shared/AdminDashboardLayoutComponents/FormFileUploadSingle.vue";
-import FormInput from "../../../Shared/AdminDashboardLayoutComponents/FormInput.vue";
-import FormCheckBox from "../../../Shared/AdminDashboardLayoutComponents/FormCheckBox.vue";
-import FormSelect from "../../../Shared/AdminDashboardLayoutComponents/FormSelect.vue";
+import FormFileUploadSingle from "../../../Shared/FormComponents/FormFileUploadSingle.vue";
+import FormInput from "../../../Shared/FormComponents/FormInput.vue";
+import FormCheckBox from "../../../Shared/FormComponents/FormCheckBox.vue";
+import FormSelect from "../../../Shared/FormComponents/FormSelect.vue";
 
 onMounted(() => {
   initFlowbite();

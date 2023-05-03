@@ -170,16 +170,16 @@ export default {
 import { onMounted, onUpdated } from "vue";
 import { initFlowbite } from "flowbite";
 import ModalHeader from "./ModalHeader.vue";
-import FormTextArea from "./FormTextArea.vue";
+import FormTextArea from "../FormComponents/FormTextArea.vue";
 
-import FormInput from "./FormInput.vue";
-import FormFileUploadSingle from "./FormFileUploadSingle.vue";
+import FormInput from "../FormComponents/FormInput.vue";
+import FormFileUploadSingle from "../FormComponents/FormFileUploadSingle.vue";
 
-import Button from "./Button.vue";
-import Errors from "./Errors.vue";
-import FormCheckBox from "./FormCheckBox.vue";
+import Button from "../FormComponents/Button.vue";
+import Errors from "../FormComponents/Errors.vue";
+import FormCheckBox from "../FormComponents/FormCheckBox.vue";
 
-import FormSelectVue from "./FormSelect.vue";
+import FormSelectVue from "../FormComponents/FormSelect.vue";
 
 onMounted(() => {
   initFlowbite();
