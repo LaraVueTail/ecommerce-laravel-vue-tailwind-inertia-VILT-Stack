@@ -4,6 +4,7 @@ namespace App\Http\Controllers\AdminControllers\PagesControllers;
 use App\Http\Controllers\Controller;
 use App\Models\Pages\CustomPage;
 use App\Services\FileManagement;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
@@ -55,6 +56,14 @@ class AdminCustomPageController extends Controller
 
         return back()->withErrors('CustomPagesErrors')->with('success','Page Updated!');
 
+    }
+
+    public function destroy(CustomPage $customPage)
+    {
+        $customPage->delete();
+        Storage::deleteDirectory('images/custom-pages/'.$customPage->slug);
+
+        return back()->with('success', 'Page Deleted!');
     }
 
     protected function validateCustomPage(?CustomPage $customPage = null): array

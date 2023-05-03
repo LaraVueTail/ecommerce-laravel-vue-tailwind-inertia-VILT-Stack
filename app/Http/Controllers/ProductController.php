@@ -15,7 +15,7 @@ class ProductController extends Controller
     {
         // dd('ss');
         return Inertia::render(
-            'Public/ShopNew',
+            'Public/Shop',
             [
                 'products' => Product::filter(
                     request(['search', 'category', 'tag','availability','brand','dateStart','dateEnd','sortBy']))

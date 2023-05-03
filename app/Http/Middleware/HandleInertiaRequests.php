@@ -50,8 +50,10 @@ class HandleInertiaRequests extends Middleware
 
         $shareData = array(
             'csrf_token' => csrf_token(),
+            'logo' => SiteIdentity::first()->logoImage,
+            'siteName' => SiteIdentity::first()->siteName,
             'currencySymbol'=>SiteIdentity::first()->currency_symbol,
-            'auth' => (Auth::check()) ? ['firstName'=> Auth::user()->first_name, 'email' => Auth::user()->email ] : false,
+            'auth' => (Auth::check()) ? ['firstName'=> Auth::user()->first_name, 'email' => Auth::user()->email, 'avatar' =>  Auth::user()->avatar, 'isAdmin' => Auth::user()->can('admin')] : false,
             'flash' => [
                 'success' => fn () => $request->session()->get('success')
             ]);

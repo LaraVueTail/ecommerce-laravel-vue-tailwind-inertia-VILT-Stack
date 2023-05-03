@@ -1,25 +1,25 @@
 import { createApp, h } from "vue";
 import { createInertiaApp, Link, Head } from "@inertiajs/vue3";
 
-import PublicPagesLayout from "./Shared/PublicPagesLayout.vue";
-import CustomerDashboardLayout from "./Shared/CustomerDashboardLayout.vue";
-import AdminDashboardLayout from "./Shared/AdminDashboardLayout.vue";
+import PublicPagesLayout from "./Shared/PublicPagesLayout/PublicPagesLayout.vue";
+import CustomerDashboardLayout from "./Shared/CustomerDashboardLayout/CustomerDashboardLayout.vue";
+import AdminDashboardLayout from "./Shared/AdminDashboardLayout/AdminDashboardLayout.vue";
 
 
 createInertiaApp({
     resolve: (name) => {
         const pages = import.meta.glob("./Pages/**/*.vue", { eager: true });
         let page = pages[`./Pages/${name}.vue`];
-        if (
+        if (name.startsWith("Public/CustomerDashboard/")) {
+            page.default.layout = CustomerDashboardLayout;
+        }
+        else if (
             name.startsWith("Public/") ||
             name.startsWith("Auth/") ||
             name.startsWith("Cart/") ||
             name.startsWith("Checkout/")
         ) {
             page.default.layout = PublicPagesLayout;
-        }
-        if (name.startsWith("CustomerDashboard/")) {
-            page.default.layout = CustomerDashboardLayout;
         }
         if (name.startsWith("AdminDashboard/")) {
             page.default.layout = AdminDashboardLayout;

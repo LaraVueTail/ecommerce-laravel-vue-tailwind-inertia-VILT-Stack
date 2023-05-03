@@ -80,9 +80,9 @@ export default {
 import { onMounted, onUpdated } from "vue";
 import { initFlowbite } from "flowbite";
 import Filters from "../../../Shared/Filters/Filters.vue";
-import TableUsers from "../../../Shared/AdminDashboardLayoutComponents/Tables/TableUsers.vue";
-import PageNavigation from "../../../Shared/AdminDashboardLayoutComponents/PageNavigation.vue";
-import AlertDelete from "../../../Shared/AdminDashboardLayoutComponents/AlertDelete.vue";
+import TableUsers from "../../../Shared/Tables/TableUsers.vue";
+import PageNavigation from "../../../Shared/AdminDashboardComponents/PageNavigation.vue";
+import AlertDelete from "../../../Shared/AdminDashboardComponents/AlertDelete.vue";
 
 onMounted(() => {
   initFlowbite();

@@ -1,33 +1,14 @@
 <template>
-  <!-- breadcrumb -->
-  <!-- <Breadcrumb :routeTree="['Shop']"></Breadcrumb> -->
-  <!-- ./breadcrumb -->
-
-  <!-- shop wrapper -->
-  <div class="container grid grid-cols-4 gap-6 pt-4 md:pb-16 items-start">
-    <!-- sidebar -->
-    <SideBar :categories="categories"></SideBar>
-    <!-- ./sidebar -->
-
-    <!-- products -->
-    <ProductGrid
-      :products="products"
-      class="col-span-12 md:col-span-3"
-      v-if="products.length > 0"
-    ></ProductGrid>
-    <!-- ./products -->
-    <h1 v-else class="text-lg text-gray-800 font-bold">
-      Sorry!, No products available...
-    </h1>
-  </div>
-  <!-- ./shop wrapper -->
+  <ProductShopLayout :title="'Shop'">
+    <ProductsIndex :products="products.data" :cols="3"></ProductsIndex>
+  </ProductShopLayout>
 </template>
+<script>
+export default {
+  props: ["products"],
+};
+</script>
 <script setup>
-import Breadcrumb from "../../Shared/PublicLayoutComponents/Breadcrumb.vue";
-import SideBar from "../../Shared/ShopComponents/SideBar.vue";
-import ProductGrid from "../../Shared/Product/ProductGrid.vue";
-defineProps({
-  products: Array,
-  categories: Array,
-});
+import ProductShopLayout from "../../Shared/ProductLayouts/ProductShopLayout.vue";
+import ProductsIndex from "./Products/ProductsIndex.vue";
 </script>

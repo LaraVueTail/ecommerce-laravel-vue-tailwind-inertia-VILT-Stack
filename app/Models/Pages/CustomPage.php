@@ -11,13 +11,21 @@ class CustomPage extends Model
 {
     use HasFactory;
 
-    protected $appends = ['image_url'];
+    protected $appends = ['image_url','page_link'];
 
     protected function imageUrl():Attribute
     {
         return Attribute::make(
             get: function() {
                     return asset($this->image ?? '');
+        });
+    }
+
+    protected function pageLink():Attribute
+    {
+        return Attribute::make(
+            get: function() {
+                    return asset('pages/'.$this->slug);
         });
     }
 }

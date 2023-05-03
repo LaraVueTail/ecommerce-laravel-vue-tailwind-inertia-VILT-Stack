@@ -84,14 +84,12 @@ Route::name('admin.')->group(function(){
     Route::middleware('can:admin')->group(function () {
         Route::prefix('admin-dashboard')->group(function () {
             Route::get('', [AdminDashboardController::class, 'index'])->name('home');
-            // Route::get('/website-contents', [AdminWebsiteContentController::class, 'edit'])->name('website_contents');
-            // Route::put('/site-identity/{siteIdentity}', [AdminSiteIdentityController::class, 'update']);
-            // Route::put('/footer-content/{footerContent}', [AdminFooterContentController::class, 'update']);
-            // Route::put('/home-page-contents/{homePageContent}', [AdminHomePageContentController::class, 'update']);
-            // Route::put('/home-page-contents/{homePageContent}/deleteImage', [AdminHomePageContentController::class, 'deleteImage']);
-            // Route::put('/about-page-contents/{aboutPageContent}', [AdminAboutPageContentController::class, 'update']);
-            // Route::put('/contact-page-contents/{contactPageContent}', [AdminContactPageContentController::class, 'update']);
-            // Route::put('/custom-page-contents/{customPage}', [AdminCustomPageController::class, 'update']);
+            Route::resource('/orders', AdminOrderController::class);
+            Route::resource('/products', AdminProductController::class)->except('show');
+            Route::resource('/categories', AdminCategoryController::class)->except('show');
+            Route::resource('/users', AdminUserController::class);
+            Route::put('/products/{product}/deleteImage', [AdminProductController::class, 'deleteImage']);
+            Route::put('/orders/{order}/edit-status', [AdminOrderController::class, 'updateOrderStatus']); 
 
             Route::name('pages.')->group(function(){
                 Route::prefix('pages')->group(function () {
@@ -104,6 +102,7 @@ Route::name('admin.')->group(function(){
                 Route::put('/contact-page-content/{contactPageContent}', [AdminContactPageContentController::class, 'update'])->name('contact_page_update');
                 Route::post('/more-pages-store', [AdminCustomPageController::class, 'store'])->name('more_pages_store');
                 Route::put('/custom-page-content/{customPage}', [AdminCustomPageController::class, 'update'])->name('more_pages_update');
+                Route::delete('/custom-page-content/{customPage}', [AdminCustomPageController::class, 'destroy'])->name('more_pages_delete');
                 });
             });
 
@@ -116,12 +115,7 @@ Route::name('admin.')->group(function(){
                 });
             });
 
-            Route::resource('/orders', AdminOrderController::class);
-            Route::resource('/products', AdminProductController::class)->except('show');
-            Route::resource('/categories', AdminCategoryController::class)->except('show');
-            Route::resource('/users', AdminUserController::class);
-            Route::put('/products/{product}/deleteImage', [AdminProductController::class, 'deleteImage']);
-            Route::put('/orders/{order}/edit-status', [AdminOrderController::class, 'updateOrderStatus']); 
+
         });
     
     });

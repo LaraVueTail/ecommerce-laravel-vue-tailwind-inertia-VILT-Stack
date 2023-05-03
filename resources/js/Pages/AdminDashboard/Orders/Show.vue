@@ -2,7 +2,13 @@
   <section class="dark:bg-gray-900 h-screen overflow-x-hidden md:overflow-x-visible p-1">
     <div class="mx-auto max-w-screen-xl px-1 lg:px-12 my-11">
       <Breadcrump :links="{ orders: 'orders', 'Show Order': '' }"></Breadcrump>
-      <AlertDanger v-if="deleteAlert" :orderId="order.id"></AlertDanger>
+      <AlertDelete
+        v-if="deleteAlertOrder"
+        @close="deleteAlertOrder = false"
+        @confirm="deleteOrderConfirm()"
+        :text="deleteAlertOrderText"
+      ></AlertDelete>
+      <!-- <AlertDanger v-if="deleteAlert" :orderId="order.id"></AlertDanger> -->
 
       <div
         class="w-full block p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
@@ -53,7 +59,7 @@
                   <a
                     href="#"
                     class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                    @click="deleteAlert = true"
+                    @click="deleteOrder(order.id)"
                     >Delete</a
                   >
                 </li>
@@ -267,16 +273,33 @@ export default {
   props: ["order"],
   data() {
     return {
-      deleteAlert: false,
+      deleteAlertOrder: false,
+      deleteAlertOrderText: "",
+      orderId: null,
     };
+  },
+  methods: {
+    deleteOrder(orderId) {
+      window.scrollTo(0, 0);
+      this.deleteAlertOrder = true;
+      this.orderId = orderId;
+      this.deleteAlertOrderText = `Deleting the order will permanently removed from the database. You can't recover the
+      order again. Are you sure about deleting?`;
+      setTimeout(() => (this.deleteAlertOrder = false), 5000);
+    },
+    deleteOrderConfirm() {
+      router.delete(`/admin-dashboard/orders/${this.orderId}`, {
+        preserveState: false,
+      });
+    },
   },
 };
 </script>
 <script setup>
 import { onMounted, onUpdated } from "vue";
 import { initFlowbite } from "flowbite";
-import Breadcrump from "../../../Shared/AdminDashboardLayoutComponents/Breadcrump.vue";
-import AlertDanger from "../../../Shared/AdminDashboardLayoutComponents/AlertDanger.vue";
+import Breadcrump from "../../../Shared/AdminDashboardComponents/Breadcrump.vue";
+import AlertDelete from "../../../Shared/AdminDashboardComponents/AlertDelete.vue";
 onMounted(() => {
   initFlowbite();
 });

@@ -218,5 +218,5 @@ export default {
 </script>
 
 <script setup>
-import AlertDelete from "../AdminDashboardLayoutComponents/AlertDelete.vue";
+import AlertDelete from "../AdminDashboardComponents/AlertDelete.vue";
 </script>

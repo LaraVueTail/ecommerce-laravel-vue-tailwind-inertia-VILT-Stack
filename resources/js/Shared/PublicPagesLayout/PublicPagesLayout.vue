@@ -1,6 +1,6 @@
 <template>
   <div class="bg-gray-50">
-    <NavBar :navMenu="JSON.parse(mainMenu)" @cartOpen="cartClick()"></NavBar>
+    <NavBar :navMenu="JSON.parse($page.props.mainMenu)" @cartOpen="cartClick()"></NavBar>
     <slot></slot>
     <CartNew
       :cartShow="cart"
@@ -29,7 +29,7 @@ export default {
 </script>
 
 <script setup>
-import NavBar from "./PublicPagesLayoutComponents/NavBar.vue";
-import Footer from "./PublicPagesLayoutComponents/Footer.vue";
-import CartNew from "../Pages/Cart/Cart.vue";
+import NavBar from "../PublicPagesLayout/PublicPagesLayoutComponents/NavBar.vue";
+import Footer from "../PublicPagesLayout/PublicPagesLayoutComponents/Footer.vue";
+import CartNew from "../../Pages/Cart/Cart.vue";
 </script>

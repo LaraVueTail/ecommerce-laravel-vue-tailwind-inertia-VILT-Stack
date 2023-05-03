@@ -12,19 +12,19 @@
         'w-full': fullWidth,
       }"
       class="text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-    >
-      {{ text }}
-    </button>
-    <p
-      v-if="show"
-      :class="{
-        'text-green-600 bg-green-100 text-sm font-medium px-4 my-4 border-l-2 border-green-500':
-          flash && !disableFlash,
-        'text-transparent bg-transparent text-sm font-medium px-4 my-4 border-l-2 border-transparent':
-          flash && disableFlash,
-      }"
-      v-html="disableFlash ? 'no' : flash.success"
-    ></p>
+      v-html="disableFlash ? text : show && flash.success ? flash.success : text"
+    ></button>
+    <!-- <div class="h-5 my-4">
+      <p
+        v-if="show && !disableFlash"
+        class="'text-transparent bg-transparent text-sm font-medium px-4 border-l-2 border-transparent'"
+        :class="{
+          'text-green-600 bg-green-100 text-sm font-medium px-4 border-l-2 border-green-500':
+            flash && !disableFlash,
+        }"
+        v-html="flash.success"
+      ></p>
+    </div> -->
   </div>
 </template>
 <script>

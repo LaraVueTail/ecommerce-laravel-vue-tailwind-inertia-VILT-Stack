@@ -177,16 +177,17 @@ export default {
   },
 };
 </script>
+
 <script setup>
 import { onMounted, onUpdated } from "vue";
 import { initFlowbite } from "flowbite";
-import Breadcrump from "../../../Shared/AdminDashboardLayoutComponents/Breadcrump.vue";
-import ModalHeader from "../../../Shared/AdminDashboardLayoutComponents/ModalHeader.vue";
+import Breadcrump from "../../../Shared/AdminDashboardComponents/Breadcrump.vue";
+import ModalHeader from "../../../Shared/AdminDashboardComponents/ModalHeader.vue";
 import FormInput from "../../../Shared/FormComponents/FormInput.vue";
 import FormFileUploadSingle from "../../../Shared/FormComponents/FormFileUploadSingle.vue";
 import Button from "../../../Shared/FormComponents/Button.vue";
 import Errors from "../../../Shared/FormComponents/Errors.vue";
-import AlertDelete from "../../../Shared/AdminDashboardLayoutComponents/AlertDelete.vue";
+import AlertDelete from "../../../Shared/AdminDashboardComponents/AlertDelete.vue";
 
 onMounted(() => {
   initFlowbite();

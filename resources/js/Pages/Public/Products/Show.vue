@@ -353,8 +353,8 @@ export default {
 </script>
 
 <script setup>
-import Breadcrumb from "../../../Shared/PublicLayoutComponents/Breadcrumb.vue";
-import ProductImage from "../../../Shared/ProductLayoutComponents/SingleProductLayoutComponents/ProductImage.vue";
+import Breadcrumb from "../../../Shared/PublicPagesLayout/PublicPagesLayoutComponents/Breadcrumb.vue";
+import ProductImage from "../../../Shared/ProductLayouts/ProductSingleComponents/ProductImage.vue";
 import { StarIcon } from "@heroicons/vue/20/solid";
 
 // const product = {

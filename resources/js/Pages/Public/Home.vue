@@ -1,43 +1,22 @@
 <template>
-    <!-- banner -->
-    <HeroBanner></HeroBanner>
-    <!-- ./banner -->
-
-    <!-- categories -->
-    <CategoriesList></CategoriesList>
-    <!-- ./categories -->
-
-    <!-- new arrival -->
-    <ProductGrid :products="products" class="container"
-        >Top New Arrivals</ProductGrid
-    >
-    <!-- ./new arrival -->
-
-    <!-- ads -->
-    <AdsBanner></AdsBanner>
-    <!-- ./ads -->
-
-    <!-- recommended product -->
-    <ProductGrid :products="products" class="container"
-        >Best Sellers</ProductGrid
-    >
-    <!-- ./recommended product -->
+  <HeroSliderNewVue
+    :hero_carousel="JSON.parse(homePageContent.hero_carousel_url)"
+  ></HeroSliderNewVue>
+  <CategoryList :categories="categories"></CategoryList>
+  <ProductsIndex
+    :products="productBestSellers.data"
+    :title="'Best Sellers'"
+    :cols="4"
+    class="mb-36"
+  ></ProductsIndex>
 </template>
-<script setup>
-import HeroBanner from "../../Shared/HeroBanner.vue";
-import AdsBanner from "../../Shared/AdsBanner.vue";
-import CategoriesList from "../../Shared/CategoriesList.vue";
-import ProductGrid from "../../Shared/Product/ProductGrid.vue";
-
-
-defineProps({
-    products: Array
-});
-</script>
-<!-- <script>
-import PublicLayout from '../../Shared/PublicLayout.vue'
-
+<script>
 export default {
-    layout: PublicLayout
-}
-</script> -->
+  props: ["homePageContent", "categories", "productBestSellers"],
+};
+</script>
+<script setup>
+import CategoryList from "../../Shared/HomePageComponents/CategoryList.vue";
+import HeroSliderNewVue from "../../Shared/HomePageComponents/HeroSliderNew.vue";
+import ProductsIndex from "./Products/ProductsIndex.vue";
+</script>

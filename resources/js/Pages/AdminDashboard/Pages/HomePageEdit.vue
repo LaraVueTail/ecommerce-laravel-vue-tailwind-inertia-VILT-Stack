@@ -84,12 +84,12 @@ export default {
 import { onMounted, onUpdated } from "vue";
 import { initFlowbite } from "flowbite";
 
-import ModalHeader from "../../../Shared/AdminDashboardLayoutComponents/ModalHeader.vue";
+import ModalHeader from "../../../Shared/AdminDashboardComponents/ModalHeader.vue";
 import FormFileUploadMultiple from "../../../Shared/FormComponents/FormFileUploadMultiple.vue";
 import Button from "../../../Shared/FormComponents/Button.vue";
 import Errors from "../../../Shared/FormComponents/Errors.vue";
-import Breadcrump from "../../../Shared/AdminDashboardLayoutComponents/Breadcrump.vue";
-import EditSectionLayout from "../../../Shared/AdminDashboardLayoutComponents/EditSectionLayout.vue";
+import Breadcrump from "../../../Shared/AdminDashboardComponents/Breadcrump.vue";
+import EditSectionLayout from "../../../Shared/AdminDashboardComponents/EditSectionLayout.vue";
 
 onMounted(() => {
   initFlowbite();

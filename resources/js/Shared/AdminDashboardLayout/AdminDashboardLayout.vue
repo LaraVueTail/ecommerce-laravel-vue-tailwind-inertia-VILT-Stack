@@ -60,7 +60,7 @@ import { onMounted } from "vue";
 import { initFlowbite } from "flowbite";
 import NavBar from "./AdminDashboardLayoutComponents/NavBar.vue";
 import SideBar from "./AdminDashboardLayoutComponents/SideBar.vue";
-import Notification from "./Notification.vue";
+import Notification from "../Notification.vue";
 
 // initialize components based on data attribute selectors
 onMounted(() => {
