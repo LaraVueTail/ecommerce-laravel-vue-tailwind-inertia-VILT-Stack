@@ -16,8 +16,9 @@ class AdminContactPageContentController extends Controller
         ]);
     }
     
-    public function update(ContactPageContent $contactPageContent,FileManagement $fileManagement)
+    public function update(FileManagement $fileManagement)
     {
+        $contactPageContent = ContactPageContent::first();
         $attributes = $this->validateContactPageContent($contactPageContent);  
         if($attributes['contactImage'] ?? false){
                 $attributes['contactImage'] = 

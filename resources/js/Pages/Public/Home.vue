@@ -4,7 +4,7 @@
   ></HeroSliderNewVue>
   <CategoryList :categories="categories"></CategoryList>
   <ProductsIndex
-    :products="productBestSellers.data"
+    :products="productBestSellers"
     :title="'Best Sellers'"
     :cols="4"
     class="mb-36"

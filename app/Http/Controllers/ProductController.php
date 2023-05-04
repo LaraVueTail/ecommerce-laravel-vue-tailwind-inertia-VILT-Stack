@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\EcommerceSettings;
 use App\Models\ThemeSettings\MainMenu;
 use App\Models\Product;
 use Inertia\Inertia;
@@ -29,11 +30,10 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
-
-        $mainMenu = new MainMenu();
         return Inertia::render('Public/Products/Show', [
-            'mainMenu' => $mainMenu->publicMenu(),
-            'product' => $product
+            'product' => $product,
+            'enable_whatsapp' => EcommerceSettings::first()->enable_whatsapp,
+            'whatsapp_number' => EcommerceSettings::first()->whatsapp_number,
         ]);
 
     }

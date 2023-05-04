@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\EcommerceSettings;
 use Inertia\Inertia;
 use App\Models\Order;
-use App\Models\ThemeSettings\SiteIdentity;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,7 +23,8 @@ class CheckoutController extends Controller
         }
         return Inertia::render('Checkout/Index',[
             'userInfo' => auth()->user(),
-            'enable_stripe'=>SiteIdentity::first()->enable_stripe
+            'enable_stripe'=>EcommerceSettings::first()->enable_stripe,
+            'enable_whatsapp'=>EcommerceSettings::first()->enable_whatsapp,
         ]);
     }
     public function checkout(Request $request)
@@ -55,7 +56,7 @@ class CheckoutController extends Controller
             foreach ($cartContent as $cartItem) {
                 $lineItems[] = [
                     'price_data' => [
-                        'currency' => SiteIdentity::first()->currency,
+                        'currency' => EcommerceSettings::first()->currency,
                         'product_data' => [
                             'name' => $cartItem->name,
                             'images' => [$cartItem->attributes->image],
@@ -92,12 +93,15 @@ class CheckoutController extends Controller
         $order->cart_content = json_encode($order_items);
         $order->total_price = $cartTotal;
         $order->payment_mode = $attributes['payment_mode'];
-        $order->session_id = $session->id ?? 'cash_on_delivery';
+        $order->session_id = $session->id ?? 'unpaid';
         $order->save();
 
         \Cart::session(Auth::user()->id)->clear();
         if($session->id ?? false){
             return Inertia::location($session->url);
+        }
+        if($attributes['payment_mode'] === 'whatsapp'){
+            return Inertia::location("https://wa.me/".EcommerceSettings::first()->whatsapp_number."?text=".json_encode($order_items)."");
         }
         return to_route('public.dashboard.orders');
 

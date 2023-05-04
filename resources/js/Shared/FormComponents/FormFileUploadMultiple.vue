@@ -201,7 +201,7 @@ export default {
         {
           preserveState: false,
           preserveScroll: true,
-          only: [this.preserveStateData],
+          only: [this.preserveStateData, "flash", "errors"],
         }
       );
       this.imageUrl = null;

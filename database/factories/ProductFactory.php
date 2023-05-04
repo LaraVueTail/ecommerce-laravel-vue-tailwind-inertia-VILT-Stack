@@ -28,6 +28,13 @@ class ProductFactory extends Factory
                 'https://tailwindui.com/img/ecommerce-images/product-page-02-tertiary-product-shot-02.jpg',
                 'https://tailwindui.com/img/ecommerce-images/product-page-02-tertiary-product-shot-01.jpg'
             ]),
+            'more_images'=>$this->faker->randomElement(
+                [
+                ['https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg'],
+                ['https://tailwindui.com/img/ecommerce-images/product-page-02-featured-product-shot.jpg','https://tailwindui.com/img/ecommerce-images/product-page-02-tertiary-product-shot-02.jpg'],
+                ['https://tailwindui.com/img/ecommerce-images/product-page-02-tertiary-product-shot-02.jpg','https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg','https://tailwindui.com/img/ecommerce-images/product-page-02-featured-product-shot.jpg'],
+                ['https://tailwindui.com/img/ecommerce-images/product-page-02-tertiary-product-shot-01.jpg','https://tailwindui.com/img/ecommerce-images/product-page-02-tertiary-product-shot-02.jpg','https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg','https://tailwindui.com/img/ecommerce-images/product-page-02-featured-product-shot.jpg']
+                ]),
             'availability'=>$this->faker->randomElement(['available', 'out_of_stock', 'coming_soon']),
             'tag'=>$this->faker->randomElement(['best_seller', 'new_arrival', 'end_of_season']),
             'inventory'=>$this->faker->randomNumber(2,50),

@@ -164,7 +164,7 @@ export default {
       }
       this.siteIdentityInfo._method = "put";
       router.post(
-        `/admin-dashboard/theme-settings/site-identity/1`,
+        `/admin-dashboard/theme-settings/site-identity`,
         this.siteIdentityInfo,
         {
           preserveState: true,

@@ -1,6 +1,8 @@
 <template>
   <PublicPagesLayout>
-    <div class="mx-auto max-w-6xl px-6 lg:px-8 my-10 py-5 rounded-lg bg-white">
+    <div
+      class="mx-auto max-w-6xl px-6 lg:px-8 my-10 py-5 rounded-lg bg-white min-h-[668px]"
+    >
       <div class="mx-auto lg:mx-0">
         <h1 class="text-4xl font-bold tracking-tight text-gray-900 border-b-2 p-4">
           Dashboard
@@ -123,12 +125,7 @@
                   <Link
                     href="/logout"
                     method="post"
-                    class="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-                    :class="
-                      $page.url === '/dashboard/address'
-                        ? 'text-blue-700'
-                        : 'text-gray-700'
-                    "
+                    class="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"

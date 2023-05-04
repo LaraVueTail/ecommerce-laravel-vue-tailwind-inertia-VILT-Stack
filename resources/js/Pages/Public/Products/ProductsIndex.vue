@@ -3,8 +3,9 @@
     <h2 class="text-2xl font-bold tracking-tight text-gray-900">
       {{ title }}
     </h2>
+    <ProductGrid :products="products.data" :cols="cols" class="pb-48"></ProductGrid>
+    <PageNavigation :data="products"></PageNavigation>
   </div>
-  <ProductGrid :products="products" :cols="cols" class="pb-48"></ProductGrid>
 </template>
 
 <script>
@@ -13,5 +14,6 @@ export default {
 };
 </script>
 <script setup>
+import PageNavigation from "../../../Shared/AdminDashboardComponents/PageNavigation.vue";
 import ProductGrid from "../../../Shared/ProductLayouts/ProductGrid.vue";
 </script>

@@ -123,7 +123,7 @@
                 <h2 class="text-sm font-medium text-gray-900">Details</h2>
 
                 <div class="mt-4 space-y-6">
-                  <p class="text-sm text-gray-600">{{ product.description }}</p>
+                  <p class="text-sm text-gray-600" v-html="product.description"></p>
                 </div>
               </div>
             </div>
@@ -264,25 +264,36 @@
                   </button>
                 </div>
               </div>
-
-              <button
-                type="button"
-                @click="addToCart()"
-                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="w-5 h-5 mr-2 -ml-1"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
+              <div class="flex">
+                <button
+                  type="button"
+                  @click="addToCart()"
+                  class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 >
-                  <path
-                    d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"
-                  ></path>
-                </svg>
-                Add to Cart
-              </button>
+                  <svg
+                    aria-hidden="true"
+                    class="w-5 h-5 mr-2 -ml-1"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"
+                    ></path>
+                  </svg>
+                  Add to Cart
+                </button>
+
+                <button
+                  type="button"
+                  v-if="enable_whatsapp"
+                  @click="orderOnWhatsapp()"
+                  class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                >
+                  <i class="fa-brands fa-whatsapp text-lg mr-2"></i>
+                  Order on Whatsapp
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -322,7 +333,7 @@
 import { useForm } from "@inertiajs/vue3";
 
 export default {
-  props: ["product"],
+  props: ["product", "enable_whatsapp", "whatsapp_number"],
   data() {
     return {
       lightbox: false,
@@ -348,6 +359,10 @@ export default {
       this.form = useForm(this.itemToCart);
       this.form.post("/cart/add", { preserveScroll: true });
     },
+    orderOnWhatsapp() {
+      var text = `Hai%2C%0AI%20would%20like%20to%20order%2C%0AProduct%20Name%3A%20${this.product.name}%2C%0AQuantity%3A%20${this.quantity}%0AThank%20you`;
+      window.open(`https://wa.me/${this.whatsapp_number}?text=${text}`);
+    },
   },
 };
 </script>
@@ -356,61 +371,4 @@ export default {
 import Breadcrumb from "../../../Shared/PublicPagesLayout/PublicPagesLayoutComponents/Breadcrumb.vue";
 import ProductImage from "../../../Shared/ProductLayouts/ProductSingleComponents/ProductImage.vue";
 import { StarIcon } from "@heroicons/vue/20/solid";
-
-// const product = {
-//   name: "Basic Tee 6-Pack",
-//   price: "$192",
-//   href: "#",
-//   images: [
-//     {
-//       src:
-//         "https://tailwindui.com/img/ecommerce-images/product-page-02-secondary-product-shot.jpg",
-//       alt: "Two each of gray, white, and black shirts laying flat.",
-//     },
-//     {
-//       src:
-//         "https://tailwindui.com/img/ecommerce-images/product-page-02-tertiary-product-shot-01.jpg",
-//       alt: "Model wearing plain black basic tee.",
-//     },
-//     {
-//       src:
-//         "https://tailwindui.com/img/ecommerce-images/product-page-02-tertiary-product-shot-02.jpg",
-//       alt: "Model wearing plain gray basic tee.",
-//     },
-//     {
-//       src:
-//         "https://tailwindui.com/img/ecommerce-images/product-page-02-featured-product-shot.jpg",
-//       alt: "Model wearing plain white basic tee.",
-//     },
-//   ],
-//   colors: [
-//     { name: "White", class: "bg-white", selectedClass: "ring-gray-400" },
-//     { name: "Gray", class: "bg-gray-200", selectedClass: "ring-gray-400" },
-//     { name: "Black", class: "bg-gray-900", selectedClass: "ring-gray-900" },
-//   ],
-//   sizes: [
-//     { name: "XXS", inStock: false },
-//     { name: "XS", inStock: true },
-//     { name: "S", inStock: true },
-//     { name: "M", inStock: true },
-//     { name: "L", inStock: true },
-//     { name: "XL", inStock: true },
-//     { name: "2XL", inStock: true },
-//     { name: "3XL", inStock: true },
-//   ],
-//   description:
-//     'The Basic Tee 6-Pack allows you to fully express your vibrant personality with three grayscale options. Feeling adventurous? Put on a heather gray tee. Want to be a trendsetter? Try our exclusive colorway: "Black". Need to add an extra pop of color to your outfit? Our white tee has you covered.',
-//   highlights: [
-//     "Hand cut and sewn locally",
-//     "Dyed with our proprietary colors",
-//     "Pre-washed & pre-shrunk",
-//     "Ultra-soft 100% cotton",
-//   ],
-//   details:
-//     'The 6-Pack includes two black, two white, and two heather gray Basic Tees. Sign up for our subscription service and be the first to get new, exciting colors, like our upcoming "Charcoal Gray" limited release.',
-// };
-// const reviews = { href: "#", average: 4, totalCount: 117 };
-
-// const selectedColor = ref(product.colors[0]);
-// const selectedSize = ref(product.sizes[2]);
 </script>

@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\EcommerceSettings;
 use App\Models\User;
 use App\Models\Product;
 use App\Models\ThemeSettings\SiteIdentity;
@@ -26,6 +27,7 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
         // ThemeOption::factory(1)->create();
+        EcommerceSettings::factory(1)->create();
         CustomPage::factory(5)->create();
         SiteIdentity::factory(1)->create();
         FooterContent::factory(1)->create();
@@ -49,6 +51,6 @@ class DatabaseSeeder extends Seeder
 
         // Cart::factory(5)->create();
 
-        Product::factory(10)->create();
+        Product::factory(25)->create();
     }
 }

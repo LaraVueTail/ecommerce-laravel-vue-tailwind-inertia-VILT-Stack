@@ -233,7 +233,7 @@ export default {
       }
       this.aboutPageContentInfo._method = "put";
       router.post(
-        `/admin-dashboard/pages/about-page-content/1`,
+        `/admin-dashboard/pages/about-page-content`,
         this.aboutPageContentInfo,
         {
           preserveState: true,

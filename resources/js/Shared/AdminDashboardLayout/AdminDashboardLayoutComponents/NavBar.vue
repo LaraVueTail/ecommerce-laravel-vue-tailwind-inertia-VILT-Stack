@@ -27,13 +27,13 @@
               ></path>
             </svg>
           </button>
-          <a href="https://flowbite.com" class="flex ml-2 md:mr-24">
+          <Link href="/" class="flex ml-2 md:mr-24">
             <img :src="$page.props.logo" class="h-8 mr-3" alt="FlowBite Logo" />
             <span
               class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white"
               >{{ $page.props.siteName }}</span
             >
-          </a>
+          </Link>
         </div>
         <div class="flex items-center">
           <div class="flex items-center ml-3">

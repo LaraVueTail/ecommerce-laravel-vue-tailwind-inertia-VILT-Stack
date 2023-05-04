@@ -19,7 +19,7 @@
                   @files-delete="deleteHeroCarousel"
                   :label="'Upload Images'"
                   :oldImageUrls="oldHeroCarousel"
-                  :deleteImageUrl="'/admin-dashboard/home-page-contents/1/deleteImage'"
+                  :deleteImageUrl="'/admin-dashboard/pages/home-page-contents/delete-image'"
                   :preserveStateData="'homePageContent'"
                   :name="'hero_carousel'"
                   :error="$page.props.errors['hero_carousel.0'] ?? ''"
@@ -66,15 +66,11 @@ export default {
         delete this.homePageContentInfo.hero_carousel;
       }
       this.homePageContentInfo._method = "put";
-      router.post(
-        `/admin-dashboard/pages/home-page-content/1`,
-        this.homePageContentInfo,
-        {
-          preserveState: false,
-          preserveScroll: true,
-          only: ["homePageContent", "flash", "errors"],
-        }
-      );
+      router.post(`/admin-dashboard/pages/home-page-content`, this.homePageContentInfo, {
+        preserveState: false,
+        preserveScroll: true,
+        only: ["homePageContent", "flash", "errors"],
+      });
     },
   },
 };

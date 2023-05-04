@@ -16,8 +16,9 @@ class AdminAboutPageContentController extends Controller
         ]);
     }
 
-    public function update(AboutPageContent $aboutPageContent,FileManagement $fileManagement)
+    public function update(FileManagement $fileManagement)
     {
+        $aboutPageContent = AboutPageContent::first();
         $attributes = $this->validateAboutPageContent($aboutPageContent);  
 
         if($attributes['aboutImage'] ?? false){

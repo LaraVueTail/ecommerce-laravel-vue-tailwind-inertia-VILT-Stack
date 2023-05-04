@@ -1,6 +1,6 @@
 <template>
   <ProductShopLayout :title="'Shop'">
-    <ProductsIndex :products="products.data" :cols="3"></ProductsIndex>
+    <ProductsIndex :products="products" :cols="3"></ProductsIndex>
   </ProductShopLayout>
 </template>
 <script>

@@ -133,7 +133,7 @@ class Product extends Model
     {
         return Attribute::make(
             get: function($value) {
-                $currencySymbol = SiteIdentity::first()->currency_symbol;
+                $currencySymbol = EcommerceSettings::first()->currency_symbol;
                 return "{$currencySymbol} {$this->price}";
         });
     }

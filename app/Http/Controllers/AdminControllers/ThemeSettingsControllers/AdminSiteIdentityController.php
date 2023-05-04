@@ -18,8 +18,10 @@ class AdminSiteIdentityController extends Controller
         ]);
     }
     
-    public function update(SiteIdentity $siteIdentity,FileManagement $fileManagement)
+    public function update(FileManagement $fileManagement)
     {
+        $siteIdentity = SiteIdentity::first();
+
         $attributes = $this->validateSiteIdentity($siteIdentity);
 
         if($attributes['logoImage'] ?? false){
@@ -49,9 +51,6 @@ class AdminSiteIdentityController extends Controller
             'siteOwnerName' => 'required|max:50',
             'siteOwnerEmail' => 'required|max:50',
             'logoImage' => [$siteIdentity->exists ? 'nullable' : 'required','mimes:jpg,jpeg,png','max:2096'],
-            // 'enable_stripe' => 'required',
-            // 'stripe_secret_key' => 'required',
-            // 'currency'=> 'required',
             'created_at' => 'nullable',
             'updated_at' => 'nullable',
         ],[

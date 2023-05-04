@@ -16,8 +16,9 @@ class AdminHomePageContentController extends Controller
         ]);
     }
     
-    public function update(HomePageContent $homePageContent,FileManagement $fileManagement)
+    public function update(FileManagement $fileManagement)
     {
+        $homePageContent = HomePageContent::first();
         $attributes = $this->validateHomePageContent($homePageContent);  
 
         if($attributes['hero_carousel'] ?? false){
@@ -35,8 +36,9 @@ class AdminHomePageContentController extends Controller
 
     }
 
-    public function deleteImage(HomePageContent $homePageContent,FileManagement $fileManagement)
+    public function deleteImage(FileManagement $fileManagement)
     {   
+        $homePageContent = HomePageContent::first();
         $homePageContent->hero_carousel =
         $fileManagement->deleteFile(
             fileUrl:request()->input('imageUrl'),

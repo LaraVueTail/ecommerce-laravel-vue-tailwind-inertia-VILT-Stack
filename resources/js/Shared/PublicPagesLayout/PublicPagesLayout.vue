@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-50">
+  <div class="bg-gray-50 min-h-screen">
     <NavBar :navMenu="JSON.parse($page.props.mainMenu)" @cartOpen="cartClick()"></NavBar>
     <slot></slot>
     <CartNew

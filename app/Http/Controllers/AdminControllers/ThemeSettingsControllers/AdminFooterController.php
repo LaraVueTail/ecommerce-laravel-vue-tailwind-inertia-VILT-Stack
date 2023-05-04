@@ -16,8 +16,10 @@ class AdminFooterController extends Controller
         ]);
     }
 
-    public function update(FooterContent $footerContent)
+    public function update()
     {
+        $footerContent = FooterContent::first();
+
         $attributes = $this->validateFooterContent($footerContent);  
 
         $footerContent->update($attributes);

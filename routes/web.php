@@ -13,6 +13,7 @@ use App\Http\Controllers\AdminControllers\AdminUserController;
 use App\Http\Controllers\AdminControllers\AdminOrderController;
 use App\Http\Controllers\AdminControllers\AdminProductController;
 use App\Http\Controllers\AdminControllers\AdminCategoryController;
+use App\Http\Controllers\AdminControllers\AdminEcommerceSettingsController;
 use App\Http\Controllers\AdminControllers\ThemeSettingsControllers\AdminSiteIdentityController;
 use App\Http\Controllers\AdminControllers\ThemeSettingsControllers\AdminFooterController;
 
@@ -88,6 +89,8 @@ Route::name('admin.')->group(function(){
             Route::resource('/products', AdminProductController::class)->except('show');
             Route::resource('/categories', AdminCategoryController::class)->except('show');
             Route::resource('/users', AdminUserController::class);
+            Route::get('/ecommerce-settings', [AdminEcommerceSettingsController::class, 'edit'])->name('ecommerce-settings_edit');
+            Route::put('/ecommerce-settings', [AdminEcommerceSettingsController::class, 'update'])->name('ecommerce-settings_update');
             Route::put('/products/{product}/deleteImage', [AdminProductController::class, 'deleteImage']);
             Route::put('/orders/{order}/edit-status', [AdminOrderController::class, 'updateOrderStatus']); 
 
@@ -97,9 +100,10 @@ Route::name('admin.')->group(function(){
                 Route::get('/about-page-content/edit', [AdminAboutPageContentController::class, 'edit'])->name('about_page_edit');
                 Route::get('/contact-page-content/edit', [AdminContactPageContentController::class, 'edit'])->name('contact_page_edit');
                 Route::get('/more-pages/edit', [AdminCustomPageController::class, 'edit'])->name('more_pages_edit');
-                Route::put('/home-page-content/{homePageContent}', [AdminHomePageContentController::class, 'update'])->name('home_page_update');
-                Route::put('/about-page-content/{aboutPageContent}', [AdminAboutPageContentController::class, 'update'])->name('about_page_update');
-                Route::put('/contact-page-content/{contactPageContent}', [AdminContactPageContentController::class, 'update'])->name('contact_page_update');
+                Route::put('/home-page-contents/delete-image', [AdminHomePageContentController::class, 'deleteImage'])->name('home_page_deleteImage');
+                Route::put('/home-page-content', [AdminHomePageContentController::class, 'update'])->name('home_page_update');
+                Route::put('/about-page-content', [AdminAboutPageContentController::class, 'update'])->name('about_page_update');
+                Route::put('/contact-page-content', [AdminContactPageContentController::class, 'update'])->name('contact_page_update');
                 Route::post('/more-pages-store', [AdminCustomPageController::class, 'store'])->name('more_pages_store');
                 Route::put('/custom-page-content/{customPage}', [AdminCustomPageController::class, 'update'])->name('more_pages_update');
                 Route::delete('/custom-page-content/{customPage}', [AdminCustomPageController::class, 'destroy'])->name('more_pages_delete');
@@ -110,8 +114,8 @@ Route::name('admin.')->group(function(){
                 Route::prefix('theme-settings')->group(function () {
                     Route::get('/site-identity/edit', [AdminSiteIdentityController::class, 'edit'])->name('site_identity_edit');
                     Route::get('/footer/edit', [AdminFooterController::class, 'edit'])->name('footer_edit');
-                    Route::put('/site-identity/{siteIdentity}', [AdminSiteIdentityController::class, 'update'])->name('site_identity_update');
-                    Route::put('/footer/{footerContent}', [AdminFooterController::class, 'update'])->name('footer_update');
+                    Route::put('/site-identity', [AdminSiteIdentityController::class, 'update'])->name('site_identity_update');
+                    Route::put('/footer', [AdminFooterController::class, 'update'])->name('footer_update');
                 });
             });
 

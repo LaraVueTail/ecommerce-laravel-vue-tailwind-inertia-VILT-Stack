@@ -198,7 +198,7 @@ export default {
       this.footerContentInfo.pageLinks = JSON.stringify(this.pageLinks);
       this.footerContentInfo.socialLinks = JSON.stringify(this.socialLinks);
       this.footerContentInfo._method = "put";
-      router.post(`/admin-dashboard/theme-settings/footer/1`, this.footerContentInfo, {
+      router.post(`/admin-dashboard/theme-settings/footer`, this.footerContentInfo, {
         preserveState: true,
         preserveScroll: true,
         only: ["footerContent", "flash", "errors"],

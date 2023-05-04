@@ -217,6 +217,15 @@
                 :value="'stripe'"
               >
               </FormRadioButton>
+              <FormRadioButton
+                :label="'Order on Whatsapp'"
+                :name="'whatsapp'"
+                :error="errors.payment_mode"
+                :checked="paymentMode === 'whatsapp'"
+                @checked="(value) => (paymentMode = value)"
+                :value="'whatsapp'"
+              >
+              </FormRadioButton>
             </div>
             <div>
               <Errors></Errors>
@@ -245,7 +254,7 @@ export default {
       cartContent: this.$page.props.cartContent,
       orderInfoShippingAddress: this.userInfo,
       errors: this.$page.props.errors,
-      paymentMode: this.enable_stripe ? "stripe" : "cod",
+      paymentMode: "cod",
     };
   },
   methods: {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\EcommerceSettings;
 use App\Models\ThemeSettings\FooterContent;
 use App\Models\ThemeSettings\MainMenu;
 use App\Models\ThemeSettings\SiteIdentity;
@@ -52,7 +53,7 @@ class HandleInertiaRequests extends Middleware
             'csrf_token' => csrf_token(),
             'logo' => SiteIdentity::first()->logoImage,
             'siteName' => SiteIdentity::first()->siteName,
-            'currencySymbol'=>SiteIdentity::first()->currency_symbol,
+            'currencySymbol'=>EcommerceSettings::first()->currency_symbol,
             'auth' => (Auth::check()) ? ['firstName'=> Auth::user()->first_name, 'email' => Auth::user()->email, 'avatar' =>  Auth::user()->avatar, 'isAdmin' => Auth::user()->can('admin')] : false,
             'flash' => [
                 'success' => fn () => $request->session()->get('success')
