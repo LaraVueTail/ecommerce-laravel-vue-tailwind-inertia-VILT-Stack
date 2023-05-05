@@ -30,7 +30,7 @@ class CheckoutController extends Controller
     public function checkout(Request $request)
     {
 
-        \Stripe\Stripe::setApiKey(config('ecommerce.stripe_secret_key'));
+        \Stripe\Stripe::setApiKey(EcommerceSettings::first()->stripe_secret_key);
         
         $attributes = $request->validate([
             'shippingAddress.first_name' => 'required',
@@ -131,6 +131,48 @@ class CheckoutController extends Controller
             throw new NotFoundHttpException();
         }
     }
+
+    public function webhook()
+    {
+                // This is your Stripe CLI webhook secret for testing your endpoint locally.
+                $endpoint_secret = EcommerceSettings::first()->stripe_webhook_secret;
+
+                $payload = @file_get_contents('php://input');
+                $sig_header = $_SERVER['HTTP_STRIPE_SIGNATURE'];
+                $event = null;
+        
+                try {
+                    $event = \Stripe\Webhook::constructEvent(
+                        $payload, $sig_header, $endpoint_secret
+                    );
+                } catch (\UnexpectedValueException $e) {
+                    // Invalid payload
+                    return response('', 400);
+                } catch (\Stripe\Exception\SignatureVerificationException $e) {
+                    // Invalid signature
+                    return response('', 400);
+                }
+        
+        // Handle the event
+                switch ($event->type) {
+                    case 'checkout.session.completed':
+                        $session = $event->data->object;
+        
+                        $order = Order::where('session_id', $session->id)->first();
+                        if ($order && $order->status === 'unpaid') {
+                            $order->status = 'paid';
+                            $order->save();
+                            // Send email to customer
+                        }
+        
+                    // ... handle other event types
+                    default:
+                        echo 'Received unknown event type ' . $event->type;
+                }
+        
+                return response('');
+    }
+
     public function cancel()
     {
         return "failed";

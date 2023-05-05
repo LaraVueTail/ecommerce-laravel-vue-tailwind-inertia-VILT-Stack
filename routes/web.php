@@ -75,6 +75,7 @@ Route::name('public.')->group(function () {
         Route::name('checkout.')->group(function(){
             Route::get('checkout', [CheckoutController::class, 'index'])->name('checkout');
             Route::post('checkout', [CheckoutController::class, 'checkout']);
+            Route::post('checkout/webhook', [CheckoutController::class, 'webhook']);
             Route::get('/success', [CheckoutController::class, 'success'])->name('success');
             Route::get('/cancel', [CheckoutController::class, 'cancel'])->name('cancel');
         });
