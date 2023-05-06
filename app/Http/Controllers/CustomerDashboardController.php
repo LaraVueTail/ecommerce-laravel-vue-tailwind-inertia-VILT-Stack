@@ -19,12 +19,6 @@ class CustomerDashboardController extends Controller
             'user' => auth()->user()
         ]);
     }
-    // public function index()
-    // {
-    //     return Inertia::render('CustomerDashboard/ProfileInfo',[
-    //         'userInfo' => auth()->user()
-    //     ]);
-    // }
 
     public function address()
     {
@@ -39,7 +33,6 @@ class CustomerDashboardController extends Controller
         $data=$orders;
         $orders = $orders->makeHidden(['user']);
         $data->data = $orders;
-        // dd(request(['search', 'orderStatus','dateStart','dateEnd','sortBy']));
         return Inertia::render('Public/CustomerDashboard/Orders',[
             'orders' => $data,
             'filters' => Request::only(['search', 'sortBy', 'orderStatus', 'dateStart', 'dateEnd'])
@@ -52,7 +45,6 @@ class CustomerDashboardController extends Controller
         $attributes = $request->validate([
             '*'=>'required'
         ]);
-        // dd($attributes);
         $user->update($attributes);
         return back();
     }

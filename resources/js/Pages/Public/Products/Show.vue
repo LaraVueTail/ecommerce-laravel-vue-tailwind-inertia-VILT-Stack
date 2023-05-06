@@ -180,7 +180,7 @@
                 <p class="sr-only">4 out of 5 stars</p>
                 <a
                   href="#"
-                  class="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500"
+                  class="ml-3 text-sm font-medium text-blue-600 hover:text-blue-500"
                   >100 reviews</a
                 >
               </div>
@@ -264,11 +264,12 @@
                   </button>
                 </div>
               </div>
-              <div class="flex">
-                <button
-                  type="button"
-                  @click="addToCart()"
-                  class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              <div class="flex gap-4">
+                <Button
+                  @click.prevent="addToCart()"
+                  :text="'Add to Cart'"
+                  :color="'blue'"
+                  :rounded="true"
                 >
                   <svg
                     aria-hidden="true"
@@ -279,20 +280,18 @@
                   >
                     <path
                       d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"
-                    ></path>
-                  </svg>
-                  Add to Cart
-                </button>
+                    ></path></svg
+                ></Button>
 
-                <button
-                  type="button"
+                <Button
+                  @click.prevent="orderOnWhatsapp()()"
                   v-if="enable_whatsapp"
-                  @click="orderOnWhatsapp()"
-                  class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                  :text="'Order on Whatsapp'"
+                  :color="'green'"
+                  :rounded="true"
                 >
-                  <i class="fa-brands fa-whatsapp text-lg mr-2"></i>
-                  Order on Whatsapp
-                </button>
+                  <i class="fa-brands fa-whatsapp text-lg mr-2"></i
+                ></Button>
               </div>
             </div>
           </div>
@@ -371,4 +370,5 @@ export default {
 import Breadcrumb from "../../../Shared/PublicPagesLayout/PublicPagesLayoutComponents/Breadcrumb.vue";
 import ProductImage from "../../../Shared/ProductLayouts/ProductSingleComponents/ProductImage.vue";
 import { StarIcon } from "@heroicons/vue/20/solid";
+import Button from "../../../Shared/FormComponents/Button.vue";
 </script>

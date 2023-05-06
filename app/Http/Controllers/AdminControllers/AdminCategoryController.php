@@ -16,31 +16,14 @@ class AdminCategoryController extends Controller
     //
     public function index()
     {
-        $categories =  Category::query()
-                
-        ->when(
-            Request::input('search') ?? false,fn($query, $search) =>
-            $query
-                ->where(fn($query) =>
-                $query
-                    ->where('name', 'like', "%{$search}%")
-                        ->orWhere('id', '=', $search)
-            )
-            )
-        ->when(true,fn($query) =>
-                $query->latest()
-            )
-
-        ->paginate(10)
-
-        ->withQueryString();
 
         return Inertia::render(
             'AdminDashboard/Categories/Index',
             [
-                'categories' => $categories,
-
-                'filters' => Request::only(['search'])
+                'categories' => Category::filter(
+                    request(['search']))
+                    ->paginate(10)->withQueryString(),
+                'filters' => Request::only(['search']),
             ]
         );
 
@@ -58,7 +41,7 @@ class AdminCategoryController extends Controller
         $attributes = $this->validateCategory();
         $attributes['img'] = 
         $fileManagement->uploadFile(
-            file:$attributes['img'][0] ?? false,
+            file:$attributes['img'] ?? false,
             path:'images/categories/'.$attributes['slug'].'/img',
             storeAsName: 'thumbnail'
 
@@ -80,10 +63,10 @@ class AdminCategoryController extends Controller
     public function update(Category $category, FileManagement $fileManagement)
     {
         $attributes = $this->validateCategory($category);
-        if($attributes['img'][0] ?? false) {
+        if($attributes['img'] ?? false) {
             $attributes['img'] = 
             $fileManagement->uploadFile(
-                file:$attributes['img'][0] ?? false,
+                file:$attributes['img'] ?? false,
                 deleteOldFile:true, 
                 oldFile:$category->img,
                 path:'images/categories/'.($category['slug'] !== $attributes['slug'] ? $attributes['slug'] : $category['slug']).'/img',
@@ -121,13 +104,10 @@ class AdminCategoryController extends Controller
         return request()->validate([
             'name' => 'required',
             'slug' => ['required', Rule::unique('categories', 'slug')->ignore($category)],
-            'img' => $category->exists ? 'nullable' : 'required',
-            'img.*' => 'required|mimes:jpeg,png |max:2096',
+            'img' => $category->exists ? 'nullable|mimes:jpeg,png |max:2096' : 'required|mimes:jpeg,png |max:2096',
         ],
         [
-            'img.required' => 'Add an Image for Category',
-            'img.*.mimes' => 'Upload image as jpg/png format with size less than 2MB',
-            'img.*.max' => 'Upload image with size less than 2MB',
+            'img' => 'Upload image as jpg/png format with size less than 2MB',
         ]);
     }
 

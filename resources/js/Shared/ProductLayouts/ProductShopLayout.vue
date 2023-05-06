@@ -54,7 +54,7 @@
                         class="block px-2 py-3"
                         @click="tagValue = option.value"
                         :class="{
-                          'text-indigo-600': $page.props.filters.tag
+                          'text-blue-700': $page.props.filters.tag
                             ? JSON.parse($page.props.filters.tag).includes(option.value)
                             : false,
                         }"
@@ -98,7 +98,7 @@
                             :checked="option.checked"
                             v-model="option.checked"
                             @change="createQuery"
-                            class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                            class="h-4 w-4 rounded border-gray-300 text-blue-700 focus:ring-blue-500"
                           />
                           <label
                             :for="`filter-mobile-${section.id}-${optionIdx}`"
@@ -205,7 +205,7 @@
                     @click="tagValue = option.value"
                     class="cursor-pointer"
                     :class="{
-                      'text-indigo-600': $page.props.filters.tag
+                      'text-blue-700': $page.props.filters.tag
                         ? JSON.parse($page.props.filters.tag).includes(option.value)
                         : false,
                     }"
@@ -249,7 +249,7 @@
                         :checked="option.checked"
                         v-model="option.checked"
                         @change="createQuery()"
-                        class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                        class="h-4 w-4 rounded border-gray-300 text-blue-700 focus:ring-blue-500"
                       />
                       <label
                         :for="`filter-${section.id}-${optionIdx}`"

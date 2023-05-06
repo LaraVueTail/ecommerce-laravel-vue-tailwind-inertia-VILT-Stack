@@ -114,7 +114,7 @@
                                   <button
                                     type="button"
                                     @click="cartItemRemove(product.id)"
-                                    class="font-medium text-indigo-600 hover:text-indigo-500"
+                                    class="font-medium text-blue-600 hover:text-blue-500"
                                   >
                                     Remove
                                   </button>
@@ -139,12 +139,14 @@
                       Shipping and taxes calculated at checkout.
                     </p>
                     <div class="mt-6">
-                      <Link
-                        @click="cartClose()"
-                        href="/checkout"
-                        class="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
-                        >Checkout</Link
-                      >
+                      <Button
+                        @click.prevent="goToCheckout()"
+                        :text="'Checkout'"
+                        :color="'blue'"
+                        :rounded="false"
+                        :disable-flash="true"
+                        :full-width="true"
+                      ></Button>
                     </div>
                     <div
                       class="mt-6 flex justify-center text-center text-sm text-gray-500"
@@ -153,7 +155,7 @@
                         or
                         <button
                           type="button"
-                          class="font-medium text-indigo-600 hover:text-indigo-500"
+                          class="font-medium text-blue-600 hover:text-blue-500"
                           @click="open = false"
                         >
                           Continue Shopping
@@ -173,6 +175,8 @@
 </template>
 
 <script>
+import { router } from "@inertiajs/vue3";
+
 export default {
   props: ["cartShow", "cartContent"],
   data() {
@@ -183,6 +187,10 @@ export default {
   methods: {
     cartClose() {
       this.open = false;
+    },
+    goToCheckout() {
+      this.open = false;
+      router.get("/checkout");
     },
     cartItemUpdate(cartId, quantity) {
       this.cartContent[cartId].quantity = quantity;
@@ -217,4 +225,5 @@ import {
 } from "@headlessui/vue";
 import { XMarkIcon } from "@heroicons/vue/24/outline";
 import { router } from "@inertiajs/vue3";
+import Button from "../../Shared/FormComponents/Button.vue";
 </script>

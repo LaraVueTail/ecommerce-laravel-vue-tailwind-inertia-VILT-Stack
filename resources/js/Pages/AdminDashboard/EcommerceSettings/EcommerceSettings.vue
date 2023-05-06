@@ -75,17 +75,6 @@
                 </div>
               </div>
             </div>
-            <!-- <div class="grid">
-              <div>
-                <FormFileUploadSingle
-                  @fileChange="(file) => (logoImage = file)"
-                  :label="'Logo Image'"
-                  :oldImageLink="oldLogoImage"
-                  :name="'logoImage'"
-                  :error="$page.props.errors.logoImage"
-                ></FormFileUploadSingle>
-              </div>
-            </div> -->
           </div>
         </div>
 

@@ -2,7 +2,7 @@
   <section
     class="dark:bg-gray-900 w-full h-screen overflow-x-hidden md:overflow-x-visible p-1"
   >
-    <div class="mx-auto max-w-screen-xl px-1 lg:px-12">
+    <div class="mx-auto max-w-screen-xl px-1 lg:px-12 pb-10">
       <!-- Start coding here -->
       <h1 class="text-2xl text-gray-800 mb-2 font-poppins py-3 sm:py-2 font-medium">
         Orders
@@ -15,14 +15,13 @@
         :text="deleteAlertOrderText"
       ></AlertDelete>
 
-      <Link href="/admin-dashboard/orders/create">
-        <button
-          type="button"
-          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-        >
-          + Add Order
-        </button>
-      </Link>
+      <div class="my-2">
+        <Button
+          @click.prevent="router.visit('/admin-dashboard/orders/create')"
+          :text="'+ Add Order'"
+          :color="'blue'"
+        ></Button>
+      </div>
 
       <div
         class="bg-white dark:bg-gray-800 relative shadow-md rounded-lg border-2 border-gray-200"
@@ -84,6 +83,7 @@ import Filters from "../../../Shared/Filters/Filters.vue";
 import TableOrders from "../../../Shared/Tables/TableOrders.vue";
 import PageNavigation from "../../../Shared/AdminDashboardComponents/PageNavigation.vue";
 import AlertDelete from "../../../Shared/AdminDashboardComponents/AlertDelete.vue";
+import Button from "../../../Shared/FormComponents/Button.vue";
 
 onMounted(() => {
   initFlowbite();

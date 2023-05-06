@@ -1,7 +1,7 @@
 <template>
   <div class="relative isolate overflow-hidden bg-gray-900 py-48 sm:py-56">
     <img
-      src="https://images.pexels.com/photos/6567244/pexels-photo-6567244.jpeg?auto=compress"
+      src="https://images.pexels.com/photos/4439425/pexels-photo-4439425.jpeg?auto=compress"
       alt=""
       class="absolute inset-0 -z-10 h-full w-full object-cover object-left md:object-top opacity-20"
     />
@@ -64,10 +64,10 @@
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
       <div class="mx-auto max-w-2xl lg:mx-0">
         <h2 class="text-4xl font-bold tracking-tight text-white sm:text-6xl">
-          Thank you for shopping with us!
+          Oops.! Something went wrong
         </h2>
         <p class="mt-6 text-lg leading-8 text-gray-300">
-          Order complete & Payment Successful
+          Order complete & Payment Unsuccessful
         </p>
       </div>
     </div>
@@ -76,11 +76,11 @@
     <div class="mx-auto max-w-2xl lg:mx-0">
       <div class="text-gray-600 tracking-wide">
         <p>
-          Your order is completed. Order status :
+          Your order is complete. Order status :
           <span
-            class="text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300 bg-green-100 text-green-800"
+            class="text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300 bg-yellow-100 text-yellow-800"
           >
-            Paid</span
+            Unpaid</span
           >
         </p>
         <p class="my-4">

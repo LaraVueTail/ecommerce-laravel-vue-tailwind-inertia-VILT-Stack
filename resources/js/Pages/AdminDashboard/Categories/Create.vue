@@ -44,7 +44,7 @@
                   <p class="font-medium text-blue-600 dark:text-gray-400 my-4">Image:</p>
 
                   <FormFileUploadSingle
-                    @fileChange="(file) => (this.categoryInfo.img = file)"
+                    @fileChange="(file) => (this.categoryInfo.img = file[0])"
                     :label="'Image'"
                     :name="'image'"
                     :error="errors.img ?? errors['img.0']"

@@ -46,24 +46,4 @@ class PublicPagesController extends Controller
             'customPageContent' => $customPage,
         ]);
     }
-
-    // public function singleProductPage(Product $product)
-    // {
-    //     return Inertia::render('Public/SingleProduct', [
-    //         'product' => $product
-    //     ]);
-    // }
-
-    // public function shopPage()
-    // {
-
-    //     return Inertia::render('Public/Shop', [
-    //         'products' => Product::filter(
-    //             request(['categories','minPrice','maxPrice'])
-    //         )->get(),
-    //         'categories' => Category::all(),
-    //         'selectedCategories' => request('categories'),
-    //         'query'=>request()->all()
-    //     ]);
-    // }
 }

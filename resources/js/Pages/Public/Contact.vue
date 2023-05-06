@@ -93,7 +93,7 @@
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
-                class="w-5 h-5 text-indigo-600"
+                class="w-5 h-5 text-blue-700"
               >
                 <path
                   stroke-linecap="round"
@@ -112,7 +112,7 @@
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
-                class="w-6 h-6 text-indigo-600"
+                class="w-6 h-6 text-blue-700"
               >
                 <path
                   stroke-linecap="round"
@@ -131,7 +131,7 @@
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
-                class="w-6 h-6 text-indigo-600"
+                class="w-6 h-6 text-blue-700"
               >
                 <path
                   stroke-linecap="round"

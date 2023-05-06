@@ -70,7 +70,7 @@ class CheckoutController extends Controller
                 'line_items' => $lineItems,
                 'mode' => 'payment',
                 'success_url' => route('public.checkout.success', [], true) . "?session_id={CHECKOUT_SESSION_ID}",
-                'cancel_url' => route('public.checkout.cancel', [], true),
+                'cancel_url' => route('public.checkout.cancel', [], true) . "?session_id={CHECKOUT_SESSION_ID}",
             ]);
         }
 
@@ -120,7 +120,9 @@ class CheckoutController extends Controller
             $order = Order::where('session_id', $session->id)->where('status','unpaid')->first();
             $customer = User::find($order->user_id)->first_name;
             if (!$order) {
-                throw new NotFoundHttpException();
+                // throw new NotFoundHttpException();
+                return Inertia::render('Checkout/Cancel');
+
             }
             if ($order->status === 'unpaid') {
                 $order->status = 'paid';
@@ -173,8 +175,12 @@ class CheckoutController extends Controller
                 return response('');
     }
 
-    public function cancel()
+    public function cancel(Request $request)
     {
-        return "failed";
+        $sessionId = $request->get('session_id');
+        if(!$sessionId) {
+            throw new NotFoundHttpException;
+        }
+        return Inertia::render('Checkout/Cancel');
     }
 }

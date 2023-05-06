@@ -13,7 +13,6 @@ class UserController extends Controller
     //
     public function login()
     {
-        $mainMenu = new MainMenu();
         return Inertia::render('Auth/Login');
     }
 

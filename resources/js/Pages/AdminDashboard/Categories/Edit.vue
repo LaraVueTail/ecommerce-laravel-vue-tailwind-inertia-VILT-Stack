@@ -51,7 +51,7 @@
                   <p class="font-medium text-blue-600 dark:text-gray-400 my-4">Image:</p>
 
                   <FormFileUploadSingle
-                    @fileChange="(file) => (this.img = file)"
+                    @fileChange="(file) => (this.img = file[0])"
                     :label="'Image'"
                     :oldImageLink="this.categoryInfo.category_image_url"
                     :name="'image'"

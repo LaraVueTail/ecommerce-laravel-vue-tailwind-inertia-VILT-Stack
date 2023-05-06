@@ -17,7 +17,7 @@ class AdminProductController extends Controller
     //
     public function index()
     {
-        // dd( request(['search', 'category', 'tag','availability','brand','dateStart','dateEnd','sortBy']));
+
         return Inertia::render(
             'AdminDashboard/Products/Index',
             [

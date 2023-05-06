@@ -12,6 +12,24 @@ class Category extends Model
 
     protected $appends = ['category_image_url','link'];
 
+    public function scopeFilter($query, array $filters)
+    {
+        $query
+        ->when(
+            $filters['search'] ?? false,
+            fn($query, $search) =>
+            $query->where(fn($query) =>
+                $query
+                    ->where('name', 'like', "%{$search}%")
+                        ->orWhere('id', '=', $search)))
+        ->when(
+            true,
+            function ($query) {
+                    $query->latest();
+            }
+        );
+    }
+
     public function products()
     {
         return $this->hasMany(Product::class);
