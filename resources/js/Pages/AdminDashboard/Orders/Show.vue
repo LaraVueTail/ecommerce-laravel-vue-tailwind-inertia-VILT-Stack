@@ -8,7 +8,6 @@
         @confirm="deleteOrderConfirm()"
         :text="deleteAlertOrderText"
       ></AlertDelete>
-      <!-- <AlertDanger v-if="deleteAlert" :orderId="order.id"></AlertDanger> -->
 
       <div
         class="w-full block p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
@@ -200,12 +199,6 @@
                   <tr>
                     <th scope="col" class="px-6 py-3">Product name</th>
                     <th scope="col" class="px-6 py-3">Quantity</th>
-                    <!-- <th scope="col" class="px-6 py-3">
-                    Category
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Price
-                </th> -->
                   </tr>
                 </thead>
                 <tbody>
@@ -223,13 +216,6 @@
                     <td class="px-6 py-4">
                       {{ cartItem.quantity }}
                     </td>
-                    <!--
-                <td class="px-6 py-4">
-                    Laptop
-                </td>
-                <td class="px-6 py-4">
-                    $2999
-                </td> -->
                   </tr>
                 </tbody>
               </table>

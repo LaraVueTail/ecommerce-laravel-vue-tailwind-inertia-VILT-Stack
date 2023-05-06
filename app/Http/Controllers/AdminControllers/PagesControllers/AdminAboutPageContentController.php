@@ -21,10 +21,10 @@ class AdminAboutPageContentController extends Controller
         $aboutPageContent = AboutPageContent::first();
         $attributes = $this->validateAboutPageContent($aboutPageContent);  
 
-        if($attributes['aboutImage'] ?? false){
-            $attributes['aboutImage'] = 
+        if($attributes['about_image'] ?? false){
+            $attributes['about_mage'] = 
             $fileManagement->uploadFile(
-                file:$attributes['aboutImage'] ?? false,
+                file:$attributes['about_image'] ?? false,
                 deleteOldFile:true, 
                 oldFile:$aboutPageContent->aboutImage,
                 path:'images/about-page'
@@ -42,15 +42,15 @@ class AdminAboutPageContentController extends Controller
         $aboutPageContent ??= new AboutPageContent();
 
         return request()->validate([
-            'aboutHeading' => 'required|max:50',
-            'aboutSubHeading' => 'required|max:1000',
-            'aboutText' => 'required|max:1000',
-            'aboutStatuses' => 'nullable|max:300',
-            'aboutImage' => 'nullable|mimes:jpg,jpeg,png |max:2096',
+            'about_heading' => 'required|max:50',
+            'about_sub_heading' => 'required|max:1000',
+            'about_text' => 'required|max:1000',
+            'about_statuses' => 'nullable|max:300',
+            'about_image' => 'nullable|mimes:jpg,jpeg,png |max:2096',
             'created_at' => 'nullable',
             'updated_at' => 'nullable',
         ],[
-            'aboutImage' =>'Please Upload a jpg/png image with size less than 2MB!'
+            'about_image' =>'Please Upload a jpg/png image with size less than 2MB!'
         ]);
     }
 

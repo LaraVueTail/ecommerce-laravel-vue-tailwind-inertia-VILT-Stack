@@ -33,10 +33,10 @@ class AdminFooterController extends Controller
         $footerContent ??= new FooterContent();
 
         return request()->validate([
-            'pageLinks' => 'nullable',
-            'pageLinks.*' => 'nullable | max:200',
-            'socialLinks' => 'nullable',
-            'socialLinks.*' => 'nullable | max:200',
+            'page_links' => 'nullable',
+            'page_links.*' => 'nullable | max:200',
+            'social_links' => 'nullable',
+            'social_inks.*' => 'nullable | max:200',
         ]);
     }
 

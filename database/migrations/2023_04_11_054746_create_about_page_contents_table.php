@@ -15,11 +15,11 @@ return new class extends Migration
     {
         Schema::create('about_page_contents', function (Blueprint $table) {
             $table->id();
-            $table->string('aboutHeading')->default('About Us');
-            $table->string('aboutSubHeading')->default('Some text');
-            $table->string('aboutText')->default('Some text ...');
-            $table->string('aboutImage')->default("https://images.pexels.com/photos/443383/pexels-photo-443383.jpeg")->nullable();
-            $table->json('aboutStatuses')->nullable();
+            $table->string('about_heading')->default('About Us');
+            $table->string('about_sub_heading')->default('Some text');
+            $table->string('about_text')->default('Some text ...');
+            $table->string('about_image')->default("https://images.pexels.com/photos/443383/pexels-photo-443383.jpeg")->nullable();
+            $table->json('about_statuses')->nullable();
             $table->timestamps();
         });
     }

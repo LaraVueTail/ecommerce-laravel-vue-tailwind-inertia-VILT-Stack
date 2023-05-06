@@ -55,7 +55,7 @@
                     :label="'Image'"
                     :oldImageLink="this.categoryInfo.category_image_url"
                     :name="'image'"
-                    :error="errors.img ?? errors['img.0']"
+                    :error="errors.img"
                   ></FormFileUploadSingle>
                 </div>
               </div>

@@ -14,8 +14,8 @@ export default {
   data() {
     return {
       breakpoints: {
-        1200: {
-          slideRatio: 1 / 5,
+        1900: {
+          slideRatio: 1 / 2.5,
         },
         900: {
           slideRatio: 1 / 3,
@@ -26,9 +26,9 @@ export default {
           bulletsOutside: false,
         },
         // The order you list breakpoints does not matter, Vueper Slides will sort them for you.
-        1100: {
-          slideRatio: 1 / 4,
-        },
+        // 1100: {
+        //   slideRatio: 1 / 4,
+        // },
       },
     };
   },

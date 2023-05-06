@@ -47,7 +47,7 @@
                     @fileChange="(file) => (this.categoryInfo.img = file[0])"
                     :label="'Image'"
                     :name="'image'"
-                    :error="errors.img ?? errors['img.0']"
+                    :error="errors.img"
                   ></FormFileUploadSingle>
                 </div>
               </div>

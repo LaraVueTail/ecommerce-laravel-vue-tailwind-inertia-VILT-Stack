@@ -15,15 +15,13 @@ return new class extends Migration
     {
         Schema::create('site_identities', function (Blueprint $table) {
             $table->id();
-            $table->string('siteName');
-            $table->string('siteDomain');
-            $table->string('siteEmail');
-            $table->string('siteOwnerName');
-            $table->string('siteOwnerEmail');
-            $table->string('logoImage');
-            // $table->string('stripe_secret_key')->default(config('ecommerce.stripe_secret_key'));
-            // $table->boolean('enable_stripe')->default(config('ecommerce.enable_stripe'));
-            // $table->string('currency')->default(config('ecommerce.currency'));
+            $table->string('site_name');
+            $table->string('site_domain');
+            $table->string('site_email');
+            $table->string('site_owner_name');
+            $table->string('site_owner_email');
+            $table->string('logo_image');
+            $table->string('banner_text');
             $table->timestamps();
         });
     }

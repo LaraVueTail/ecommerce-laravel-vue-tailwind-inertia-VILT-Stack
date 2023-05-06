@@ -21,24 +21,24 @@
                   :name="'heading'"
                   :type="'text'"
                   :placeholder="'Page Heading'"
-                  v-model="aboutPageContentInfo.aboutHeading"
-                  :error="$page.props.errors.aboutHeading ?? ''"
+                  v-model="aboutPageContentInfo.about_heading"
+                  :error="$page.props.errors.about_heading ?? ''"
                 ></FormInput>
                 <FormTextArea
                   :label="'Sub Heading'"
                   :name="'sub_heading'"
-                  v-model="aboutPageContentInfo.aboutSubHeading"
+                  v-model="aboutPageContentInfo.about_sub_heading"
                   :row="'3'"
                   :placeholder="'About page text content'"
-                  :error="$page.props.errors.aboutSubHeading ?? ''"
+                  :error="$page.props.errors.about_sub_heading ?? ''"
                 >
                 </FormTextArea>
 
                 <FormTextEditor
-                  v-model="aboutPageContentInfo.aboutText"
+                  v-model="aboutPageContentInfo.about_text"
                   :label="'Main Paragraph'"
                   :name="'text'"
-                  :error="$page.props.errors.aboutText ?? ''"
+                  :error="$page.props.errors.about_text ?? ''"
                 ></FormTextEditor>
               </div>
             </div>
@@ -48,11 +48,11 @@
                   About Page:
                 </p>
                 <FormFileUploadSingle
-                  @fileChange="(file) => (aboutImage = file)"
+                  @fileChange="(file) => (about_image = file[0])"
                   :label="'Image'"
                   :oldImageLink="oldAboutImage"
                   :name="'aboutImage'"
-                  :error="$page.props.errors.aboutImage ?? ''"
+                  :error="$page.props.errors.about_image ?? ''"
                 ></FormFileUploadSingle>
 
                 <!-- Status table -->
@@ -199,7 +199,7 @@ export default {
     return {
       demo: "aaa",
       aboutPageContentInfo: this.aboutPageContent,
-      aboutImage: false,
+      about_image: false,
       oldAboutImage: this.aboutPageContent.about_image_url,
       aboutStatuses: JSON.parse(this.aboutPageContent.aboutStatuses),
       statusName: "",
@@ -225,9 +225,9 @@ export default {
     },
     updateAboutPageContent() {
       this.aboutPageContentInfo.aboutStatuses = JSON.stringify(this.aboutStatuses);
-      if (this.aboutImage) {
-        this.aboutPageContentInfo.aboutImage = this.aboutImage[0];
-        this.oldAboutImage = URL.createObjectURL(this.aboutImage[0]);
+      if (this.about_image) {
+        this.aboutPageContentInfo.about_image = this.about_image;
+        this.oldAboutImage = URL.createObjectURL(this.about_image);
       } else {
         delete this.aboutPageContentInfo.aboutImage;
       }

@@ -15,13 +15,13 @@ return new class extends Migration
     {
         Schema::create('contact_page_contents', function (Blueprint $table) {
             $table->id();
-            $table->string('contactHeading')->default('Contact Us');
-            $table->string('contactSubHeading')->default('Some text');
-            $table->string('contactText')->default('Some text ...');
-            $table->string('contactPhoneNumbers');
-            $table->string('contactEmail');
-            $table->string('contactAddress');
-            $table->string('contactImage')->default("https://images.pexels.com/photos/8204325/pexels-photo-8204325.jpeg")->nullable();
+            $table->string('contact_heading')->default('Contact Us');
+            $table->string('contact_sub_heading')->default('Some text');
+            $table->string('contact_text')->default('Some text ...');
+            $table->string('contact_phone_numbers');
+            $table->string('contact_email');
+            $table->string('contact_address');
+            $table->string('contact_image')->default("https://images.pexels.com/photos/8204325/pexels-photo-8204325.jpeg")->nullable();
             $table->timestamps();
         });
     }

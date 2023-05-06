@@ -20,10 +20,10 @@ class AdminContactPageContentController extends Controller
     {
         $contactPageContent = ContactPageContent::first();
         $attributes = $this->validateContactPageContent($contactPageContent);  
-        if($attributes['contactImage'] ?? false){
-                $attributes['contactImage'] = 
+        if($attributes['contact_image'] ?? false){
+                $attributes['contact_image'] = 
                 $fileManagement->uploadFile(
-                    file:$attributes['contactImage'] ?? false,
+                    file:$attributes['contact_image'] ?? false,
                     deleteOldFile:true, 
                     oldFile:$contactPageContent->contactImage,
                     path:'images/contact-page'
@@ -41,17 +41,17 @@ class AdminContactPageContentController extends Controller
         $contactPageContent ??= new ContactPageContent();
 
         return request()->validate([
-            'contactHeading' => 'required|max:50',
-            'contactSubHeading' => 'required|max:1000',
-            'contactText' => 'required|max:1000',
-            'contactPhoneNumbers' => 'required|max:50',
-            'contactEmail' => 'required|email|max:50',
-            'contactAddress' => 'required|max:100',
-            'contactImage' => 'nullable|mimes:jpg,jpeg,png |max:2096',
+            'contact_heading' => 'required|max:50',
+            'contact_sub_heading' => 'required|max:1000',
+            'contact_text' => 'required|max:1000',
+            'contact_phone_numbers' => 'required|max:50',
+            'contact_email' => 'required|email|max:50',
+            'contact_address' => 'required|max:100',
+            'contact_image' => 'nullable|mimes:jpg,jpeg,png |max:2096',
             'created_at' => 'nullable',
             'updated_at' => 'nullable',
         ],[
-            'contactImage' =>'Please Upload a jpg/png image with size less than 2MB!'
+            'contact_image' =>'Please Upload a jpg/png image with size less than 2MB!'
         ]);
     }
 
