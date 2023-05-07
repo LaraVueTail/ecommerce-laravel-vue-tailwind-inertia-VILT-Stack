@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('contact_heading')->default('Contact Us');
             $table->string('contact_sub_heading')->default('Some text');
-            $table->text('contact_text')->default('Some text ...');
+            $table->text('contact_text')->nullable();
             $table->string('contact_phone_numbers');
             $table->string('contact_email');
             $table->string('contact_address');
