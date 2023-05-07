@@ -72,7 +72,7 @@
                 custom Page:
               </p>
               <FormFileUploadSingle
-                @fileChange="(file) => (image = file)"
+                @fileChange="(file) => (image = file[0])"
                 :label="'Image'"
                 :oldImageLink="oldImage"
                 :name="'image'"
@@ -165,8 +165,8 @@ export default {
     },
     updateCustomPageContent() {
       if (this.image) {
-        this.customPageContentInfo.image = this.image[0];
-        this.oldImage = URL.createObjectURL(this.image[0]);
+        this.customPageContentInfo.image = this.image;
+        this.oldImage = URL.createObjectURL(this.image);
       } else {
         delete this.customPageContentInfo.image;
       }

@@ -190,7 +190,7 @@
     <p
       class="flex h-10 items-center justify-center bg-blue-600 px-4 text-sm font-medium text-white sm:px-6 lg:px-8"
     >
-      {{ banner }}
+      {{ $page.props.banner_text }}
     </p>
 
     <nav aria-label="Top" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -458,7 +458,7 @@
 </template>
 <script>
 export default {
-  props: ["navMenu", "banner"],
+  props: ["navMenu"],
   emits: ["cartOpen"],
   watch: {
     searchTerm() {

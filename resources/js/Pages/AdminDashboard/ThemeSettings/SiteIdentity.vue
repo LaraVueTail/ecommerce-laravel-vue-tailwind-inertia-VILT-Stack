@@ -21,24 +21,24 @@
                   :name="'site_name'"
                   :type="'text'"
                   :placeholder="'Lara Commerce'"
-                  v-model="siteIdentityInfo.siteName"
-                  :error="$page.props.errors.siteName"
+                  v-model="siteIdentityInfo.site_name"
+                  :error="$page.props.errors.site_name"
                 ></FormInput>
                 <FormInput
                   :label="'Site Domain'"
                   :name="'site_domain'"
                   :type="'text'"
                   :placeholder="'laracommerce.com'"
-                  v-model="siteIdentityInfo.siteDomain"
-                  :error="$page.props.errors.siteDomain"
+                  v-model="siteIdentityInfo.site_domain"
+                  :error="$page.props.errors.site_domain"
                 ></FormInput>
                 <FormInput
                   :label="'Site Email'"
                   :name="'site_email'"
                   :type="'text'"
                   :placeholder="'official@laracommerce.com'"
-                  v-model="siteIdentityInfo.siteEmail"
-                  :error="$page.props.errors.siteEmail"
+                  v-model="siteIdentityInfo.site_email"
+                  :error="$page.props.errors.site_email"
                 ></FormInput>
               </div>
             </div>
@@ -52,59 +52,27 @@
                   :label="'Site Owner Name'"
                   :name="'site_owner_name'"
                   :type="'text'"
-                  v-model="siteIdentityInfo.siteOwnerName"
-                  :error="$page.props.errors.siteOwnerName"
+                  v-model="siteIdentityInfo.site_owner_name"
+                  :error="$page.props.errors.site_owner_name"
                 ></FormInput>
                 <FormInput
                   :label="'Site Owner Email'"
                   :name="'site_owner_email'"
                   :type="'email'"
                   :placeholder="'admin@laracommerce.com'"
-                  v-model="siteIdentityInfo.siteOwnerEmail"
-                  :error="$page.props.errors.siteOwnerEmail"
+                  v-model="siteIdentityInfo.site_owner_email"
+                  :error="$page.props.errors.site_owner_email"
                 ></FormInput>
               </div>
-              <!-- <p class="font-medium text-blue-600 dark:text-gray-400 my-4">
-                E-Commerce Config
-              </p>
-
-              <div class="grid gap-4">
-                <FormCheckBox
-                  :label="'Enable/Edit Stripe Payment'"
-                  :name="'enable_stripe'"
-                  :checked="siteIdentityInfo.enable_stripe"
-                  v-model="siteIdentityInfo.enable_stripe"
-                  :error="$page.props.errors.enable_stripe"
-                >
-                </FormCheckBox>
-                <FormInput
-                  :label="'Stripe Secret Key'"
-                  :name="'stripe_secrete_key'"
-                  :type="'text'"
-                  :disabled="!siteIdentityInfo.enable_stripe"
-                  v-model="siteIdentityInfo.stripe_secret_key"
-                  :error="$page.props.errors.stripe_secret_key"
-                ></FormInput>
-                <FormSelect
-                  :label="'Choose currency'"
-                  :name="'currency'"
-                  v-model="siteIdentityInfo.currency"
-                  :selected="siteIdentityInfo.currency"
-                  :optionsArray="currenciesArray"
-                  :optionName="'name'"
-                  :optionValue="'value'"
-                >
-                </FormSelect>
-              </div> -->
             </div>
             <div class="grid">
               <div>
                 <FormFileUploadSingle
-                  @fileChange="(file) => (logoImage = file)"
+                  @fileChange="(file) => (logo_image = file[0])"
                   :label="'Logo Image'"
                   :oldImageLink="oldLogoImage"
                   :name="'logoImage'"
-                  :error="$page.props.errors.logoImage"
+                  :error="$page.props.errors.logo_image"
                 ></FormFileUploadSingle>
               </div>
             </div>
@@ -135,7 +103,7 @@ export default {
   data() {
     return {
       siteIdentityInfo: this.siteIdentity,
-      logoImage: false,
+      logo_image: false,
       oldLogoImage: this.siteIdentity.logo_image_url,
     };
   },
@@ -156,11 +124,11 @@ export default {
   //   },
   methods: {
     updateSiteIdentity() {
-      if (this.logoImage) {
-        this.siteIdentityInfo.logoImage = this.logoImage[0];
-        this.oldLogoImage = URL.createObjectURL(this.logoImage[0]);
+      if (this.logo_image) {
+        this.siteIdentityInfo.logo_image = this.logo_image;
+        this.oldLogoImage = URL.createObjectURL(this.logo_image);
       } else {
-        delete this.siteIdentityInfo.logoImage;
+        delete this.siteIdentityInfo.logo_image;
       }
       this.siteIdentityInfo._method = "put";
       router.post(

@@ -64,7 +64,7 @@
                   <div>
                     <div
                       class="text-sm font-medium my-3 text-gray-500"
-                      v-if="aboutStatuses.length < 1"
+                      v-if="about_statuses.length < 1"
                     >
                       No Status Values
                     </div>
@@ -85,7 +85,7 @@
                         <tbody>
                           <tr
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                            v-for="(status, index) in aboutStatuses"
+                            v-for="(status, index) in about_statuses"
                             :key="index"
                           >
                             <td
@@ -201,7 +201,7 @@ export default {
       aboutPageContentInfo: this.aboutPageContent,
       about_image: false,
       oldAboutImage: this.aboutPageContent.about_image_url,
-      aboutStatuses: JSON.parse(this.aboutPageContent.aboutStatuses),
+      about_statuses: JSON.parse(this.aboutPageContent.about_statuses),
       statusName: "",
       statusValue: "",
       newStatus: {},
@@ -213,23 +213,23 @@ export default {
         let newStatus = {};
         newStatus.name = this.statusName;
         newStatus.value = this.statusValue;
-        this.aboutStatuses.push(newStatus);
+        this.about_statuses.push(newStatus);
         this.statusName = this.statusValue = "";
         newStatus = {};
       }
     },
     deleteStatus(index) {
       if (index > -1) {
-        this.aboutStatuses.splice(index, 1);
+        this.about_statuses.splice(index, 1);
       }
     },
     updateAboutPageContent() {
-      this.aboutPageContentInfo.aboutStatuses = JSON.stringify(this.aboutStatuses);
+      this.aboutPageContentInfo.about_statuses = JSON.stringify(this.about_statuses);
       if (this.about_image) {
         this.aboutPageContentInfo.about_image = this.about_image;
         this.oldAboutImage = URL.createObjectURL(this.about_image);
       } else {
-        delete this.aboutPageContentInfo.aboutImage;
+        delete this.aboutPageContentInfo.about_image;
       }
       this.aboutPageContentInfo._method = "put";
       router.post(

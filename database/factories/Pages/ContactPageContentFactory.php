@@ -17,12 +17,12 @@ class ContactPageContentFactory extends Factory
     public function definition()
     {
         return [
-            'contactHeading' =>'Contact Us',
-            'contactSubHeading' =>'Sub heading',
-            'contactText'=>$this->faker->paragraph(5),
-            'contactPhoneNumbers'=>$this->faker->phoneNumber(),
-            'contactEmail'=>'contact@email.com',
-            'contactAddress'=>$this->faker->address()
+            'contact_heading' =>'Contact Us',
+            'contact_sub_heading' =>'Sub heading',
+            'contact_text'=>$this->faker->paragraph(5),
+            'contact_phone_numbers'=>$this->faker->phoneNumber(),
+            'contact_email'=>'contact@email.com',
+            'contact_address'=>$this->faker->address()
         ];
     }
 }

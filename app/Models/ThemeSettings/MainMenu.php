@@ -15,8 +15,8 @@ class MainMenu extends Model
     {
         $publicMenu = [
             'logo' => [ 
-              "name"=> SiteIdentity::first()->siteName,
-              "imageSrc"=> SiteIdentity::first()->logoImage, 
+              "name"=> SiteIdentity::first()->site_name,
+              "imageSrc"=> SiteIdentity::first()->logo_image, 
               "href" => asset('')
              ],
             'categories'=> [

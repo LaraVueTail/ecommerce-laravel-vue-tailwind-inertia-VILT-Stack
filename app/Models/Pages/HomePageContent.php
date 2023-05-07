@@ -17,10 +17,10 @@ class HomePageContent extends Model
     {
         return Attribute::make(
         set: function($value){
-            if(count($value)==0){
+            if(!$value){
                 return json_encode(["https://images.pexels.com/photos/1549200/pexels-photo-1549200.jpeg", "https://images.pexels.com/photos/354972/pexels-photo-354972.jpeg", "https://images.pexels.com/photos/6311237/pexels-photo-6311237.jpeg"]);
             } else{
-                return json_encode($value);
+                return $value;
             }
         }
         );

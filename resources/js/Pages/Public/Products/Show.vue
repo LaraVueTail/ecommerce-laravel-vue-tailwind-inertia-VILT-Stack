@@ -270,6 +270,7 @@
                   :text="'Add to Cart'"
                   :color="'blue'"
                   :rounded="true"
+                  :disable-flash="true"
                 >
                   <svg
                     aria-hidden="true"
@@ -286,6 +287,7 @@
                 <Button
                   @click.prevent="orderOnWhatsapp()()"
                   v-if="enable_whatsapp"
+                  :disable-flash="true"
                   :text="'Order on Whatsapp'"
                   :color="'green'"
                   :rounded="true"

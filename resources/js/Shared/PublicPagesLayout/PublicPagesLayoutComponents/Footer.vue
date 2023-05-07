@@ -55,8 +55,8 @@
 export default {
   data() {
     return {
-      pageLinks: JSON.parse(this.$page.props.footerContent.pageLinks),
-      socialLinks: JSON.parse(this.$page.props.footerContent.socialLinks),
+      pageLinks: JSON.parse(this.$page.props.footerContent.page_links),
+      socialLinks: JSON.parse(this.$page.props.footerContent.social_links),
       site_logo: this.$page.props.footerContent.site_logo,
       site_name: this.$page.props.footerContent.site_name,
     };

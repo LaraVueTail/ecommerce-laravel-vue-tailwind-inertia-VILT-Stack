@@ -17,10 +17,10 @@ class AboutPageContentFactory extends Factory
     public function definition()
     {
         return [
-            'aboutHeading' =>'About Us',
-            'aboutSubHeading' =>'Sub heading',
-            'aboutText'=>$this->faker->paragraph(5),
-            'aboutStatuses'=>json_encode([["name"=>"Years","value"=>"3"],["name"=>"Working Hours","value"=>"3000"],["name"=>"Staffs","value"=>"20"]])
+            'about_heading' =>'About Us',
+            'about_sub_heading' =>'Sub heading',
+            'about_text'=>$this->faker->paragraph(5),
+            'about_statuses'=>json_encode([["name"=>"Years","value"=>"3"],["name"=>"Working Hours","value"=>"3000"],["name"=>"Staffs","value"=>"20"]])
         ];
     }
 }

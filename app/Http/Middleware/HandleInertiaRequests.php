@@ -51,8 +51,8 @@ class HandleInertiaRequests extends Middleware
 
         $shareData = array(
             'csrf_token' => csrf_token(),
-            'logo' => SiteIdentity::first()->logoImage,
-            'siteName' => SiteIdentity::first()->siteName,
+            'logo' => SiteIdentity::first()->logo_image,
+            'siteName' => SiteIdentity::first()->site_name,
             'currencySymbol'=>EcommerceSettings::first()->currency_symbol,
             'auth' => (Auth::check()) ? ['firstName'=> Auth::user()->first_name, 'email' => Auth::user()->email, 'avatar' =>  Auth::user()->avatar, 'isAdmin' => Auth::user()->can('admin')] : false,
             'flash' => [
@@ -62,6 +62,7 @@ class HandleInertiaRequests extends Middleware
         if(str_starts_with($request->route()->getName(), 'public')){
             $shareData = array_merge($shareData,array(
                 'mainMenu' => (new MainMenu)->publicMenu(),
+                'banner_text' => SiteIdentity::first()->banner_text,
                 'footerContent' => FooterContent::first(),
                 'cartCount' => \Cart::getTotalQuantity(),
                 'cartContent' =>  \Cart::getContent(),

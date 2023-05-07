@@ -17,7 +17,35 @@ class FooterContentFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'page_links'=> json_encode([
+                    [
+                        'pageName'=>'About',
+                        'pageLink'=>asset('about')
+                    ],
+                    [
+                        'pageName'=>'Contact',
+                        'pageLink'=>asset('contact')
+                    ]
+                    ]),
+                    
+            'social_links'=> json_encode([
+                    [
+                        'socialName'=>'facebook',
+                        'socialLink'=>'#'
+                    ],
+                    [
+                        'socialName'=>'instagram',
+                        'socialLink'=>'#'
+                    ],
+                    [
+                        'socialName'=>'youtube',
+                        'socialLink'=>'#'
+                    ],
+                    [
+                        'socialName'=>'whatsapp',
+                        'socialLink'=>'#'
+                    ]
+                ])
         ];
     }
 }

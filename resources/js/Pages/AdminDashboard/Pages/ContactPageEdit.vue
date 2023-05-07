@@ -21,24 +21,24 @@
                   :name="'heading'"
                   :type="'text'"
                   :placeholder="'Page Heading'"
-                  v-model="contactPageContentInfo.contactHeading"
-                  :error="$page.props.errors.contactHeading ?? ''"
+                  v-model="contactPageContentInfo.contact_heading"
+                  :error="$page.props.errors.contact_heading ?? ''"
                 ></FormInput>
                 <FormTextArea
                   :label="'Sub Heading'"
                   :name="'sub_heading'"
-                  v-model="contactPageContentInfo.contactSubHeading"
+                  v-model="contactPageContentInfo.contact_sub_heading"
                   :row="'3'"
                   :placeholder="'Contact page text content'"
-                  :error="$page.props.errors.contactSubHeading ?? ''"
+                  :error="$page.props.errors.contact_sub_heading ?? ''"
                 >
                 </FormTextArea>
 
                 <FormTextEditor
-                  v-model="contactPageContentInfo.contactText"
+                  v-model="contactPageContentInfo.contact_text"
                   :label="'Page Content'"
                   :name="'text'"
-                  :error="$page.props.errors.contactText ?? ''"
+                  :error="$page.props.errors.contact_text ?? ''"
                 ></FormTextEditor>
               </div>
             </div>
@@ -48,35 +48,35 @@
                   Contact Page:
                 </p>
                 <FormFileUploadSingle
-                  @fileChange="(file) => (contactImage = file)"
+                  @fileChange="(file) => (contact_image = file[0])"
                   :label="'Image'"
                   :oldImageLink="oldContactImage"
                   :name="'contactImage'"
-                  :error="$page.props.errors.contactImage ?? ''"
+                  :error="$page.props.errors.contact_image ?? ''"
                 ></FormFileUploadSingle>
                 <FormInput
                   :label="'Phone Numbers'"
                   :name="'phone_numbers'"
                   :type="'text'"
                   :placeholder="''"
-                  v-model="contactPageContentInfo.contactPhoneNumbers"
-                  :error="$page.props.errors.contactPhoneNumbers ?? ''"
+                  v-model="contactPageContentInfo.contact_phone_numbers"
+                  :error="$page.props.errors.contact_phone_numbers ?? ''"
                 ></FormInput>
                 <FormInput
                   :label="'Email'"
                   :name="'email'"
                   :type="'text'"
                   :placeholder="''"
-                  v-model="contactPageContentInfo.contactEmail"
-                  :error="$page.props.errors.contactEmail ?? ''"
+                  v-model="contactPageContentInfo.contact_email"
+                  :error="$page.props.errors.contact_email ?? ''"
                 ></FormInput>
                 <FormInput
                   :label="'Address'"
                   :name="'address'"
                   :type="'text'"
                   :placeholder="''"
-                  v-model="contactPageContentInfo.contactAddress"
-                  :error="$page.props.errors.contactAddress ?? ''"
+                  v-model="contactPageContentInfo.contact_address"
+                  :error="$page.props.errors.contact_address ?? ''"
                 ></FormInput>
               </div>
             </div>
@@ -106,18 +106,18 @@ export default {
   data() {
     return {
       contactPageContentInfo: this.contactPageContent,
-      contactImage: false,
+      contact_image: false,
       oldContactImage: this.contactPageContent.contact_image_url,
       errors: this.contactPageContentsErrors ?? {},
     };
   },
   methods: {
     updateContactPageContent() {
-      if (this.contactImage) {
-        this.contactPageContentInfo.contactImage = this.contactImage;
-        this.oldContactImage = URL.createObjectURL(this.contactImage[0]);
+      if (this.contact_image) {
+        this.contactPageContentInfo.contact_image = this.contact_image;
+        this.oldContactImage = URL.createObjectURL(this.contact_image);
       } else {
-        delete this.contactPageContentInfo.contactImage;
+        delete this.contactPageContentInfo.contact_image;
       }
       this.contactPageContentInfo._method = "put";
       router.post(

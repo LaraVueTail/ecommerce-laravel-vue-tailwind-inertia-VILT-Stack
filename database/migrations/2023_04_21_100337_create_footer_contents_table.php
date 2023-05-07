@@ -25,8 +25,8 @@ return new class extends Migration
             //         'pageLink'=>asset('contact')
             //     ]
             // ]));
-            $table->json('pageLinks')->nullable();
-            $table->json('socialLinks')->nullable();
+            $table->json('page_links')->nullable();
+            $table->json('social_links')->nullable();
             // ->default(json_encode([
             //     [
             //         'socialName'=>'facebook',
