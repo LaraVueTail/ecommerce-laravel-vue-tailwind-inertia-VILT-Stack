@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('about_heading')->default('About Us');
             $table->string('about_sub_heading')->default('Some text');
-            $table->string('about_text')->default('Some text ...');
+            $table->text('about_text')->nullable();
             $table->string('about_image')->default("https://images.pexels.com/photos/443383/pexels-photo-443383.jpeg")->nullable();
             $table->json('about_statuses')->nullable();
             $table->timestamps();
