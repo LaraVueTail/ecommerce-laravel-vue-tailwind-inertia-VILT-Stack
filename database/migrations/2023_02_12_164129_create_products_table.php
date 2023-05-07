@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             // $table->string('link')->nullable();
             $table->string('thumbnail')->nullable();
-            $table->json('more_images')->default(json_encode([]))->nullable();
+            $table->json('more_images')->nullable();
             $table->text('description');
             $table->text('short_description')->nullable();
             $table->json('product_details')->nullable();
