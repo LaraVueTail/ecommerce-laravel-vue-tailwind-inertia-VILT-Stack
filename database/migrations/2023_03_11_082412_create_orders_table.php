@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->string('shipping_address');
+            $table->text('shipping_address');
             $table->longText('cart_content');
             $table->string('status');
             $table->decimal('total_price', 6, 2);
