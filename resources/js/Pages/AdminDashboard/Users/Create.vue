@@ -99,7 +99,7 @@
                       @fileChange="(file) => (this.userInfo.avatar = file[0])"
                       :label="'Profile Picture'"
                       :name="'avatar'"
-                      :error="errors.avatar ?? errors['avatar.0']"
+                      :error="errors.avatar"
                     ></FormFileUploadSingle>
                   </div>
                 </div>
