@@ -89,7 +89,7 @@
                 </p>
 
                 <FormFileUploadSingle
-                  @fileChange="(file) => (this.avatar = file[0])"
+                  @fileChange="(file) => (avatar = file[0])"
                   :label="'Profile Picture'"
                   :oldImageLink="oldAvatarImage"
                   :rounded="true"
@@ -136,6 +136,7 @@ export default {
       router.post(`/admin-dashboard/users/${this.user.id}`, this.userInfo, {
         preserveState: false,
         preserveScroll: true,
+        only: ["user", "errors", "flash"],
       });
     },
   },

@@ -82,6 +82,7 @@ export default {
       router.post(`/admin-dashboard/users/${this.user.id}`, this.userInfo, {
         preserveState: false,
         preserveScroll: true,
+        only: ["user", "errors", "flash"],
       });
     },
   },

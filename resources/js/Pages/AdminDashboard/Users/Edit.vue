@@ -103,7 +103,7 @@
                     </p>
 
                     <FormFileUploadSingle
-                      @fileChange="(file) => (this.avatar = file[0])"
+                      @fileChange="(file) => (avatar = file[0])"
                       :label="'Profile Picture'"
                       :oldImageLink="oldAvatarImage"
                       :name="'avatar'"
@@ -148,7 +148,7 @@ export default {
       avatar: false,
       deleteAlertUser: false,
       deleteAlertUserText: "",
-      oldAvatarImage: this.user.avatar,
+      oldAvatarImage: this.user.avatar ?? null,
     };
   },
   methods: {
