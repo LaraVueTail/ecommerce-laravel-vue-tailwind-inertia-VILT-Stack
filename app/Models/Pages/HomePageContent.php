@@ -32,7 +32,7 @@ class HomePageContent extends Model
     {
         return Attribute::make(
             get: function($value) {
-                    return json_encode(array_map(fn($value): string => asset($value),$this->hero_carousel));
+                    return json_encode(array_map(fn($value): string => asset($value),json_decode($this->hero_carousel)));
         });
 
 
