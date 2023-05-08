@@ -22,7 +22,7 @@ class AdminAboutPageContentController extends Controller
         $attributes = $this->validateAboutPageContent($aboutPageContent);  
 
         if($attributes['about_image'] ?? false){
-            $attributes['about_mage'] = 
+            $attributes['about_image'] = 
             $fileManagement->uploadFile(
                 file:$attributes['about_image'] ?? false,
                 deleteOldFile:true, 
