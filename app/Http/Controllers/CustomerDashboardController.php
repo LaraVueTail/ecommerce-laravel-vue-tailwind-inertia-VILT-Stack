@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Request;
 
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
-use IntlChar;
 
 class CustomerDashboardController extends Controller
 {
@@ -16,7 +15,7 @@ class CustomerDashboardController extends Controller
     public function index()
     {
         return Inertia::render('Public/CustomerDashboard/Index',[
-            'user' => auth()->user()
+            'user' => Auth::user()
         ]);
     }
 

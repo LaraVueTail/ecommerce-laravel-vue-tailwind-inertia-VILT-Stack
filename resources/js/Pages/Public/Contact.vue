@@ -65,10 +65,10 @@
       <div class="mx-auto max-w-7xl px-6 lg:px-8">
         <div class="mx-auto max-w-2xl lg:mx-0">
           <h2 class="text-4xl font-bold tracking-tight text-white sm:text-6xl">
-            {{ contactPageContent.contactHeading }}
+            {{ contactPageContent.contact_heading }}
           </h2>
           <p class="mt-6 text-lg leading-8 text-gray-300">
-            {{ contactPageContent.contactSubHeading }}
+            {{ contactPageContent.contact_sub_heading }}
           </p>
         </div>
       </div>
@@ -78,7 +78,7 @@
         <div>
           <h2
             class="text-sm text-gray-600 sm:text-md tracking-wide"
-            v-html="contactPageContent.contactText"
+            v-html="contactPageContent.contact_text"
           ></h2>
         </div>
         <div>
@@ -102,7 +102,7 @@
                 />
               </svg>
 
-              {{ contactPageContent.contactPhoneNumbers }}
+              {{ contactPageContent.contact_phone_numbers }}
             </li>
 
             <li class="flex gap-x-3">
@@ -121,7 +121,7 @@
                 />
               </svg>
 
-              {{ contactPageContent.contactEmail }}
+              {{ contactPageContent.contact_email }}
             </li>
 
             <li class="flex gap-x-3">
@@ -140,7 +140,7 @@
                 />
               </svg>
 
-              {{ contactPageContent.contactAddress }}
+              {{ contactPageContent.contact_address }}
             </li>
           </ul>
         </div>

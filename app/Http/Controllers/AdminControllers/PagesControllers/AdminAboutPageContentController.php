@@ -26,7 +26,7 @@ class AdminAboutPageContentController extends Controller
             $fileManagement->uploadFile(
                 file:$attributes['about_image'] ?? false,
                 deleteOldFile:true, 
-                oldFile:$aboutPageContent->aboutImage,
+                oldFile:$aboutPageContent->about_image,
                 path:'images/about-page'
             );   
         }

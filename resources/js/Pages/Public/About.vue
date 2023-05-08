@@ -64,16 +64,16 @@
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
       <div class="mx-auto max-w-2xl lg:mx-0">
         <h2 class="text-4xl font-bold tracking-tight text-white sm:text-6xl">
-          {{ aboutPageContent.aboutHeading }}
+          {{ aboutPageContent.about_heading }}
         </h2>
         <p class="mt-6 text-lg leading-8 text-gray-300">
-          {{ aboutPageContent.aboutSubHeading }}
+          {{ aboutPageContent.about_sub_heading }}
         </p>
       </div>
       <div class="mx-auto mt-10 max-w-2xl lg:mx-0 lg:max-w-none">
         <dl class="mt-16 grid grid-cols-1 gap-8 sm:mt-20 sm:grid-cols-2 lg:grid-cols-4">
           <div
-            v-for="status in JSON.parse(aboutPageContent.aboutStatuses)"
+            v-for="status in JSON.parse(aboutPageContent.about_statuses)"
             :key="status.name"
             class="flex flex-col-reverse"
           >
@@ -88,7 +88,7 @@
   </div>
   <div class="mx-auto max-w-5xl px-6 lg:px-8 my-20">
     <div class="mx-auto max-w-2xl lg:mx-0">
-      <h2 class="text-gray-600 tracking-wide" v-html="aboutPageContent.aboutText"></h2>
+      <h2 class="text-gray-600 tracking-wide" v-html="aboutPageContent.about_text"></h2>
     </div>
   </div>
 </template>

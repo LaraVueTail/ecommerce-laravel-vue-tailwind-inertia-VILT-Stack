@@ -18,7 +18,7 @@ class FooterContent extends Model
     {
         return Attribute::make(
         get: function($value) {
-            $logo = SiteIdentity::first()->logoImage;
+            $logo = SiteIdentity::first()->logo_image;
             return asset($logo);
         },
         );
@@ -28,7 +28,7 @@ class FooterContent extends Model
     {
         return Attribute::make(
         get: function($value) {
-            return SiteIdentity::first()->siteName;
+            return SiteIdentity::first()->site_name;
         },
         );
     }

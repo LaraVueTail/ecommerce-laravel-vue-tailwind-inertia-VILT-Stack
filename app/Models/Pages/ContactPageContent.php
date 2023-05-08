@@ -30,7 +30,7 @@ class ContactPageContent extends Model
     {
         return Attribute::make(
             get: function() {
-                    return asset($this->contactImage);
+                    return asset($this->contact_image);
         });
     }
 }
