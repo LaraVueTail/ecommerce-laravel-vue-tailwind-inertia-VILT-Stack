@@ -163,7 +163,7 @@
   <header class="relative bg-white">
     <Link
       href="/admin-dashboard"
-      v-if="$page.props.auth.isAdmin"
+      v-if="usePage().props.auth.isAdmin"
       class="fixed top-0 left-0 right-0 z-50 flex h-10 items-center justify-center bg-gray-800 px-4 text-xs font-medium text-white sm:px-6 lg:px-8 hover:underline cursor-pointer gap-2"
     >
       <svg
@@ -190,7 +190,7 @@
     <p
       class="flex h-10 items-center justify-center bg-blue-600 px-4 text-sm font-medium text-white sm:px-6 lg:px-8"
     >
-      {{ $page.props.banner_text }}
+      {{ usePage().props.banner_text }}
     </p>
 
     <nav aria-label="Top" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -336,7 +336,7 @@
               <Link
                 href="/login"
                 class="text-sm font-medium text-gray-700 hover:text-gray-800"
-                v-if="!$page.props.auth.firstName ?? false"
+                v-if="!usePage().props.auth.firstName ?? false"
                 >Sign in</Link
               >
               <Link
@@ -344,7 +344,7 @@
                 class="text-sm font-medium text-gray-700 hover:text-gray-800 flex items-center gap-2"
                 v-else
               >
-                Welcome, {{ $page.props.auth.firstName }}
+                Welcome, {{ usePage().props.auth.firstName }}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
@@ -362,7 +362,7 @@
               <Link
                 href="/register"
                 class="text-sm font-medium text-gray-700 hover:text-gray-800"
-                v-if="!$page.props.auth.firstName ?? false"
+                v-if="!usePage().props.auth.firstName ?? false"
                 >Create account</Link
               >
               <Link
@@ -445,7 +445,7 @@
                 />
                 <span
                   class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800"
-                  >{{ this.$page.props.cartCount ?? 0 }}</span
+                  >{{ usePage().props.cartCount ?? 0 }}</span
                 >
                 <span class="sr-only">items in cart, view bag</span>
               </div>
@@ -457,6 +457,8 @@
   </header>
 </template>
 <script>
+import { usePage } from "@inertiajs/vue3";
+const page = usePage();
 export default {
   props: ["navMenu"],
   emits: ["cartOpen"],
@@ -473,7 +475,7 @@ export default {
   },
   data() {
     return {
-      searchTerm: this.$page.props.filters ? this.$page.props.filters.search ?? "" : "",
+      searchTerm: usePage().props.filters ? usePage().props.filters.search ?? "" : "",
     };
   },
 };
