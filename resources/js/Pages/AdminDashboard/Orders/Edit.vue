@@ -144,12 +144,12 @@
             <div class="flex items-center space-x-4">
               <Button
                 @click.prevent="updateOrder()"
-                :text="'Update Product'"
+                :text="'Update Order'"
                 :color="'blue'"
               ></Button>
               <Button
                 @click.prevent="deleteOrder()"
-                :text="'Delete Product'"
+                :text="'Delete Order'"
                 :disableFlash="true"
                 :color="'red'"
               ></Button>
@@ -299,12 +299,12 @@
                 <div class="flex items-center space-x-4">
                   <Button
                     @click.prevent="updateOrder()"
-                    :text="'Update Product'"
+                    :text="'Update Order'"
                     :color="'blue'"
                   ></Button>
                   <Button
                     @click.prevent="deleteOrder()"
-                    :text="'Delete Product'"
+                    :text="'Delete Order'"
                     :disableFlash="true"
                     :color="'red'"
                   ></Button>

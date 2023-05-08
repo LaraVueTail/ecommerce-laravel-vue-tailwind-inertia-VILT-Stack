@@ -30,7 +30,6 @@ class CheckoutController extends Controller
     public function checkout(Request $request)
     {
 
-        \Stripe\Stripe::setApiKey(EcommerceSettings::first()->stripe_secret_key);
         
         $attributes = $request->validate([
             'shippingAddress.first_name' => 'required',
@@ -51,6 +50,10 @@ class CheckoutController extends Controller
         $cartTotal =  \Cart::getTotal();
         // dd(request()->all());
         if($attributes['payment_mode'] === 'stripe'){
+
+        \Stripe\Stripe::setApiKey(EcommerceSettings::first()->stripe_secret_key);
+
+
             $lineItems = [];
 
             foreach ($cartContent as $cartItem) {
@@ -93,11 +96,11 @@ class CheckoutController extends Controller
         $order->cart_content = json_encode($order_items);
         $order->total_price = $cartTotal;
         $order->payment_mode = $attributes['payment_mode'];
-        $order->session_id = $session->id ?? 'unpaid';
+        $order->session_id = $attributes['payment_mode'] === 'stripe' ? $session->id : 'unpaid';
         $order->save();
 
         \Cart::session(Auth::user()->id)->clear();
-        if($session->id ?? false){
+        if($attributes['payment_mode'] === 'stripe' && $session->id ?? false){
             return Inertia::location($session->url);
         }
         if($attributes['payment_mode'] === 'whatsapp'){

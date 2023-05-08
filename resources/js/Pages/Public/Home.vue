@@ -7,7 +7,7 @@
     :products="productBestSellers"
     :title="'Best Sellers'"
     :cols="4"
-    class="mb-36"
+    class="mb-10"
   ></ProductsIndex>
 </template>
 <script>

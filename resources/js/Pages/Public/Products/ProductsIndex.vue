@@ -3,7 +3,7 @@
     <h2 class="text-2xl font-bold tracking-tight text-gray-900">
       {{ title }}
     </h2>
-    <ProductGrid :products="products.data" :cols="cols" class="pb-48"></ProductGrid>
+    <ProductGrid :products="products.data" :cols="cols" class="pb-24"></ProductGrid>
     <PageNavigation :data="products"></PageNavigation>
   </div>
 </template>

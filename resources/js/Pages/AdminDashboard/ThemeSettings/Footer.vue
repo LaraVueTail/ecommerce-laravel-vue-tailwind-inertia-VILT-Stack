@@ -15,7 +15,7 @@
               <p class="font-medium text-blue-600 dark:text-gray-400 my-4">Page Links:</p>
               <!-- add product attributes  -->
               <div>
-                <div class="p-2" v-for="(link, index) in pageLinks" :key="index">
+                <div class="p-2" v-for="(link, index) in page_links" :key="index">
                   <div class="grid sm:grid-cols-12 gap-8">
                     <div class="col-span-5">
                       <label
@@ -125,7 +125,7 @@
                 Social Links:
               </p>
               <div>
-                <div class="p-2" v-for="(link, index) in socialLinks" :key="index">
+                <div class="p-2" v-for="(link, index) in social_links" :key="index">
                   <div class="grid sm:grid-cols-12 gap-8">
                     <div class="self-center place-self-center">
                       <i
@@ -172,8 +172,8 @@ export default {
   data() {
     return {
       footerContentInfo: this.footerContent,
-      pageLinks: JSON.parse(this.footerContent.pageLinks),
-      socialLinks: JSON.parse(this.footerContent.socialLinks),
+      page_links: JSON.parse(this.footerContent.page_links),
+      social_links: JSON.parse(this.footerContent.social_links),
       linkName: "",
       linkLink: "",
     };
@@ -184,19 +184,19 @@ export default {
         let newPageLink = {};
         newPageLink.pageName = this.linkName;
         newPageLink.pageLink = this.linkLink;
-        this.pageLinks.push(newPageLink);
+        this.page_links.push(newPageLink);
         this.linkName = this.linkLink = "";
         newPageLink = {};
       }
     },
     removePageLink(index) {
       if (index > -1) {
-        this.pageLinks.splice(index, 1);
+        this.page_links.splice(index, 1);
       }
     },
     updateFooter() {
-      this.footerContentInfo.pageLinks = JSON.stringify(this.pageLinks);
-      this.footerContentInfo.socialLinks = JSON.stringify(this.socialLinks);
+      this.footerContentInfo.page_links = JSON.stringify(this.page_links);
+      this.footerContentInfo.social_links = JSON.stringify(this.social_links);
       this.footerContentInfo._method = "put";
       router.post(`/admin-dashboard/theme-settings/footer`, this.footerContentInfo, {
         preserveState: true,

@@ -44,7 +44,7 @@
                 :name="'link'"
                 :type="'text'"
                 :placeholder="'page_slug'"
-                :readOnly="customPageContentInfo.page_link"
+                :readOnly="`{domain-name}/products/${customPageContentInfo.slug}`"
                 :disabled="true"
               ></FormInput>
               <FormInput
@@ -99,7 +99,7 @@
             :color="'blue'"
           ></Button>
           <Button
-            @click.prevent="router.get(customPageContentInfo.page_link)"
+            @click.prevent="visitPage()"
             :text="'Visit Page'"
             :color="'blue'"
             :disableFlash="true"
@@ -161,6 +161,15 @@ export default {
     deletePageConfirm() {
       router.delete(
         `/admin-dashboard/pages/custom-page-content/${this.deleteAlertPageId}`
+      );
+    },
+    visitPage() {
+      router.get(
+        window.location.protocol +
+          "//" +
+          window.location.host +
+          "/pages/" +
+          this.customPageContentInfo.slug
       );
     },
     updateCustomPageContent() {

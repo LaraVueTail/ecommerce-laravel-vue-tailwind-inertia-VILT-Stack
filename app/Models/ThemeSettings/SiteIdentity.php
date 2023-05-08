@@ -56,7 +56,7 @@ class SiteIdentity extends Model
     {
         return Attribute::make(
             get: function() {
-                    return asset($this->logo_mage ?? '');
+                    return asset($this->logo_image ?? '');
         });
     }
 

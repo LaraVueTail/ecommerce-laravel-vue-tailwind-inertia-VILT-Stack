@@ -56,7 +56,6 @@ class AdminUserController extends Controller
             $fileManagement->uploadFile(
                 file:$attributes['avatar'] ?? false,
                 path:'images/users/'.$attributes['email'].'/avatar',
-                storeAsName:'avatar'
             );
         }
 
@@ -76,6 +75,8 @@ class AdminUserController extends Controller
 
     public function update(User $user, FileManagement $fileManagement)
     {
+        // dd(request()->all());
+
         $attributes = $this->validateUser($user);
 
         if($attributes['avatar'] ?? false) {
@@ -85,7 +86,6 @@ class AdminUserController extends Controller
                 deleteOldFile: true, 
                 oldFile: $user->avatar,
                 path:'images/users/'.($user['email'] !== $attributes['email'] ? $attributes['email'] : $user['email']).'/avatar',
-                storeAsName: 'avatar'
             );  
         }
 
@@ -119,7 +119,7 @@ class AdminUserController extends Controller
         return request()->validate([
             'first_name' => 'required|min:3|max:50',
             'last_name' => 'required|max:50',
-            'avatar' => 'nullable|mimes:jpeg,png |max:2096',
+            'avatar' => 'nullable |mimes:jpg,png | max:2096',
             'email' => ['required','email', Rule::unique('users', 'email')->ignore($user)],
             'gender' => 'nullable',
             'birthday' => 'required',
@@ -132,9 +132,7 @@ class AdminUserController extends Controller
             'country' => 'nullable',
             'tac'=>'required|accepted'
 
-        ],[
-            'avatar' => 'Upload Profile image as jpg/png format with size less than 2MB',
-        ]);
+        ],);
     }
 
 

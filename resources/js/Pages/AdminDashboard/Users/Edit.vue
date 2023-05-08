@@ -103,11 +103,11 @@
                     </p>
 
                     <FormFileUploadSingle
-                      @fileChange="(file) => (this.avatar = file)"
+                      @fileChange="(file) => (this.avatar = file[0])"
                       :label="'Profile Picture'"
-                      :oldImageLink="this.userInfo.avatar"
+                      :oldImageLink="oldAvatarImage"
                       :name="'avatar'"
-                      :error="errors.avatar ?? errors['avatar.0']"
+                      :error="errors.avatar"
                     ></FormFileUploadSingle>
                   </div>
                 </div>
@@ -148,6 +148,7 @@ export default {
       avatar: false,
       deleteAlertUser: false,
       deleteAlertUserText: "",
+      oldAvatarImage: this.user.avatar,
     };
   },
   methods: {
@@ -164,6 +165,7 @@ export default {
     updateUser() {
       if (this.avatar) {
         this.userInfo.avatar = this.avatar;
+        this.oldAvatarImage = URL.createObjectURL(this.avatar);
       } else {
         delete this.userInfo.avatar;
       }
@@ -172,6 +174,7 @@ export default {
       router.post(`/admin-dashboard/users/${this.user.id}`, this.userInfo, {
         preserveState: false,
         preserveScroll: true,
+        only: ["user", "errors", "flash"],
       });
     },
   },

@@ -124,7 +124,7 @@
                         :label="'Product Link'"
                         :name="'link'"
                         :type="'text'"
-                        :readOnly="`http://127.0.0.1:8000/products/${productInfo.slug}`"
+                        :readOnly="`{domain-name}/products/${productInfo.slug}`"
                         :disabled="true"
                         :error="errors.link"
                       ></FormInput>

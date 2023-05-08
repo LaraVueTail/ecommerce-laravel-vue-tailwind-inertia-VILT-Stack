@@ -213,6 +213,7 @@
                 :name="'stripe'"
                 :error="errors.payment_mode"
                 :checked="paymentMode === 'stripe'"
+                v-if="enable_stripe"
                 @checked="(value) => (paymentMode = value)"
                 :value="'stripe'"
               >
@@ -222,6 +223,7 @@
                 :name="'whatsapp'"
                 :error="errors.payment_mode"
                 :checked="paymentMode === 'whatsapp'"
+                v-if="enable_whatsapp"
                 @checked="(value) => (paymentMode = value)"
                 :value="'whatsapp'"
               >
@@ -248,7 +250,7 @@
 import { router } from "@inertiajs/vue3";
 
 export default {
-  props: ["errors", "userInfo", "enable_stripe"],
+  props: ["errors", "userInfo", "enable_stripe", "enable_whatsapp"],
   data() {
     return {
       cartContent: this.$page.props.cartContent,

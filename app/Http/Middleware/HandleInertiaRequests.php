@@ -51,7 +51,7 @@ class HandleInertiaRequests extends Middleware
 
         $shareData = array(
             'csrf_token' => csrf_token(),
-            'logo' => SiteIdentity::first()->logo_image,
+            'logo' => SiteIdentity::first()->logo_image_url,
             'siteName' => SiteIdentity::first()->site_name,
             'currencySymbol'=>EcommerceSettings::first()->currency_symbol,
             'auth' => (Auth::check()) ? ['firstName'=> Auth::user()->first_name, 'email' => Auth::user()->email, 'avatar' =>  Auth::user()->avatar, 'isAdmin' => Auth::user()->can('admin')] : false,

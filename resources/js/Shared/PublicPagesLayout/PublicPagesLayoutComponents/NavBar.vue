@@ -254,7 +254,7 @@
 
                     <div class="relative bg-white">
                       <div class="mx-auto max-w-7xl px-8">
-                        <div class="grid grid-cols-2 gap-x-8 gap-y-10 py-16">
+                        <div class="grid grid-cols-2 gap-x-8 gap-y-10 py-10">
                           <div class="col-start-2 grid grid-cols-2 gap-x-8">
                             <div
                               v-for="item in category.featured"
@@ -282,9 +282,7 @@
                               <p aria-hidden="true" class="mt-1">Shop now</p>
                             </div>
                           </div>
-                          <div
-                            class="row-start-1 grid grid-cols-3 gap-x-8 gap-y-10 text-sm"
-                          >
+                          <div class="row-start-1 grid grid-cols-3 gap-x-8 text-sm">
                             <div v-for="section in category.sections" :key="section.name">
                               <p
                                 :id="`${section.name}-heading`"
@@ -295,18 +293,18 @@
                               <ul
                                 role="list"
                                 :aria-labelledby="`${section.name}-heading`"
-                                class="mt-6 gap-4 sm:gap-4 grid grid-rows-6 grid-flow-col"
+                                class="mt-6 sm:gap-x-48 grid grid-cols-3 gap-y-4"
                               >
                                 <li
                                   v-for="item in section.items"
                                   :key="item.name"
-                                  class="flex"
+                                  class="gap-y-4"
                                 >
                                   <Link
                                     :href="item.link"
                                     class="hover:text-gray-800"
                                     @click="close"
-                                    >{{ item.name }}</Link
+                                    ><p>{{ item.name }}</p></Link
                                   >
                                 </li>
                               </ul>

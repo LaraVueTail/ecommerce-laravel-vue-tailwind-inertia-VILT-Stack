@@ -82,6 +82,8 @@ import Filters from "../../../Shared/Filters/Filters.vue";
 import TableCategories from "../../../Shared/Tables/TableCategories.vue";
 import PageNavigation from "../../../Shared/AdminDashboardComponents/PageNavigation.vue";
 import AlertDelete from "../../../Shared/AdminDashboardComponents/AlertDelete.vue";
+import Button from "../../../Shared/FormComponents/Button.vue";
+
 onMounted(() => {
   initFlowbite();
 });

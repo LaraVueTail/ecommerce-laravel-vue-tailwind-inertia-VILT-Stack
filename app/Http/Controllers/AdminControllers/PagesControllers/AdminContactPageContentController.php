@@ -25,7 +25,7 @@ class AdminContactPageContentController extends Controller
                 $fileManagement->uploadFile(
                     file:$attributes['contact_image'] ?? false,
                     deleteOldFile:true, 
-                    oldFile:$contactPageContent->contactImage,
+                    oldFile:$contactPageContent->contact_image,
                     path:'images/contact-page'
                 );    
         }

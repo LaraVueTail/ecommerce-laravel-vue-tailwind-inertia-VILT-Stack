@@ -19,7 +19,7 @@ class AdminHomePageContentController extends Controller
     public function update(FileManagement $fileManagement)
     {
         $homePageContent = HomePageContent::first();
-        $attributes = $this->validateHomePageContent($homePageContent);  
+        $attributes = $this->validateHomePageContent($homePageContent);
 
         if($attributes['hero_carousel'] ?? false){
             $attributes['hero_carousel'] = 
@@ -29,6 +29,8 @@ class AdminHomePageContentController extends Controller
                 path:'images/home-page/hero-slides'
             );
         }
+        // dd($attributes);  
+
 
         $homePageContent->update($attributes);
 

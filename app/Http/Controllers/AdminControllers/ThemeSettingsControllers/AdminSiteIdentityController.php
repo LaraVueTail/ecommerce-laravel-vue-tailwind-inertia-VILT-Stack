@@ -24,12 +24,15 @@ class AdminSiteIdentityController extends Controller
 
         $attributes = $this->validateSiteIdentity($siteIdentity);
 
+        // dd($attributes);
+
+
         if($attributes['logo_image'] ?? false){
             $attributes['logo_image'] = 
             $fileManagement->uploadFile(
                 file:$attributes['logo_image'] ?? false,
                 deleteOldFile:true, 
-                oldFile:$siteIdentity->logoImage,
+                oldFile:$siteIdentity->logo_image,
                 path:'images/logo'
             );   
         }
