@@ -1,5 +1,5 @@
 <template>
-  <vueper-slides autoplay :arrows="false" :breakpoints="breakpoints">
+  <vueper-slides autoplay :arrows="false" :breakpoints="breakpoints" :touchable="false">
     <vueper-slide v-for="(slide, i) in hero_carousel" :key="i" :image="slide">
     </vueper-slide>
   </vueper-slides>
@@ -15,7 +15,7 @@ export default {
     return {
       breakpoints: {
         1900: {
-          slideRatio: 1 / 2.5,
+          slideRatio: 1 / 2,
         },
         900: {
           slideRatio: 1 / 3,
