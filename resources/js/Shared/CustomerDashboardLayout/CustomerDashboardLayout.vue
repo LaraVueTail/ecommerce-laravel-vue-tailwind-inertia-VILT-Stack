@@ -1,10 +1,12 @@
 <template>
   <PublicPagesLayout>
     <div
-      class="mx-auto max-w-6xl px-6 lg:px-8 my-10 py-5 rounded-lg bg-white min-h-[668px]"
+      class="mx-auto max-w-6xl px-6 lg:px-8 md:my-10 pt-3 pb-10 md:py-5 rounded-lg bg-white min-h-[668px]"
     >
       <div class="mx-auto lg:mx-0">
-        <h1 class="text-4xl font-bold tracking-tight text-gray-900 border-b-2 p-4">
+        <h1
+          class="text-xl md:text-4xl font-bold tracking-tight text-gray-900 border-b-2 md:p-4"
+        >
           Dashboard
         </h1>
         <div class="relative h-full">
@@ -147,8 +149,8 @@
             </div>
           </aside>
 
-          <div class="p-4 sm:ml-64">
-            <div class="p-4 sm:border-l border-gray-200 dark:border-gray-700">
+          <div class="md:p-4 sm:ml-64">
+            <div class="md:p-4 sm:border-l border-gray-200 dark:border-gray-700">
               <slot></slot>
             </div>
           </div>
