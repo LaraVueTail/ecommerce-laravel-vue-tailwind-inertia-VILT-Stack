@@ -5,7 +5,7 @@
         <Link href="https://flowbite.com/" class="flex items-center mb-4 sm:mb-0">
           <img :src="site_logo" class="h-8 mr-3" alt="Flowbite Logo" />
           <span
-            class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
+            class="self-center text-lg font-semibold text-gray-700 whitespace-nowrap dark:text-white"
             >{{ site_name }}</span
           >
         </Link>

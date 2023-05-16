@@ -18,7 +18,7 @@ class ContactPageContent extends Model
         return Attribute::make(
             set: function($value) {
                 if($value === null){
-                    return "https://images.pexels.com/photos/8204325/pexels-photo-8204325.jpeg";
+                    return "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg";
                 } else {
                     return $value;
                 }

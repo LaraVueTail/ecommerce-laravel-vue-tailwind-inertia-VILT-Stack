@@ -17,12 +17,12 @@ class SiteIdentityFactory extends Factory
     public function definition()
     {
         return [
-            'site_name' => 'LaraCommerce',
-            'site_domain' => 'laracommerce.com',
-            'site_email' => 'official@laracommerce.com',
+            'site_name' => 'LaraVueTail',
+            'site_domain' => 'laravuetail.com',
+            'site_email' => 'official@laravuetail.com',
             'site_owner_name' => 'Ameerali C',
-            'site_owner_email' => 'admin@laracommerce.com',
-            'logo_image' => 'https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600',
+            'site_owner_email' => 'admin@laravuetail.com',
+            'logo_image' => 'https://laravuetail.com/images/laravuetail-logo.png',
             'banner_text' => 'New Arrivals Up to 60% Off!',
         ];
     }

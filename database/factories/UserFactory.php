@@ -33,6 +33,7 @@ class UserFactory extends Factory
             'password' => 'password', // password
             'tac' => true,
             'remember_token' => Str::random(10),
+            'avatar'=>'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg'
         ];
     }
 

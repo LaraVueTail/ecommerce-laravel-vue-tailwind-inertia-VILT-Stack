@@ -74,6 +74,14 @@
                   :name="'logoImage'"
                   :error="$page.props.errors.logo_image"
                 ></FormFileUploadSingle>
+                <FormInput
+                  :label="'Banner Text'"
+                  :name="'banner_text'"
+                  :type="'text'"
+                  :placeholder="'Enter Banner Text'"
+                  v-model="siteIdentityInfo.banner_text"
+                  :error="$page.props.errors.banner_text"
+                ></FormInput>
               </div>
             </div>
           </div>

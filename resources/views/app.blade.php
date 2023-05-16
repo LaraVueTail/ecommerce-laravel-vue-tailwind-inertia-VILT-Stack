@@ -6,7 +6,7 @@
     @vite('resources/js/app.js')
     @vite('resources/css/app.css')
     @inertiaHead
-    <!-- <link rel="shortcut icon" href="assets/images/favicon/favicon.ico" type="image/x-icon"> -->
+    <link rel="shortcut icon" href="assets/images/favicon/favicon.ico" type="image/x-icon">
 
     <!-- <link rel="stylesheet" href="assets/css/main.css"> -->
 

@@ -1,7 +1,7 @@
 <template>
   <section class="bg-gray-50 dark:bg-gray-900">
     <div
-      class="flex flex-col items-center justify-center px-6 py-2 mx-auto md:h-[768px] lg:py-0"
+      class="flex flex-col items-center justify-center px-6 py-2 mx-auto h-screen md:h-[768px] lg:py-0"
     >
       <a
         href="#"
@@ -75,11 +75,11 @@
             </button>
             <p class="text-sm font-light text-gray-500 dark:text-gray-400">
               Don’t have an account yet?
-              <a
-                href="#"
+              <Link
+                href="/register"
                 class="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                >Sign up</a
-              >
+                >Sign up
+              </Link>
             </p>
           </form>
         </div>

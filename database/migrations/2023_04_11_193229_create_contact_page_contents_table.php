@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('contact_phone_numbers');
             $table->string('contact_email');
             $table->string('contact_address');
-            $table->string('contact_image')->default("https://images.pexels.com/photos/8204325/pexels-photo-8204325.jpeg")->nullable();
+            $table->string('contact_image')->default("https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg")->nullable();
             $table->timestamps();
         });
     }

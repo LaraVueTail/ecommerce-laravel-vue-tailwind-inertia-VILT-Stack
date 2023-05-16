@@ -34,5 +34,5 @@ createInertiaApp({
             .component("Head", Head)
             .mount(el);
     },
-    title: (title) => `My App - ${title}`,
+    title: (title) => `LaraVueTail - E-commerce`,
 });
