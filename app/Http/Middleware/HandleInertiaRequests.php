@@ -6,13 +6,9 @@ use App\Models\EcommerceSettings;
 use App\Models\ThemeSettings\FooterContent;
 use App\Models\ThemeSettings\MainMenu;
 use App\Models\ThemeSettings\SiteIdentity;
-use Darryldecode\Cart\CartCollection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
-
-
-
 
 class HandleInertiaRequests extends Middleware
 {
@@ -31,7 +27,7 @@ class HandleInertiaRequests extends Middleware
      * @param  \Illuminate\Http\Request  $request
      * @return string|null
      */
-    public function version(Request $request): ?string
+    public function version(Request $request):  ? string
     {
         return parent::version($request);
     }
@@ -43,9 +39,9 @@ class HandleInertiaRequests extends Middleware
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function share(Request $request): array
+    public function share(Request $request) : array
     {
-        if(Auth::check()){
+        if (Auth::check()) {
             \Cart::session(Auth::user()->id);
         }
 
@@ -53,23 +49,24 @@ class HandleInertiaRequests extends Middleware
             'csrf_token' => csrf_token(),
             'logo' => SiteIdentity::first()->logo_image_url,
             'siteName' => SiteIdentity::first()->site_name,
-            'currencySymbol'=>EcommerceSettings::first()->currency_symbol,
-            'auth' => (Auth::check()) ? ['firstName'=> Auth::user()->first_name, 'email' => Auth::user()->email, 'avatar' =>  Auth::user()->avatar, 'isAdmin' => Auth::user()->can('admin')] : false,
+            'app_url' => asset('/'),
+            'currencySymbol' => EcommerceSettings::first()->currency_symbol,
+            'auth' => (Auth::check()) ? ['firstName' => Auth::user()->first_name, 'email' => Auth::user()->email, 'avatar' => Auth::user()->avatar, 'isAdmin' => Auth::user()->can('admin')] : false,
             'flash' => [
-                'success' => fn () => $request->session()->get('success')
+                'success' => fn() => $request->session()->get('success'),
             ]);
 
-        if(str_starts_with($request->route()->getName(), 'public')){
-            $shareData = array_merge($shareData,array(
+        if (str_starts_with($request->route()->getName(), 'public')) {
+            $shareData = array_merge($shareData, array(
                 'mainMenu' => (new MainMenu)->publicMenu(),
                 'banner_text' => SiteIdentity::first()->banner_text,
                 'footerContent' => FooterContent::first(),
                 'cartCount' => \Cart::getTotalQuantity(),
-                'cartContent' =>  \Cart::getContent(),
-                'cartTotal' =>  round(\Cart::getTotal(),2),
+                'cartContent' => \Cart::getContent(),
+                'cartTotal' => round(\Cart::getTotal(), 2),
             ));
         };
 
-        return array_merge(parent::share($request),$shareData);
+        return array_merge(parent::share($request), $shareData);
     }
 }

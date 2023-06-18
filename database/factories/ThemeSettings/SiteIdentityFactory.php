@@ -17,12 +17,12 @@ class SiteIdentityFactory extends Factory
     public function definition()
     {
         return [
-            'site_name' => 'LaraVueTail',
-            'site_domain' => 'laravuetail.com',
+            'site_name' => 'LVTShop',
+            'site_domain' => 'ecommerce-demo.laravuetail.com',
             'site_email' => 'official@laravuetail.com',
             'site_owner_name' => 'Ameerali C',
             'site_owner_email' => 'admin@laravuetail.com',
-            'logo_image' => 'https://laravuetail.com/images/laravuetail-logo.png',
+            'logo_image' => 'https://laravuetail.com/storage/images/ecommerce-logo.svg',
             'banner_text' => 'New Arrivals Up to 60% Off!',
         ];
     }
